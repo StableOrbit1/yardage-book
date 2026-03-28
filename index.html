@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is 50. A Yardage Book for the Boys</title>
+    <!-- Tailwind CDN - Requires Internet Connection to load styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #f5f5f4; }
+        .serif { font-family: 'Playfair+Display', serif; }
+        
+        /* Fixed styling for local execution compatibility */
+        .course-tab { transition: all 0.2s ease; border-bottom: 3px solid transparent; cursor: pointer; border-radius: 0; }
+        .tab-active { 
+            border-bottom: 3px solid #166534 !important; 
+            color: #166534 !important; 
+            font-weight: 700 !important; 
+            background-color: #f0fdf4 !important; 
+        }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-stone-900">
+
+    <header class="bg-stone-900 text-white py-10 px-6 text-center shadow-2xl relative overflow-hidden">
+        <div class="relative z-10">
+            <h1 class="serif text-3xl md:text-5xl mb-2">This is 50. A Yardage Book for the Boys</h1>
+            <p class="text-stone-400 tracking-[0.2em] uppercase text-xs font-semibold">144 Holes • Scotland & Ireland Elite Tour</p>
+        </div>
+        <div class="absolute inset-0 opacity-10 bg-stone-800 bg-[url('https://www.transparenttextures.com/patterns/grass.png')]"></div>
+    </header>
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-stone-200 shadow-sm">
+        <div class="max-w-7xl mx-auto flex overflow-x-auto no-scrollbar px-4" id="nav-tabs">
+            <button onclick="switchCourse('dunbar')" id="btn-dunbar" class="course-tab whitespace-nowrap px-6 py-4 text-sm uppercase tracking-tighter">Dunbar</button>
+            <button onclick="switchCourse('craigielaw')" id="btn-craigielaw" class="course-tab whitespace-nowrap px-6 py-4 text-sm uppercase tracking-tighter">Craigielaw</button>
+            <button onclick="switchCourse('kingsbarns')" id="btn-kingsbarns" class="course-tab whitespace-nowrap px-6 py-4 text-sm uppercase tracking-tighter">Kingsbarns</button>
+            <button onclick="switchCourse('carnoustie')" id="btn-carnoustie" class="course-tab whitespace-nowrap px-6 py-4 text-sm uppercase tracking-tighter">Carnoustie</button>
+            <button onclick="switchCourse('portstewart')" id="btn-portstewart" class="course-tab whitespace-nowrap px-6 py-4 text-sm uppercase tracking-tighter">Portstewart</button>
+            <button onclick="switchCourse('malone')" id="btn-malone" class="course-tab whitespace-nowrap px-6 py-4 text-sm uppercase tracking-tighter">Malone</button>
+            <button onclick="switchCourse('island')" id="btn-island" class="course-tab whitespace-nowrap px-6 py-4 text-sm uppercase tracking-tighter">The Island</button>
+            <button onclick="switchCourse('portmarnock')" id="btn-portmarnock" class="course-tab whitespace-nowrap px-6 py-4 text-sm uppercase tracking-tighter">Portmarnock</button>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto p-4 md:p-8">
+        <div id="course-content" class="space-y-6">
+            <div class="text-center py-20 text-stone-400">
+                <p class="animate-pulse">Preparing the full tour database...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const courses = {
+            dunbar: {
+                name: "Dunbar Golf Club",
+                location: "East Lothian, Scotland",
+                quote: "Dunbar is, for those who love the true and ancient game, a delight not to be missed.",
+                author: "Jeff Neuman",
+                stats: { par: 71, length: "6,597" },
+                tips: ["Keep left off the tee; the sea wall looms right.", "Mind the burn on the opening par 5.", "Check the wind off the Firth of Forth."],
+                holes: [
+                    { h: 1, p: 5, y: 474, t: "Watch the burn crossing the fairway. Aim at the white stone." },
+                    { h: 2, p: 4, y: 375, t: "Avoid the 'Elephant's Back' on the right." },
+                    { h: 3, p: 3, y: 170, t: "The sea wall is your friend. Play to the left center." },
+                    { h: 4, p: 4, y: 440, t: "Tough par 4. Keep your drive right of the marker." },
+                    { h: 5, p: 3, y: 165, t: "Uphill shot. Take one more club than you think." },
+                    { h: 6, p: 4, y: 390, t: "Blind tee shot. Aim for the V in the hills." },
+                    { h: 7, p: 4, y: 415, t: "Dogleg left. Don't cut too much corner." },
+                    { h: 8, p: 4, y: 350, t: "Strategic drive. Lay up before the fairway narrows." },
+                    { h: 9, p: 5, y: 515, t: "Reach in two if wind is down. Watch the greenside traps." },
+                    { h: 10, p: 3, y: 190, t: "Long par 3. The green slopes heavily right to left." },
+                    { h: 11, p: 4, y: 330, t: "Short par 4 but bunkering is treacherous." },
+                    { h: 12, p: 4, y: 405, t: "Straight away. Avoid the fairway bunkers on the right." },
+                    { h: 13, p: 4, y: 380, t: "Green is elevated. Ensure you carry the front edge." },
+                    { h: 14, p: 4, y: 420, t: "The toughest hole on the back. Par is a great score." },
+                    { h: 15, p: 4, y: 360, t: "Downhill drive. Watch for the hidden hollow." },
+                    { h: 16, p: 3, y: 155, t: "Final par 3. Wind is the main defense here." },
+                    { h: 17, p: 4, y: 410, t: "Drive must be precise between the hummocks." },
+                    { h: 18, p: 4, y: 310, t: "Final flourish. Avoid the road on the right." }
+                ]
+            },
+            craigielaw: {
+                name: "Craigielaw Golf Club",
+                location: "Aberlady, Scotland",
+                quote: "The greens are almost wickedly undulating.",
+                author: "Golf Escapes Professionals",
+                stats: { par: 71, length: "6,601" },
+                tips: ["Bunkers are deep and punishing.", "The greens are large; pay attention to pin placement.", "Distance control is vital."],
+                holes: [
+                    { h: 1, p: 4, y: 310, t: "Aggressive start. Take a line over the left bunker." },
+                    { h: 2, p: 4, y: 420, t: "Aim for the marker post. Green is multi-tiered." },
+                    { h: 3, p: 3, y: 160, t: "Don't go long. The back drop-off is severe." },
+                    { h: 4, p: 4, y: 385, t: "Avoid the pot bunkers right. Green slopes left." },
+                    { h: 5, p: 4, y: 435, t: "Long par 4. Wind usually hurts here. Play for the front." },
+                    { h: 6, p: 3, y: 180, t: "Well guarded green. Center of the green is always safe." },
+                    { h: 7, p: 5, y: 520, t: "Best birdie chance. Keep left to open the angle." },
+                    { h: 8, p: 4, y: 395, t: "Slight dogleg. Don't be greedy with the corner." },
+                    { h: 9, p: 4, y: 370, t: "Uphill approach. Add a club for the elevation." },
+                    { h: 10, p: 3, y: 150, t: "Short but tricky. The wind swirls in this corner." },
+                    { h: 11, p: 5, y: 550, t: "True three shotter for most. Avoid the cross-bunkers." },
+                    { h: 12, p: 4, y: 400, t: "Firm fairway. Let the ball run to the center." },
+                    { h: 13, p: 3, y: 175, t: "Difficult green to read. Check the grain toward the sea." },
+                    { h: 14, p: 4, y: 340, t: "Driveable for some, but bunkers are magnets." },
+                    { h: 15, p: 4, y: 410, t: "Toughest green on the course. Aim for the high side." },
+                    { h: 16, p: 5, y: 515, t: "Avoid the out of bounds left. Green is reachable." },
+                    { h: 17, p: 3, y: 205, t: "Brutal par 3. A 4 is never a bad score here." },
+                    { h: 18, p: 4, y: 491, t: "Finish with a birdie. Avoid the cross-bunkers." }
+                ]
+            },
+            kingsbarns: {
+                name: "Kingsbarns Golf Links",
+                location: "St Andrews, Scotland",
+                quote: "Kingsbarns is certainly a golf course where you want to score.",
+                author: "Martin Kaymer",
+                stats: { par: 72, length: "7,224" },
+                tips: ["Wide off the tee; focus on the second shot.", "Infinity edges; trust your yardage, not your eyes.", "Play away from the sea on cross-winds."],
+                holes: [
+                    { h: 1, p: 4, y: 418, t: "Favor the left side of the fairway. Green is large." },
+                    { h: 2, p: 4, y: 425, t: "Aim over the central bunker. Approach is slightly uphill." },
+                    { h: 3, p: 5, y: 520, t: "Downwind reachable. Avoid the burn on the left." },
+                    { h: 4, p: 4, y: 430, t: "The ridge in the fairway will kick balls right." },
+                    { h: 5, p: 4, y: 415, t: "The deep bunker left is to be avoided at all costs." },
+                    { h: 6, p: 4, y: 338, t: "Short par 4. Don't be tempted to drive it; lay up for a wedge." },
+                    { h: 7, p: 4, y: 450, t: "Longest par 4. Play to the safe right side." },
+                    { h: 8, p: 3, y: 168, t: "The infinity green. Trust the number, don't look at the horizon." },
+                    { h: 9, p: 5, y: 556, t: "Three shots to the green. The burn crosses the fairway." },
+                    { h: 10, p: 4, y: 391, t: "Dogleg right. Avoid the dunes on the corner." },
+                    { h: 11, p: 4, y: 364, t: "Strategic drive. Position is more important than length." },
+                    { h: 12, p: 5, y: 606, t: "Signature hole following the curve of the bay. Stay right." },
+                    { h: 13, p: 3, y: 148, t: "Short par 3 but exposed. High trajectory is dangerous." },
+                    { h: 14, p: 4, y: 436, t: "Aim for the church steeple in the distance." },
+                    { h: 15, p: 3, y: 212, t: "Over the sea. The ultimate test of nerve." },
+                    { h: 16, p: 5, y: 565, t: "Avoid the 'Coffin' bunker on the right side." },
+                    { h: 17, p: 4, y: 462, t: "Toughest hole on the back. Green is very narrow." },
+                    { h: 18, p: 4, y: 440, t: "Finish over the bridge. A classic links closer." }
+                ]
+            },
+            carnoustie: {
+                name: "Carnoustie Championship",
+                location: "Angus, Scotland",
+                quote: "I've never played a golf course as hard as that.",
+                author: "Tiger Woods",
+                stats: { par: 71, length: "7,402" },
+                tips: ["Stay out of bunkers—they are a 1-shot penalty.", "The 16-18 finish is the hardest in the world.", "The Barry Burn is everywhere."],
+                holes: [
+                    { h: 1, p: 4, y: 406, t: "The Cup. Keep drive right of the center line." },
+                    { h: 2, p: 4, y: 461, t: "Gulley. Avoid the Braid's Bunkers on the right." },
+                    { h: 3, p: 4, y: 351, t: "Jockie's Burn. Club selection is vital for the layup." },
+                    { h: 4, p: 4, y: 415, t: "Hillocks. Don't be long on the approach." },
+                    { h: 5, p: 4, y: 412, t: "Brae. The two-tier green is extremely tricky." },
+                    { h: 6, p: 5, y: 578, t: "Hogan's Alley. Drive between the bunker and out-of-bounds." },
+                    { h: 7, p: 4, y: 410, t: "Plantation. Avoid the trees on the right." },
+                    { h: 8, p: 3, y: 187, t: "Short. Two massive bunkers guard the front." },
+                    { h: 9, p: 4, y: 474, t: "Railway. Toughest drive on the front nine." },
+                    { h: 10, p: 4, y: 465, t: "South America. Barry Burn catches short approaches." },
+                    { h: 11, p: 4, y: 382, t: "Dyke. Pot bunkers scattered throughout the fairway." },
+                    { h: 12, p: 4, y: 503, t: "Southward Ho. Massive par 4. Play it as a par 5." },
+                    { h: 13, p: 3, y: 175, t: "Whins. A horseshoe green surrounded by sand." },
+                    { h: 14, p: 5, y: 513, t: "Spectacles. Carry the two huge bunkers for a chance at eagle." },
+                    { h: 15, p: 4, y: 472, t: "Lucky Slap. The start of the hardest finish in golf." },
+                    { h: 16, p: 3, y: 248, t: "Barry Burn. A par 3 over 240 yards. Use a wood." },
+                    { h: 17, p: 4, y: 461, t: "Island. The burn meanders twice through this hole." },
+                    { h: 18, p: 4, y: 499, t: "Home. Avoid the burn at all costs. Epic finish." }
+                ]
+            },
+            portstewart: {
+                name: "Portstewart (Strand)",
+                location: "Londonderry, N. Ireland",
+                quote: "The finest front nine on the planet.",
+                author: "Top 100 Professionals",
+                stats: { par: 72, length: "7,118" },
+                tips: ["The front 9 is dramatic, the back 9 is strategic.", "Dunes hide deep trouble; aim for visible safe areas.", "Wind is often stronger than it feels."],
+                holes: [
+                    { h: 1, p: 4, y: 427, t: "The best opener in golf. Aim right of the flag." },
+                    { h: 2, p: 4, y: 366, t: "Devil's Hill. Precise drive needed between high dunes." },
+                    { h: 3, p: 3, y: 218, t: "Long uphill par 3. Aim for the front edge." },
+                    { h: 4, p: 5, y: 581, t: "Thistly Hollow. Reachable in two if wind is behind." },
+                    { h: 5, p: 4, y: 461, t: "Rifle Range. Dogleg left. Don't challenge the corner." },
+                    { h: 6, p: 3, y: 143, t: "Five Penny Piece. Tiny green perched on a hill." },
+                    { h: 7, p: 5, y: 516, t: "The Burn. Be careful with the layup distance." },
+                    { h: 8, p: 4, y: 445, t: "Dune. The highest point on the course. Take in the view." },
+                    { h: 9, p: 4, y: 374, t: "Larkhill. Blind tee shot. Trust your line." },
+                    { h: 10, p: 4, y: 407, t: "The back nine starts here. Flatter but tighter." },
+                    { h: 11, p: 4, y: 405, t: "Avenue. Fairway is narrower than it looks." },
+                    { h: 12, p: 3, y: 167, t: "Green is wide but shallow. Distance is key." },
+                    { h: 13, p: 4, y: 432, t: "Keep the ball low into the prevailing wind." },
+                    { h: 14, p: 5, y: 521, t: "Avoid the fairway bunkers on the second shot." },
+                    { h: 15, p: 3, y: 198, t: "Exposed green. Watch for the cross-wind." },
+                    { h: 16, p: 4, y: 385, t: "Slight uphill approach. Take an extra club." },
+                    { h: 17, p: 4, y: 438, t: "Long par 4. Play for the center of the green." },
+                    { h: 18, p: 4, y: 442, t: "Home. Watch the out-of-bounds on the right." }
+                ]
+            },
+            malone: {
+                name: "Malone Golf Club",
+                location: "Belfast, N. Ireland",
+                quote: "A masterpiece of parkland golf.",
+                author: "Tony Jacklin",
+                stats: { par: 71, length: "6,645" },
+                tips: ["Positioning is key among mature trees.", "Back 9 water features are beautiful but deadly.", "Trust these greens—they are the truest in Ireland."],
+                holes: [
+                    { h: 1, p: 4, y: 379, t: "Gentle opener. Keep drive center-left." },
+                    { h: 2, p: 4, y: 402, t: "Dogleg right. Avoid the big oak on the corner." },
+                    { h: 3, p: 5, y: 510, t: "Straight away par 5. Good birdie chance." },
+                    { h: 4, p: 3, y: 185, t: "Uphill par 3. Well guarded by bunkers." },
+                    { h: 5, p: 4, y: 392, t: "Tee shot requires a draw to follow the fairway." },
+                    { h: 6, p: 4, y: 430, t: "Longest par 4 on the front. Par is high value." },
+                    { h: 7, p: 3, y: 165, t: "Short par 3. Green has a severe slope." },
+                    { h: 8, p: 4, y: 388, t: "Aim for the marker. Approach is downhill." },
+                    { h: 9, p: 5, y: 535, t: "Long par 5. Keep your second shot right." },
+                    { h: 10, p: 4, y: 375, t: "Narrow fairway. Accuracy over distance." },
+                    { h: 11, p: 4, y: 415, t: "Water on the left. Stay safe on the right." },
+                    { h: 12, p: 4, y: 360, t: "Short par 4. Deep bunkers guard the green." },
+                    { h: 13, p: 3, y: 155, t: "Carry over the water. Iconic par 3. Don't be short." },
+                    { h: 14, p: 5, y: 525, t: "Uphill par 5. Reachable with a big drive." },
+                    { h: 15, p: 4, y: 440, t: "Demanding drive into a narrowing fairway." },
+                    { h: 16, p: 4, y: 380, t: "Avoid the pond on the right. Green is fast." },
+                    { h: 17, p: 3, y: 210, t: "Longest par 3. Play for the front and run it on." },
+                    { h: 18, p: 4, y: 463, t: "Demanding finish. Two long shots required." }
+                ]
+            },
+            island: {
+                name: "The Island Golf Club",
+                location: "Donabate, Ireland",
+                quote: "3-under is a good score out there, it's pretty difficult.",
+                author: "Shane Lowry",
+                stats: { par: 71, length: "6,626" },
+                tips: ["First 8 holes have no bunkers; the dunes are the defense.", "Rough is thick and often unplayable.", "The new 4th hole is a stunning par 3."],
+                holes: [
+                    { h: 1, p: 4, y: 405, t: "Partridge Hollow. High dunes right, aim left." },
+                    { h: 2, p: 4, y: 385, t: "Aim over the guide post. Approach is slightly uphill." },
+                    { h: 3, p: 4, y: 420, t: "Toughest drive on the front. Narrow gap between dunes." },
+                    { h: 4, p: 3, y: 195, t: "Dramatic ocean views on the new 4th. Wind is key." },
+                    { h: 5, p: 4, y: 370, t: "Dogleg right. Don't get blocked by the right dune." },
+                    { h: 6, p: 3, y: 155, t: "Short par 3. Green is surrounded by deep grass hollows." },
+                    { h: 7, p: 4, y: 445, t: "Long par 4. Play it as a three shotter if the wind is up." },
+                    { h: 8, p: 5, y: 530, t: "Birdie chance. Keep drive left of the center." },
+                    { h: 9, p: 3, y: 180, t: "First bunker on the course. Avoid it at all costs." },
+                    { h: 10, p: 5, y: 550, t: "Three shot par 5. The fairway narrows significantly." },
+                    { h: 11, p: 4, y: 395, t: "Blind approach. Trust your yardage book." },
+                    { h: 12, p: 4, y: 410, t: "Keep drive left. The dunes on the right are dead." },
+                    { h: 13, p: 3, y: 220, t: "Longest par 3. Green is well protected by sand." },
+                    { h: 14, p: 4, y: 340, t: "The 'Boardwalk'. Follow the fence line on the left." },
+                    { h: 15, p: 5, y: 515, t: "Downwind eagle chance. Avoid the deep pot bunkers." },
+                    { h: 16, p: 3, y: 165, t: "Elevated green. Don't be short or you'll roll 30 yards back." },
+                    { h: 17, p: 4, y: 430, t: "Strong par 4. Carry the ridge for an extra 40 yards of roll." },
+                    { h: 18, p: 4, y: 412, t: "Home. Out-of-bounds on the right side. Aim left." }
+                ]
+            },
+            portmarnock: {
+                name: "Portmarnock Old Course",
+                location: "Dublin, Ireland",
+                quote: "I know of no greater finish in the world.",
+                author: "Bernard Darwin",
+                stats: { par: 72, length: "7,463" },
+                tips: ["Wind dictates strategy; play low shots.", "Par is a great score on any of the last five holes.", "Avoid fairway bunkers at all costs."],
+                holes: [
+                    { h: 1, p: 4, y: 418, t: "Favor the left side off the tee. Avoid the estuary." },
+                    { h: 2, p: 4, y: 435, t: "Long approach to a well protected green." },
+                    { h: 3, p: 4, y: 390, t: "Dogleg left. Aim for the corner bunker if you're bold." },
+                    { h: 4, p: 5, y: 555, t: "The longest par 5. Play conservatively." },
+                    { h: 5, p: 4, y: 425, t: "Uphill approach. The green is deceptive." },
+                    { h: 6, p: 5, y: 520, t: "Good birdie chance. Avoid the cross-bunkers." },
+                    { h: 7, p: 3, y: 185, t: "Classic par 3. Wind is almost always across." },
+                    { h: 8, p: 4, y: 440, t: "Demanding drive. Keep it center-left." },
+                    { h: 9, p: 4, y: 380, t: "Position is key. Don't challenge the rough." },
+                    { h: 10, p: 4, y: 410, t: "Straight away. Green is narrow and long." },
+                    { h: 11, p: 4, y: 445, t: "Toughest hole on the course. Play for a 5." },
+                    { h: 12, p: 3, y: 160, t: "Short but dangerous. Don't miss left." },
+                    { h: 13, p: 5, y: 540, t: "Strong par 5. Reachable only for the long hitters." },
+                    { h: 14, p: 4, y: 425, t: "Approach shot must be precise. Pot bunkers left." },
+                    { h: 15, p: 3, y: 204, t: "Bordering the beach. A world-class par 3. Stunning." },
+                    { h: 16, p: 4, y: 415, t: "Start of the home stretch. Keep drive right." },
+                    { h: 17, p: 4, y: 455, t: "Longest par 4 on the back. Par is like a birdie." },
+                    { h: 18, p: 4, y: 470, t: "Home. Aim for the clubhouse tower. A massive finish." }
+                ]
+            }
+        };
+
+        function switchCourse(id) {
+            const course = courses[id];
+            if (!course) return;
+
+            const tabs = document.querySelectorAll('.course-tab');
+            tabs.forEach(t => t.classList.remove('tab-active'));
+            
+            const activeBtn = document.getElementById(`btn-${id}`);
+            if (activeBtn) activeBtn.classList.add('tab-active');
+
+            const content = `
+                <div class="bg-white rounded-3xl shadow-lg border border-stone-200 overflow-hidden">
+                    <div class="p-8 md:p-12 border-b border-stone-100 bg-stone-50">
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                            <div class="max-w-xl">
+                                <span class="text-green-700 font-bold uppercase text-[10px] tracking-widest mb-2 block">Course Profile</span>
+                                <h2 class="serif text-3xl md:text-5xl mb-4">${course.name}</h2>
+                                <p class="text-stone-500 mb-6 font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    ${course.location}
+                                </p>
+                                <div class="relative pl-6 py-2 border-l-4 border-green-800">
+                                    <p class="text-lg text-stone-800 italic mb-1 leading-relaxed">"${course.quote}"</p>
+                                    <cite class="text-sm font-bold not-italic text-stone-500 tracking-wider">— ${course.author}</cite>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="text-right border-l border-stone-200 pl-4">
+                                    <span class="block text-[10px] uppercase text-stone-400 font-bold">Par</span>
+                                    <span class="text-2xl md:text-3xl font-black">${course.stats.par}</span>
+                                </div>
+                                <div class="text-right border-l border-stone-200 pl-4">
+                                    <span class="block text-[10px] uppercase text-stone-400 font-bold">Yards</span>
+                                    <span class="text-2xl md:text-3xl font-black">${course.stats.length}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 md:p-10 bg-stone-100/50">
+                        <div class="mb-10 px-2">
+                            <h3 class="serif text-xl mb-6 text-stone-600 flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-green-700" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM13.536 13.536a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 011.414-1.414l.707.707zM16 18a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1z"/></svg>
+                                General Course Strategy
+                            </h3>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                ${course.tips.map(tip => `
+                                    <div class="bg-white p-4 rounded-xl shadow-sm border border-stone-200 text-sm text-stone-600 font-medium">
+                                        ${tip}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 px-2">
+                            <h3 class="serif text-xl mb-4 text-stone-600">Full 18 Hole Breakdown</h3>
+                            ${course.holes.map(hole => `
+                                <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                                    <div class="flex items-center justify-between bg-stone-900 text-white p-3 px-5">
+                                        <div class="flex items-center gap-4">
+                                            <span class="text-xl md:text-2xl font-black">#${hole.h}</span>
+                                            <span class="text-[10px] uppercase tracking-widest opacity-70 font-bold">Par ${hole.p}</span>
+                                        </div>
+                                        <span class="font-mono font-bold text-sm md:text-base">${hole.y} Yards</span>
+                                    </div>
+                                    <div class="p-4 bg-white">
+                                        <p class="text-stone-700 italic leading-relaxed text-sm md:text-base">
+                                            <span class="text-green-700 font-bold not-italic text-[10px] uppercase block mb-1">Caddie Strategy:</span>
+                                            "${hole.t}"
+                                        </p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('course-content').innerHTML = content;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchCourse('dunbar');
+        });
+    </script>
+</body>
+</html>
