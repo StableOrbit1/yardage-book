@@ -112,14 +112,14 @@
         </div>
     </div>
 
-    <script>
+      <script>
         const players = ["CF", "SW", "GC", "PC"];
         const matchData = {}; 
         const sideBets = {}; 
         let currentCourseId = 'dunbar';
         let isGlobalLedger = false;
 
-const dunbarData = [
+        const dunbarData = [
             { par: 5, yards: 506, tip: "Favor the left side of the fairway to avoid hidden bunkers on the right. Reachable in two, but the green is heavily protected by deep bunkers short and right.", quote: "1st: First" },
             { par: 4, yards: 381, tip: "Blind tee shot. Line up directly with the marker post. Be wary of the stone wall and thick rough guarding the left side.", quote: "2nd: Bayswell" },
             { par: 3, yards: 158, tip: "The Deer Park wall is tight on the right (OOB). Aim for the left side of the green; the natural contours will kick the ball back toward the center.", quote: "3rd: Jackson's Pennies" },
@@ -290,13 +290,14 @@ const dunbarData = [
         const courses = {
             dunbar: { name: "Dunbar Golf Club", loc: "East Lothian, Scotland", games: "Net Singles Aggie", holes: 18, data: dunbarData },
             craigielaw: { name: "Craigielaw Golf Club", loc: "Aberlady, Scotland", games: "GC v CF & SW v PC", holes: 18, data: craigielawData },
-            kingsbarns: { name: "Kingsbarns Golf Links", loc: "St Andrews, Scotland", games: "PC v CF & GC v SW", holes: 18, data: placeholderData("Kingsbarns") },
-            carnoustie: { name: "Carnoustie Championship", loc: "Angus, Scotland", games: "Low and Aggie", holes: 18, data: placeholderData("Carnoustie") },
-            portstewart: { name: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", holes: 18, data: placeholderData("Portstewart") },
-            malone: { name: "Malone Golf Club", loc: "Belfast, N. Ireland", games: "PC v CF & GC v SW", holes: 18, data: placeholderData("Malone") },
-            island: { name: "The Island Golf Club", loc: "Donabate, Ireland", games: "GC v CF & SW v PC", holes: 18, data: placeholderData("The Island") },
-            portmarnock: { name: "Portmarnock Old Course", loc: "Dublin, Ireland", games: "Low and Aggie", holes: 18, data: placeholderData("Portmarnock") }
+            kingsbarns: { name: "Kingsbarns Golf Links", loc: "St Andrews, Scotland", games: "PC v CF & GC v SW", holes: 18, data: kingsbarnsData },
+            carnoustie: { name: "Carnoustie Championship", loc: "Angus, Scotland", games: "Low and Aggie", holes: 18, data: carnoustieData },
+            portstewart: { name: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", holes: 18, data: portstewartData },
+            malone: { name: "Malone Golf Club", loc: "Belfast, N. Ireland", games: "PC v CF & GC v SW", holes: 18, data: maloneData },
+            island: { name: "The Island Golf Club", loc: "Donabate, Ireland", games: "GC v CF & SW v PC", holes: 18, data: islandData },
+            portmarnock: { name: "Portmarnock Old Course", loc: "Dublin, Ireland", games: "Low and Aggie", holes: 18, data: portmarnockData }
         };
+          
 
         function updateScore(courseId) {
             let scoreA = 0; let scoreB = 0; 
