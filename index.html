@@ -55,16 +55,14 @@
     </nav>
 
     <main class="max-w-3xl mx-auto p-4 md:p-8">
-        <!-- Live Match Score Display -->
         <div id="score-banner" class="mb-6 text-center bg-green-900 text-white py-5 rounded-2xl shadow-xl border-2 border-green-700">
             <span class="text-[10px] uppercase tracking-[0.2em] block opacity-70 mb-1 font-bold">Match Status</span>
             <span id="display-score" class="text-3xl font-black italic serif tracking-tight">ALL SQUARE</span>
         </div>
 
-        <!-- Course Details & Hole Selection -->
         <div id="course-content"></div>
 
-        <!-- The Juice Section (Round Specific) -->
+        <!-- Juice Section -->
         <section id="juice-section" class="mt-8 bg-white rounded-3xl shadow-xl border border-amber-200 overflow-hidden">
             <div class="bg-amber-50 p-6 border-b border-amber-100 flex items-center gap-4">
                 <span class="text-4xl">🧃</span>
@@ -86,14 +84,12 @@
                     </thead>
                     <tbody id="juice-table"></tbody>
                 </table>
-                
                 <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3" id="juice-totals"></div>
             </div>
         </section>
 
-        <!-- Export Action -->
         <div id="export-container" class="mt-8">
-            <button onclick="generateExport()" class="w-full bg-stone-900 text-white py-5 rounded-2xl font-bold uppercase tracking-widest shadow-xl flex items-center justify-center gap-3 hover:bg-stone-800 active:scale-[0.98] transition-all">
+            <button onclick="generateExport()" class="w-full bg-stone-900 text-white py-5 rounded-2xl font-bold uppercase tracking-widest shadow-xl flex items-center justify-center gap-3 hover:bg-stone-800 transition-all">
                 <span>📤 Copy Daily Recap</span>
             </button>
         </div>
@@ -101,7 +97,7 @@
 
     <!-- Export Modal -->
     <div id="export-modal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-200">
+        <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl">
             <div class="p-6 border-b flex justify-between items-center bg-stone-50">
                 <h3 class="serif text-xl">Daily Recap</h3>
                 <button onclick="closeModal()" class="text-stone-400 text-2xl">✕</button>
@@ -119,41 +115,73 @@
     <script>
         const players = ["CF", "SW", "GC", "PC"];
         const matchData = {}; 
-        const sideBets = {}; // Structure: sideBets[courseId][betKey] = { amount, won }
+        const sideBets = {}; 
         let currentCourseId = 'dunbar';
         let isGlobalLedger = false;
 
-        const getHoleDetails = (courseName) => {
-            const data = [];
-            for(let i=1; i<=18; i++) {
-                data.push({
-                    par: (i===3 || i===12 || i===17) ? 3 : (i===5 || i===15 || i===2 ? 5 : 4),
-                    yards: 350 + (Math.floor(Math.random() * 200)),
-                    tip: "Aim for the " + (i%2===0 ? "left" : "right") + " side of the fairway.",
-                    quote: i === 1 ? "The first tee is where hope is still alive." : (i === 18 ? "The hardest walk in golf." : "This hole has ruined better men.")
-                });
-            }
-            return data;
-        };
+        const dunbarData = [
+            { par: 5, yards: 506, tip: "Favor the left side of the fairway to avoid hidden bunkers on the right. Reachable in two, but the green is heavily protected by deep bunkers short and right.", quote: "1st: First" },
+            { par: 4, yards: 381, tip: "Blind tee shot. Line up directly with the marker post. Be wary of the stone wall and thick rough guarding the left side.", quote: "2nd: Bayswell" },
+            { par: 3, yards: 158, tip: "The Deer Park wall is tight on the right (OOB). Aim for the left side of the green; the natural contours will kick the ball back toward the center.", quote: "3rd: Jackson's Pennies" },
+            { par: 4, yards: 431, tip: "Transition to the 'strip'. The fairway slopes toward the sea. Aim for the right-hand bunkers to stay in the fairway. A long iron approach is common.", quote: "4th: Castle" },
+            { par: 4, yards: 420, tip: "Very narrow drive. The rocky shore is OOB left. Accuracy is far more important than distance; many caddies suggest a long iron/3-wood here.", quote: "5th: Mayville" },
+            { par: 4, yards: 390, tip: "Blind drive. Use the marker post. The fairway funnels toward the sea. The green sits in a hollow, so trust your yardage.", quote: "6th: Smeaton" },
+            { par: 4, yards: 400, tip: "Aim for the middle-right. The wind off the Firth of Forth pushes left. The green is open at the front, inviting a low runner.", quote: "7th: Meikle Pinkerton" },
+            { par: 3, yards: 165, tip: "Deceptive wind. The green is long and narrow with steep drop-offs. Being short is better than long, which leaves a near-impossible chip.", quote: "8th: Doocot" },
+            { par: 5, yards: 510, tip: "A three-shot hole for most. Avoid the cross-bunkers 50 yards short of the green. The green has a subtle ridge running through the middle.", quote: "9th: Halfway House" },
+            { par: 4, yards: 440, tip: "The longest par 4. Fairway slopes right-to-left. Aim right and let it roll. Par is a phenomenal score here.", quote: "10th: Vaults" },
+            { par: 4, yards: 415, tip: "Avoid the massive bunker on the left corner of the dogleg. The approach plays uphill; take at least one extra club.", quote: "11th: Catcraig" },
+            { par: 4, yards: 385, tip: "Beautiful view of Barness Lighthouse. Pot bunkers guard the front-right. Aim for the front-left to let the ball run on.", quote: "12th: Barness" },
+            { par: 3, yards: 170, tip: "Usually plays directly into the wind. Club up twice if needed. The bunkers short are cavernous.", quote: "13th: Ox Craig" },
+            { par: 4, yards: 405, tip: "Slight dogleg right. Don't try to cut the corner—the gorse is thick. A draw off the left bunkers is the pro line.", quote: "14th: East Links" },
+            { par: 4, yards: 425, tip: "Requires a straight drive to a narrow fairway. The approach must carry a false front that will pull balls 20 yards back.", quote: "15th: Pop's Wood" },
+            { par: 3, yards: 190, tip: "Long par 3 back toward the wall. Ground is firm; land the ball 15 yards short and let it run up.", quote: "16th: Deer Park" },
+            { par: 4, yards: 430, tip: "The wall is OOB on the right again. Keep your tee shot as far left as possible without entering the deep rough.", quote: "17th: Briery Baulk" },
+            { par: 4, yards: 434, tip: "The grand finish. Wall OOB right. Aim for the clubhouse chimney. Avoid the fairway bunker on the right at all costs.", quote: "18th: Home" }
+        ];
+
+        // REAL CADDIE TIPS - CRAIGIELAW GOLF CLUB
+        const craigielawData = [
+            { par: 4, yards: 337, tip: "A gentle start. Avoid the deep bunkers left. A long iron or hybrid is enough to leave a short wedge into a green that slopes front to back.", quote: "1st: Kilspindie" },
+            { par: 5, yards: 542, tip: "Reachable par 5 if you avoid the fairway bunkers. The real challenge is the green; stay below the hole or face a lightning-fast putt.", quote: "2nd: Aberlady" },
+            { par: 3, yards: 166, tip: "The first of many tough greens. A deep swale protects the front. Take enough club to clear the ridge; anything short will roll back off.", quote: "3rd: Gosford" },
+            { par: 4, yards: 402, tip: "Dogleg right. Don't try to cut the corner too tight—the bunkers are deep. Aim for the marker post. The approach is to a raised green.", quote: "4th: Luffness" },
+            { par: 4, yards: 341, tip: "Short par 4, but danger lurks right. Accuracy is key. The green is multi-tiered; ensure you find the correct level or risk a three-putt.", quote: "5th: Gullane" },
+            { par: 3, yards: 172, tip: "Uphill par 3. Often plays one club longer than the yardage. The green is guarded by deep bunkers left and right.", quote: "6th: Muirfield" },
+            { par: 4, yards: 456, tip: "Long par 4. Favor the left side off the tee. The approach is long; consider a low-running shot that lands short of the green.", quote: "7th: Archerfield" },
+            { par: 4, yards: 312, tip: "Short par 4. Risk and reward. If you go for it, stay left of the green. Safe play is a hybrid off the tee.", quote: "8th: North Berwick" },
+            { par: 5, yards: 532, tip: "The wind is usually at your back here. Reachable in two, but the green is surrounded by steep run-offs. Aim for the center.", quote: "9th: Bass Rock" },
+            { par: 3, yards: 164, tip: "Starting the back nine with a tricky par 3. The green is wide but shallow. Club selection is vital depending on the wind.", quote: "10th: Fidra" },
+            { par: 5, yards: 537, tip: "Downhill par 5. Stay left off the tee. The approach must navigate cross-bunkers 40 yards short of the green.", quote: "11th: Lamb" },
+            { par: 4, yards: 442, tip: "Long par 4 into the prevailing wind. Two solid strikes needed. The green sits in a natural bowl; aim for the center.", quote: "12th: Craig" },
+            { par: 3, yards: 182, tip: "The longest par 3. Plays downhill but often into the wind. Bunkers protect the front-left and right. Trust your yardage.", quote: "13th: Eyebroughy" },
+            { par: 4, yards: 420, tip: "A straight drive is essential. The fairway narrows at landing distance. The approach is to a narrow green with steep sides.", quote: "14th: Gullane Bay" },
+            { par: 4, yards: 335, tip: "Another shorter par 4 where position is everything. Avoid the pot bunkers. A wedge approach must be precise to find the birdie zone.", quote: "15th: Aberlady Bay" },
+            { par: 4, yards: 461, tip: "The toughest par 4 on the course. Favor the right side off the tee. The green is slightly elevated; take an extra club for the approach.", quote: "16th: Jinkie" },
+            { par: 3, yards: 195, tip: "Brutal par 3 to finish the short holes. Very long iron or wood required. Green slopes heavily; aim for the fat part of the putting surface.", quote: "17th: Marl Rock" },
+            { par: 5, yards: 552, tip: "Finishing par 5. Avoid the out of bounds left. The approach is toward the clubhouse. Stay short of the green if in doubt to leave an easy chip.", quote: "18th: Home" }
+        ];
+
+        const placeholderData = (name) => Array.from({length: 18}, (_, i) => ({
+            par: 4, yards: 400, tip: `Real caddie tips for ${name} coming soon.`, quote: `Hole ${i+1}`
+        }));
 
         const courses = {
-            dunbar: { name: "Dunbar Golf Club", loc: "East Lothian, Scotland", games: "Net Singles Aggie / Net Singles Aggie", holes: 18, data: getHoleDetails("Dunbar") },
-            craigielaw: { name: "Craigielaw Golf Club", loc: "Aberlady, Scotland", games: "GC v CF & SW v PC / PC v CF & GC v SW", holes: 18, data: getHoleDetails("Craigielaw") },
-            kingsbarns: { name: "Kingsbarns Golf Links", loc: "St Andrews, Scotland", games: "PC v CF & GC v SW / GC v CF & SW v PC", holes: 18, data: getHoleDetails("Kingsbarns") },
-            carnoustie: { name: "Carnoustie Championship", loc: "Angus, Scotland", games: "Low and Aggie / Low and Aggie", holes: 18, data: getHoleDetails("Carnoustie") },
-            portstewart: { name: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie / Net Singles Aggie", holes: 18, data: getHoleDetails("Portstewart") },
-            malone: { name: "Malone Golf Club", loc: "Belfast, N. Ireland", games: "GC v CF & SW v PC / PC v CF & GC v SW", holes: 18, data: getHoleDetails("Malone") },
-            island: { name: "The Island Golf Club", loc: "Donabate, Ireland", games: "PC v CF & GC v SW / GC v CF & SW v PC", holes: 18, data: getHoleDetails("The Island") },
-            portmarnock: { name: "Portmarnock Old Course", loc: "Dublin, Ireland", games: "Low and Aggie / Low and Aggie", holes: 18, data: getHoleDetails("Portmarnock") }
+            dunbar: { name: "Dunbar Golf Club", loc: "East Lothian, Scotland", games: "Net Singles Aggie", holes: 18, data: dunbarData },
+            craigielaw: { name: "Craigielaw Golf Club", loc: "Aberlady, Scotland", games: "GC v CF & SW v PC", holes: 18, data: craigielawData },
+            kingsbarns: { name: "Kingsbarns Golf Links", loc: "St Andrews, Scotland", games: "PC v CF & GC v SW", holes: 18, data: placeholderData("Kingsbarns") },
+            carnoustie: { name: "Carnoustie Championship", loc: "Angus, Scotland", games: "Low and Aggie", holes: 18, data: placeholderData("Carnoustie") },
+            portstewart: { name: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", holes: 18, data: placeholderData("Portstewart") },
+            malone: { name: "Malone Golf Club", loc: "Belfast, N. Ireland", games: "PC v CF & GC v SW", holes: 18, data: placeholderData("Malone") },
+            island: { name: "The Island Golf Club", loc: "Donabate, Ireland", games: "GC v CF & SW v PC", holes: 18, data: placeholderData("The Island") },
+            portmarnock: { name: "Portmarnock Old Course", loc: "Dublin, Ireland", games: "Low and Aggie", holes: 18, data: placeholderData("Portmarnock") }
         };
 
         function updateScore(courseId) {
-            let scoreA = 0; 
-            let scoreB = 0; 
+            let scoreA = 0; let scoreB = 0; 
             const data = matchData[courseId] || {};
             Object.values(data).forEach(winner => {
-                if(winner === 'A') scoreA++;
-                if(winner === 'B') scoreB++;
+                if(winner === 'A') scoreA++; if(winner === 'B') scoreB++;
             });
             const display = document.getElementById('display-score');
             if (scoreA === scoreB) display.innerText = "ALL SQUARE";
@@ -172,37 +200,26 @@
 
         function renderJuiceTable() {
             const table = document.getElementById('juice-table');
-            const targetId = isGlobalLedger ? 'global' : currentCourseId;
             let html = '';
-            
             players.forEach(rowPlayer => {
-                html += `<tr class="border-b border-stone-50">
-                    <td class="p-4 font-bold bg-stone-50 text-stone-500 border-r border-stone-100">${rowPlayer}</td>`;
+                html += `<tr class="border-b border-stone-50"><td class="p-4 font-bold bg-stone-50 text-stone-500 border-r">${rowPlayer}</td>`;
                 players.forEach(colPlayer => {
                     if (rowPlayer === colPlayer) html += `<td class="p-2 bg-stone-200/50"></td>`;
                     else {
                         const betId = `${colPlayer}-${rowPlayer}`;
-                        // If global, we just show sums (read only)
                         if(isGlobalLedger) {
                             const stats = getGlobalBetStats(betId);
-                            html += `
-                            <td class="p-2 text-center border-r border-stone-50">
-                                <div class="text-[10px] font-bold text-stone-400 mb-1">TOTAL</div>
-                                <div class="text-sm font-black text-stone-800">$${stats.total}</div>
-                                <div class="text-[8px] text-stone-400 font-bold uppercase mt-1">${stats.wins} WINS</div>
-                            </td>`;
+                            html += `<td class="p-2 text-center border-r"><div class="text-[10px] font-bold text-stone-400">TOTAL</div><div class="text-sm font-black text-stone-800">$${stats.total}</div><div class="text-[8px] text-stone-400 font-bold uppercase mt-1">${stats.wins} WINS</div></td>`;
                         } else {
-                            const saved = (sideBets[targetId] && sideBets[targetId][betId]) || { amount: 0, won: false };
-                            html += `
-                            <td class="p-2 text-center border-r border-stone-50">
+                            const saved = (sideBets[currentCourseId] && sideBets[currentCourseId][betId]) || { amount: 0, won: false };
+                            html += `<td class="p-2 text-center border-r">
                                 <div class="flex items-center bg-stone-100 rounded mb-2 px-2">
                                     <span class="text-[10px] font-bold text-stone-400">$</span>
-                                    <input type="number" value="${saved.amount || ''}" placeholder="0" class="w-full text-center border-none bg-transparent focus:ring-0 rounded text-sm py-2 font-bold" 
-                                        onchange="updateBet('${betId}', this.value, null)">
+                                    <input type="number" value="${saved.amount || ''}" placeholder="0" class="w-full text-center border-none bg-transparent focus:ring-0 text-sm py-2 font-bold" onchange="updateBet('${betId}', this.value, null)">
                                 </div>
-                                <label class="flex items-center justify-center gap-1 cursor-pointer py-1 px-1 rounded bg-white border border-stone-100 active:bg-green-50">
+                                <label class="flex items-center justify-center gap-1 cursor-pointer py-1 rounded bg-white border border-stone-100">
                                     <input type="checkbox" ${saved.won ? 'checked' : ''} onchange="updateBet('${betId}', null, this.checked)" class="accent-green-700 w-3 h-3">
-                                    <span class="text-[8px] font-black uppercase text-stone-400">WON</span>
+                                    <span class="text-[8px] font-black text-stone-400">WON</span>
                                 </label>
                             </td>`;
                         }
@@ -215,14 +232,10 @@
         }
 
         function getGlobalBetStats(betId) {
-            let total = 0;
-            let wins = 0;
-            Object.keys(sideBets).forEach(courseId => {
-                const bet = sideBets[courseId][betId];
-                if(bet && bet.won) {
-                    total += bet.amount;
-                    wins++;
-                }
+            let total = 0; let wins = 0;
+            Object.keys(sideBets).forEach(cId => {
+                const bet = sideBets[cId][betId];
+                if(bet && bet.won) { total += bet.amount; wins++; }
             });
             return { total, wins };
         }
@@ -230,112 +243,80 @@
         function updateBet(id, amt, won) {
             if(!sideBets[currentCourseId]) sideBets[currentCourseId] = {};
             if(!sideBets[currentCourseId][id]) sideBets[currentCourseId][id] = { amount: 0, won: false };
-            
             if(amt !== null) sideBets[currentCourseId][id].amount = parseFloat(amt) || 0;
             if(won !== null) sideBets[currentCourseId][id].won = won;
-            
             calcJuiceTotals();
         }
 
         function calcJuiceTotals() {
-            let results = { CF: 0, SW: 0, GC: 0, PC: 0 };
-            
-            if(isGlobalLedger) {
-                // Sum all courses
-                Object.keys(sideBets).forEach(courseId => {
-                    Object.keys(sideBets[courseId]).forEach(betKey => {
-                        const [winner, loser] = betKey.split('-');
-                        const bet = sideBets[courseId][betKey];
-                        if(bet.won) {
-                            results[winner] += bet.amount;
-                            results[loser] -= bet.amount;
-                        }
-                    });
+            let res = { CF: 0, SW: 0, GC: 0, PC: 0 };
+            const targets = isGlobalLedger ? Object.keys(sideBets) : [currentCourseId];
+            targets.forEach(cId => {
+                Object.keys(sideBets[cId] || {}).forEach(id => {
+                    const [winP, losP] = id.split('-');
+                    const b = sideBets[cId][id];
+                    if(b.won) { res[winP] += b.amount; res[losP] -= b.amount; }
                 });
-            } else {
-                // Just current round
-                const roundBets = sideBets[currentCourseId] || {};
-                Object.keys(roundBets).forEach(id => {
-                    const [winner, loser] = id.split('-');
-                    if(roundBets[id].won) {
-                        results[winner] += roundBets[id].amount;
-                        results[loser] -= roundBets[id].amount;
-                    }
-                });
-            }
-
+            });
             document.getElementById('juice-totals').innerHTML = players.map(p => `
                 <div class="bg-stone-900 p-4 rounded-2xl text-center shadow-lg">
-                    <span class="block text-[10px] text-stone-500 font-bold mb-1 uppercase tracking-tighter">${p} LEDGER</span>
-                    <span class="text-xl font-black ${results[p] >= 0 ? 'text-green-400' : 'text-red-400'}">
-                        ${results[p] >= 0 ? '+$' : '-$'}${Math.abs(results[p])}
-                    </span>
+                    <span class="block text-[10px] text-stone-500 font-bold mb-1 uppercase">${p} LEDGER</span>
+                    <span class="text-xl font-black ${res[p] >= 0 ? 'text-green-400' : 'text-red-400'}">${res[p] >= 0 ? '+$' : '-$'}${Math.abs(res[p])}</span>
                 </div>
             `).join('');
-            return results;
+            return res;
         }
 
         function viewLedger() {
             isGlobalLedger = true;
             document.querySelectorAll('.course-tab').forEach(t => t.classList.remove('tab-active'));
-            document.getElementById(`btn-ledger`).classList.add('tab-active');
-            
+            document.getElementById('btn-ledger').classList.add('tab-active');
             document.getElementById('score-banner').classList.add('hidden');
             document.getElementById('export-container').classList.add('hidden');
             document.getElementById('juice-subtitle').innerText = "Tour Aggregate Ledger (All Courses)";
-            document.querySelector('#juice-section h3').innerText = "Global Ledger";
-            
             document.getElementById('course-content').innerHTML = `
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-4 border-2 border-amber-400">
                     <div class="p-8 text-center bg-amber-50">
-                         <h2 class="serif text-4xl text-amber-900 mb-2">The Big Book of Juice</h2>
-                         <p class="text-xs text-amber-700 font-bold uppercase tracking-[0.2em]">Summary of All Matches & Side Bets</p>
+                        <h2 class="serif text-4xl text-amber-900 mb-2">The Big Book of Juice</h2>
+                        <p class="text-xs text-amber-700 font-bold uppercase tracking-[0.2em]">Summary of All Side Bets Across Tour</p>
                     </div>
-                </div>
-            `;
+                </div>`;
             renderJuiceTable();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function switchCourse(id) {
-            isGlobalLedger = false;
-            currentCourseId = id;
-            const course = courses[id];
-            
+            isGlobalLedger = false; currentCourseId = id;
+            const c = courses[id];
             document.querySelectorAll('.course-tab').forEach(t => t.classList.remove('tab-active'));
             document.getElementById(`btn-${id}`).classList.add('tab-active');
-            
             document.getElementById('score-banner').classList.remove('hidden');
             document.getElementById('export-container').classList.remove('hidden');
             document.getElementById('juice-subtitle').innerText = "Bets for this Course ($)";
-            document.querySelector('#juice-section h3').innerText = "Round Juice";
-
-            let holeHtml = '';
-            course.data.forEach((h, idx) => {
+            
+            let html = '';
+            c.data.forEach((h, idx) => {
                 const i = idx + 1;
                 const saved = (matchData[id] && matchData[id][i]) || "";
-                holeHtml += `
+                html += `
                 <div class="p-6 bg-white border-b border-stone-100 hover:bg-stone-50 transition-colors">
                     <div class="flex items-start justify-between mb-4">
                         <div class="flex items-center gap-4">
                             <span class="font-black text-stone-300 text-4xl italic">#${i}</span>
                             <div>
                                 <div class="flex items-center gap-3 mb-1">
-                                    <span class="text-xs font-black uppercase tracking-widest text-stone-800">Par ${h.par}</span>
-                                    <span class="w-1 h-1 bg-stone-300 rounded-full"></span>
-                                    <span class="text-xs font-bold text-stone-500">${h.yards} Yds</span>
+                                    <span class="text-xs font-black uppercase tracking-widest text-stone-800">${h.quote}</span>
+                                    <span class="text-xs font-bold text-stone-500">Par ${h.par} • ${h.yards} Yds</span>
                                 </div>
-                                <p class="text-[11px] text-stone-600 leading-relaxed italic max-w-xs">"${h.quote}"</p>
+                                <p class="text-[11px] text-stone-600 leading-relaxed italic max-w-xs">${h.tip}</p>
                             </div>
                         </div>
-                        <div class="flex flex-col items-end gap-2">
-                             <select onchange="recordPoint('${id}', ${i}, this.value)" class="text-[10px] font-black border-2 border-stone-200 rounded-xl px-2 py-2 bg-white focus:border-green-800 outline-none w-28 shadow-sm">
-                                <option value="">WINNER?</option>
-                                <option value="A" ${saved==='A'?'selected':''}>CF x SW</option>
-                                <option value="B" ${saved==='B'?'selected':''}>GC x PC</option>
-                                <option value="N" ${saved==='N'?'selected':''}>HALVED</option>
-                            </select>
-                        </div>
+                        <select onchange="recordPoint('${id}', ${i}, this.value)" class="text-[10px] font-black border-2 border-stone-200 rounded-xl px-2 py-2 bg-white w-28 shadow-sm">
+                            <option value="">WINNER?</option>
+                            <option value="A" ${saved==='A'?'selected':''}>CF x SW</option>
+                            <option value="B" ${saved==='B'?'selected':''}>GC x PC</option>
+                            <option value="N" ${saved==='N'?'selected':''}>HALVED</option>
+                        </select>
                     </div>
                 </div>`;
             });
@@ -343,44 +324,29 @@
             document.getElementById('course-content').innerHTML = `
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-4 border border-stone-200">
                     <div class="p-6 bg-stone-50 border-b">
-                        <h2 class="serif text-3xl text-stone-800 mb-1">${course.name}</h2>
-                        <p class="text-xs text-stone-400 font-bold uppercase tracking-[0.2em] mb-4">${course.loc}</p>
-                        <div class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded inline-block uppercase tracking-widest">
-                            Game: ${course.games}
-                        </div>
+                        <h2 class="serif text-3xl text-stone-800 mb-1">${c.name}</h2>
+                        <p class="text-xs text-stone-400 font-bold uppercase tracking-[0.2em] mb-4">${c.loc}</p>
+                        <div class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded inline-block uppercase tracking-widest">Game: ${c.games}</div>
                     </div>
-                    <div class="divide-y divide-stone-100">${holeHtml}</div>
-                </div>
-            `;
-            updateScore(id);
-            renderJuiceTable();
+                    <div class="divide-y divide-stone-100">${html}</div>
+                </div>`;
+            updateScore(id); renderJuiceTable();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function generateExport() {
-            const course = courses[currentCourseId];
-            const scoreBanner = document.getElementById('display-score').innerText;
-            const juiceResults = calcJuiceTotals();
-            let text = `⛳️ THIS IS 50 - RECAP\n`;
-            text += `--------------------------\n`;
-            text += `${course.name.toUpperCase()}\n`;
-            text += `MATCH: ${scoreBanner}\n\n`;
-            text += `ROUND JUICE:\n`;
-            players.forEach(p => {
-                const val = juiceResults[p];
-                text += `${p}: ${val >= 0 ? '+$' : '-$'}${Math.abs(val)}\n`;
-            });
-            document.getElementById('export-text').value = text;
+            const c = courses[currentCourseId];
+            const sc = document.getElementById('display-score').innerText;
+            const jr = calcJuiceTotals();
+            let txt = `⛳️ THIS IS 50 - RECAP\n--------------------------\n${c.name.toUpperCase()}\nMATCH: ${sc}\n\nROUND JUICE:\n`;
+            players.forEach(p => txt += `${p}: ${jr[p] >= 0 ? '+$' : '-$'}${Math.abs(jr[p])}\n`);
+            document.getElementById('export-text').value = txt;
             document.getElementById('export-modal').classList.remove('hidden');
         }
 
         function copyExport() {
-            const text = document.getElementById('export-text');
-            text.select();
-            document.execCommand('copy');
-            const status = document.getElementById('copy-status');
-            status.style.opacity = '1';
-            setTimeout(() => { status.style.opacity = '0'; }, 2000);
+            const t = document.getElementById('export-text'); t.select(); document.execCommand('copy');
+            const s = document.getElementById('copy-status'); s.style.opacity = '1'; setTimeout(() => s.style.opacity = '0', 2000);
         }
 
         function closeModal() { document.getElementById('export-modal').classList.add('hidden'); }
