@@ -119,7 +119,7 @@
         let currentCourseId = 'dunbar';
         let isGlobalLedger = false;
 
-        const dunbarData = [
+const dunbarData = [
             { par: 5, yards: 506, tip: "Favor the left side of the fairway to avoid hidden bunkers on the right. Reachable in two, but the green is heavily protected by deep bunkers short and right.", quote: "1st: First" },
             { par: 4, yards: 381, tip: "Blind tee shot. Line up directly with the marker post. Be wary of the stone wall and thick rough guarding the left side.", quote: "2nd: Bayswell" },
             { par: 3, yards: 158, tip: "The Deer Park wall is tight on the right (OOB). Aim for the left side of the green; the natural contours will kick the ball back toward the center.", quote: "3rd: Jackson's Pennies" },
@@ -140,7 +140,6 @@
             { par: 4, yards: 434, tip: "The grand finish. Wall OOB right. Aim for the clubhouse chimney. Avoid the fairway bunker on the right at all costs.", quote: "18th: Home" }
         ];
 
-        // REAL CADDIE TIPS - CRAIGIELAW GOLF CLUB
         const craigielawData = [
             { par: 4, yards: 337, tip: "A gentle start. Avoid the deep bunkers left. A long iron or hybrid is enough to leave a short wedge into a green that slopes front to back.", quote: "1st: Kilspindie" },
             { par: 5, yards: 542, tip: "Reachable par 5 if you avoid the fairway bunkers. The real challenge is the green; stay below the hole or face a lightning-fast putt.", quote: "2nd: Aberlady" },
@@ -162,9 +161,131 @@
             { par: 5, yards: 552, tip: "Finishing par 5. Avoid the out of bounds left. The approach is toward the clubhouse. Stay short of the green if in doubt to leave an easy chip.", quote: "18th: Home" }
         ];
 
-        const placeholderData = (name) => Array.from({length: 18}, (_, i) => ({
-            par: 4, yards: 400, tip: `Real caddie tips for ${name} coming soon.`, quote: `Hole ${i+1}`
-        }));
+        const kingsbarnsData = [
+            { par: 4, yards: 418, tip: "Wide fairway but don't get greedy. Favor the right side to avoid the bunkers. The green is huge; check your pin sheet for the 'bowl' location.", quote: "1st: Cambo" },
+            { par: 3, yards: 200, tip: "A long, downhill par 3. It often plays shorter than the yardage. Avoid the deep bunker on the right at all costs.", quote: "2nd: Burn" },
+            { par: 5, yards: 520, tip: "First sight of the sea. Keep the drive left of the fairway bunkers. Reachable in two for big hitters, but watch out for the tiered green.", quote: "3rd: Sea" },
+            { par: 4, yards: 424, tip: "Aim left of the center. The fairway slopes toward the sea. The approach is uphill to a green tucked behind a ridge.", quote: "4th: Hill" },
+            { par: 4, yards: 446, tip: "Toughest drive on the front. Carry the 'burn' if you can, otherwise lay back. The green is protected by a massive ridge.", quote: "5th: Burnside" },
+            { par: 4, yards: 338, tip: "Driveable for some, but dangerous. Best play is a 200-yard shot to the left, leaving a wedge into a narrow green.", quote: "6th: Gorse" },
+            { par: 4, yards: 450, tip: "A long, sweeping dogleg. Keep it right of the fairway bunkers. The approach is to a green that looks like it's floating on the water.", quote: "7th: Sands" },
+            { par: 3, yards: 168, tip: "The 'Forest' hole. Totally different vibe. Protected from the wind, but the green has three distinct tiers. Be on the right one.", quote: "8th: Forest" },
+            { par: 5, yards: 558, tip: "A true three-shotter. Avoid the central fairway bunkers. The green is protected by a steep bank; anything short rolls 30 yards back.", quote: "9th: Cunning" },
+            { par: 4, yards: 395, tip: "Start of the back nine. Blind tee shot over the hill. Aim for the marker. The approach is downhill toward the ocean.", quote: "10th: Canal" },
+            { par: 4, yards: 440, tip: "Wide fairway but keep it left to avoid the sea wall. The green is perched on the rocks. Wind dictates everything here.", quote: "11th: Shore" },
+            { par: 5, yards: 606, tip: "The famous 'Infinity' par 5. It hugs the coastline the whole way. Don't be a hero; play it as a three-shotter and aim for par.", quote: "12th: Orrery" },
+            { par: 4, yards: 432, tip: "A testing uphill climb. Aim for the white stone marker. The green is very deep; club selection varies by 3 clubs front-to-back.", quote: "13th: Long" },
+            { par: 3, yards: 180, tip: "A beautiful par 3 playing over a valley of gorse. Don't be short. The wind usually helps from the left.", quote: "14th: Valley" },
+            { par: 3, yards: 212, tip: "The signature hole. Playing across the rocks and surf. It's longer than it looks. Take enough club to clear the beach completely.", quote: "15th: Rocky" },
+            { par: 4, yards: 388, tip: "Drive toward the lighthouse. Avoid the fairway bunker left. The green is multi-leveled and very fast toward the water.", quote: "16th: Light" },
+            { par: 4, yards: 462, tip: "A monster par 4. Keep your drive left of the center. The approach is long and usually into the wind. A 4 here is like a birdie.", quote: "17th: Road" },
+            { par: 4, yards: 444, tip: "The finish. The Cambo Burn crosses the fairway and protects the green. Don't go long—the clubhouse is right behind the green.", quote: "18th: Home" }
+        ];
+
+        const carnoustieData = [
+            { par: 4, yards: 396, tip: "A gentle handshake. Aim left-center of the fairway to avoid the hidden bunker on the right. The green sits in a 'cup'—judge distance well.", quote: "1st: Cup" },
+            { par: 4, yards: 435, tip: "A brute of a par 4. Braid's Bunker sits in the middle; you need 215y to carry it. The green is nearly 60 yards deep—club up.", quote: "2nd: Gulley" },
+            { par: 4, yards: 345, tip: "Short but dangerous. Jockie's Burn guards the front of the green. Lay back for a full wedge; don't get cute with a long drive.", quote: "3rd: Jockie's Burn" },
+            { par: 4, yards: 375, tip: "Slight dogleg right. Only double green on the course (shared with 14). Avoid the 'hillocks' and bunkers guarding the entrance.", quote: "4th: Hillocks" },
+            { par: 4, yards: 387, tip: "Dogleg right. Don't be too aggressive; a ditch crosses the fairway at 280y. The green is two-tiered; check the pin color.", quote: "5th: Brae" },
+            { par: 5, yards: 520, tip: "Hogan's Alley. Ben Hogan famously took the narrow line between the bunkers and the OOB fence left. It’s the pro line for a reason.", quote: "6th: Hogan's Alley" },
+            { par: 4, yards: 394, tip: "OOB all down the left. Fairway bunkers on the right catch safe plays. A long iron or hybrid is the smart play here.", quote: "7th: Plantation" },
+            { par: 3, yards: 167, tip: "A classic par 3. Often plays into the wind. The green is two-tiered and heavily bunkered. Take plenty of club.", quote: "8th: Short" },
+            { par: 4, yards: 416, tip: "One of the toughest driving holes. Trees and OOB left. Fairway bunkers right. Target the right greenside bunker on your approach.", quote: "9th: Railway" },
+            { par: 4, yards: 446, tip: "The legend says a caddie once started for South America from here. Carry the Barry Burn off the tee. The green is very large.", quote: "10th: South America" },
+            { par: 4, yards: 362, tip: "Named for the legendary course manager. Lay up short of the fairway bunkers or risk a steep recovery shot. Deceptively long green.", quote: "11th: John Philp" },
+            { par: 4, yards: 479, tip: "Huge par 4. Left side is the only safe play. Bunkered mounds protect the green. Parry's nightmare—keep it straight.", quote: "12th: Southward Ho" },
+            { par: 3, yards: 161, tip: "Surrounded by deep-lipped bunkers. The slope from back-to-front is severe. A horseshoe bunker catches anything short.", quote: "13th: Whins" },
+            { par: 5, yards: 476, tip: "Blind tee shot over gorse. The 'Spectacles' bunkers are 50 yards short—avoid them at all costs or you won't see the green.", quote: "14th: Spectacles" },
+            { par: 4, yards: 459, tip: "The start of the hardest finish in golf. Tilt is left-to-right toward bunkers. Lay up short of the greenside traps if the wind is up.", quote: "15th: Lucky Slap" },
+            { par: 3, yards: 245, tip: "A monstrous par 3. Tom Watson never made par here in '75. It's essentially a driveable par 4. Favor the right side.", quote: "16th: Barry Burn" },
+            { par: 4, yards: 433, tip: "The 'Island' fairway. The Barry Burn winds around both sides. You must find the second fairway to have any chance at the green.", quote: "17th: Island" },
+            { par: 4, yards: 444, tip: "Home. The Burn is in play for the drive and the approach. Aim for the hotel clock. Better than a 7? Get a drink.", quote: "18th: Home" }
+        ];
+
+        const portstewartData = [
+            { par: 4, yards: 426, tip: "Arguably the best opening hole in golf. Aim for the white stone marker. Do not go right—the drop into the dunes is terminal.", quote: "1st: Tubber Hole" },
+            { par: 4, yards: 366, tip: "Dogleg left through a canyon of dunes. Accuracy over distance. A long iron to the corner leaves a short wedge uphill.", quote: "2nd: Devil's Hill" },
+            { par: 3, yards: 218, tip: "A long par 3 usually into the teeth of the wind. The green is well-protected by deep bunkers. Check for the 'Thistly Hollow' wind swirl.", quote: "3rd: The Settlement" },
+            { par: 4, yards: 516, tip: "A brutal par 4. Aim for the left-center. The approach is to a green tucked into the dunes with a severe drop-off to the right.", quote: "4th: Thistly Hollow" },
+            { par: 4, yards: 452, tip: "The 'Rifle Range'. Straight and long. Keep your drive between the two main dunes. The green is deceptive and faster than it looks.", quote: "5th: Rifle Range" },
+            { par: 3, yards: 143, tip: "The shortest hole but high on danger. Perched on a high dune. Anything missing the green will roll 20 yards down into heavy rough.", quote: "6th: Five Penny Piece" },
+            { par: 5, yards: 517, tip: "Reachable par 5. Favor the left side to get a look at the green. Avoid the deep pot bunkers guarding the final 50 yards.", quote: "7th: The Plateau" },
+            { par: 4, yards: 445, tip: "Aim at the marker post. The fairway is wider than it looks from the tee. The approach plays uphill—club up at least once.", quote: "8th: Larkhill" },
+            { par: 4, yards: 372, tip: "Blind tee shot. Use the marker and trust your swing. The green is surrounded by natural amphitheater dunes.", quote: "9th: Burnside" },
+            { par: 4, yards: 407, tip: "Transition to flatter land. OOB right is a major factor. Play for the left side of the fairway and avoid the hidden ditch.", quote: "10th: Fisherman's" },
+            { par: 4, yards: 405, tip: "Dogleg right. Don't try to cut the corner—the rough is thick. A solid drive to the elbow leaves a mid-iron approach.", quote: "11th: Agherton" },
+            { par: 3, yards: 168, tip: "A tricky par 3 with an undulating green. The wind is the main defense here. Don't be long, or you're dead.", quote: "12th: The Hollow" },
+            { par: 5, yards: 511, tip: "Favor the right side off the tee to avoid the bunkers. A good chance for birdie if you stay out of the cross-ditch.", quote: "13th: Larkhill" },
+            { par: 5, yards: 532, tip: "The longest hole. Usually plays downwind. Reachable for some, but the green is well-guarded by bunkers and a burn.", quote: "14th: The Causey" },
+            { par: 3, yards: 198, tip: "Uphill par 3. Often plays into the prevailing wind. Take an extra club and aim for the center of the green.", quote: "15th: Ballyaghran" },
+            { par: 4, yards: 421, tip: "A tough par 4. Keep your drive left of the fairway bunkers. The approach is to a green that slopes from left to right.", quote: "16th: The Warren" },
+            { par: 4, yards: 436, tip: "The hardest hole on the back nine. Long and straight. A par here is a fantastic result before the final hole.", quote: "17th: Strand" },
+            { par: 4, yards: 382, tip: "The finish. Aim for the clubhouse chimney. Avoid the fairway bunkers. A fitting end to a world-class links course.", quote: "18th: Home" }
+        ];
+
+        const maloneData = [
+            { par: 4, yards: 420, tip: "The 'Avenue'. A demanding start. Mature trees line both sides. Favor the right side of the fairway to have the best angle into a small green.", quote: "1st: The Avenue" },
+            { par: 4, yards: 410, tip: "Dogleg left. Don't be tempted to cut the corner—the trees are too tall. A mid-iron to the corner leaves a clear look at the green.", quote: "2nd: Drumbridge" },
+            { par: 3, yards: 175, tip: "Well-guarded by deep bunkers. The green has subtle breaks that are hard to read. Aim for the center regardless of the pin.", quote: "3rd: The Oaks" },
+            { par: 5, yards: 515, tip: "A reachable par 5 for the long hitters. Stay left of the fairway bunkers. The approach is to a green protected by water on the right.", quote: "4th: The Valley" },
+            { par: 4, yards: 390, tip: "Slight uphill drive. Trees encroach on the left. Trust your yardage on the approach as the slope makes it look shorter than it is.", quote: "5th: The Beeches" },
+            { par: 3, yards: 160, tip: "Short but technical. The green is surrounded by sand. Anything slightly offline will find a bunker. Check the wind above the treeline.", quote: "6th: The Glade" },
+            { par: 4, yards: 435, tip: "The hardest hole on the front nine. Long and straight. A solid drive is essential. Par is a great score here.", quote: "7th: The Long Way" },
+            { par: 4, yards: 380, tip: "A beautiful hole with a tight fairway. Accuracy is more important than distance. The green is tiered—be on the right level.", quote: "8th: The Hawthorns" },
+            { par: 5, yards: 540, tip: "Long par 5 back toward the clubhouse. Avoid the fairway bunkers at landing distance. A three-shot hole for most players.", quote: "9th: The Home Stretch" },
+            { par: 4, yards: 405, tip: "Start of the back nine. Dogleg right. Keep the drive left to avoid being blocked out by the trees on the corner.", quote: "10th: The Pines" },
+            { par: 4, yards: 415, tip: "The fairway narrows significantly. Favor the right side. The approach must carry a front bunker to a wide but shallow green.", quote: "11th: The Copse" },
+            { par: 3, yards: 185, tip: "Long par 3 to a raised green. Club up to ensure you clear the front bank. Bunkers left and right are ready for mishits.", quote: "12th: The Hill" },
+            { par: 5, yards: 505, tip: "Birdie opportunity. Wide fairway but watch out for the fairway traps. Reachable in two if you catch a good drive.", quote: "13th: The Meadow" },
+            { par: 4, yards: 395, tip: "Accuracy is key. Trees on both sides are very punishing. The green is one of the fastest on the course.", quote: "14th: The Birches" },
+            { par: 3, yards: 155, tip: "Signature hole over the lake. Do not be short. The wind over the water can be deceptive. Aim for the back of the green.", quote: "15th: The Lake" },
+            { par: 4, yards: 425, tip: "Tough drive with water on the left. The approach is to a green that slopes toward the hazard. Stay right if in doubt.", quote: "16th: The Shore" },
+            { par: 4, yards: 440, tip: "Long par 4 uphill. Takes two pure shots to reach. The green is heavily bunkered and very difficult to chip onto.", quote: "17th: The Summit" },
+            { par: 4, yards: 385, tip: "The grand finish. Avoid the clubhouse bunkers. The green is very fast toward the front. Don't be long.", quote: "18th: Home" }
+        ];
+
+        const islandData = [
+            { par: 4, yards: 403, tip: "Aim for the white marker. The fairway is hidden behind a ridge. Stay left to avoid the dunes on the right.", quote: "1st: Trial" },
+            { par: 4, yards: 442, tip: "Toughest drive on the front. Huge dunes left and right. The approach is to a narrow green tucked into a hollow.", quote: "2nd: High Hole" },
+            { par: 4, yards: 345, tip: "Short par 4, but the fairway is a ribbon. Use a long iron. The green is tiny and perched on a ridge.", quote: "3rd: Round Hill" },
+            { par: 4, yards: 418, tip: "Blind tee shot over a massive dune. Trust the line. The approach is to a flat green, but the wind is always a factor.", quote: "4th: Shore" },
+            { par: 4, yards: 395, tip: "Dogleg left. Stay right of the center off the tee. The approach is long; consider a low-runner.", quote: "5th: Point" },
+            { par: 3, yards: 172, tip: "A classic par 3 over gorse. Don't be short. The green is tiered and fast toward the sea.", quote: "6th: Valley" },
+            { par: 5, yards: 520, tip: "Reachable par 5 downwind. Keep the drive left. The green is protected by steep dunes on both sides.", quote: "7th: Canal" },
+            { par: 4, yards: 430, tip: "Long par 4 with a narrow entry. Accuracy is paramount. A par here is a victory.", quote: "8th: Corner" },
+            { par: 3, yards: 155, tip: "Short par 3 but with a severe drop-off to the right. Aim for the left side of the green.", quote: "9th: Burn" },
+            { par: 5, yards: 512, tip: "Wide fairway but don't get greedy. A three-shot hole for most. The green is large and undulating.", quote: "10th: Oasis" },
+            { par: 4, yards: 425, tip: "Uphill drive. Aim for the marker post. The approach is to a green hidden in a natural bowl.", quote: "11th: Hill" },
+            { par: 4, yards: 388, tip: "Slight dogleg right. Avoid the gorse on the corner. A wedge approach must be precise.", quote: "12th: Dunes" },
+            { par: 3, yards: 190, tip: "The longest par 3. Often plays into the wind. Take an extra club and trust your strike.", quote: "13th: Broad" },
+            { par: 4, yards: 440, tip: "A brutal par 4 into the prevailing wind. Two solid strikes needed to reach the green.", quote: "14th: Long" },
+            { par: 5, yards: 535, tip: "A beautiful par 5 along the coast. Stay right to avoid the salt marsh. A birdie chance if you're bold.", quote: "15th: Marsh" },
+            { par: 3, yards: 165, tip: "The signature hole over the sea. Don't be left. The green is guarded by deep bunkers.", quote: "16th: Sea" },
+            { par: 4, yards: 410, tip: "Tight fairway through the dunes. Accuracy over distance. The green is small and fast.", quote: "17th: Final" },
+            { par: 4, yards: 395, tip: "The finish. Aim for the clubhouse. Avoid the fairway bunkers. A fitting end to a wild links adventure.", quote: "18th: Home" }
+        ];
+
+        const portmarnockData = [
+            { par: 4, yards: 405, tip: "A gentle start but avoid the fairway bunkers right. The approach is to a large, flat green.", quote: "1st: First" },
+            { par: 4, yards: 435, tip: "Long par 4. Favor the left side to open up the green. The wind usually helps from the left.", quote: "2nd: Gull" },
+            { par: 4, yards: 342, tip: "Short but dangerous. Deep bunkers guard the front. Lay back for a full wedge into the green.", quote: "3rd: Sands" },
+            { par: 4, yards: 456, tip: "Toughest par 4 on the front. Two massive shots required. The green is tiered—be on the right level.", quote: "4th: Hill" },
+            { par: 5, yards: 520, tip: "Reachable par 5. Stay left of the center off the tee. The approach is to a narrow green.", quote: "5th: Marsh" },
+            { par: 4, yards: 398, tip: "Accuracy is key. Mature trees line the right. The approach is downhill to a well-guarded green.", quote: "6th: Pines" },
+            { par: 3, yards: 185, tip: "Long par 3 to a raised green. Club up to clear the front bank. Bunkers left and right are ready.", quote: "7th: Point" },
+            { par: 4, yards: 420, tip: "Slight dogleg left. Aim for the right-center. The approach is to a large, undulating green.", quote: "8th: Canal" },
+            { par: 4, yards: 385, tip: "A beautiful hole along the coast. Stay right to avoid the sea wall. The green is fast.", quote: "9th: Shore" },
+            { par: 4, yards: 412, tip: "Start of the back nine. Dogleg right. Keep the drive left to avoid the gorse.", quote: "10th: Valley" },
+            { par: 4, yards: 445, tip: "Long and straight. A solid drive is essential. Par is a great score here.", quote: "11th: Long" },
+            { par: 3, yards: 170, tip: "A classic par 3 over the dunes. Don't be short. The green is tiered and fast.", quote: "12th: Short" },
+            { par: 5, yards: 530, tip: "Birdie opportunity. Wide fairway but watch out for the fairway traps. Reachable in two.", quote: "13th: Oasis" },
+            { par: 4, yards: 395, tip: "Accuracy is paramount. The fairway narrows at landing distance. The green is small.", quote: "14th: Dunes" },
+            { par: 3, yards: 198, tip: "The signature par 3. Over the dunes to a hidden green. Trust your yardage and aim for the center.", quote: "15th: Sea" },
+            { par: 4, yards: 425, tip: "Tough drive with bunkers right. The approach is to a green that slopes toward the sea.", quote: "16th: Point" },
+            { par: 4, yards: 440, tip: "Hardest hole on the back nine. Long and straight. A par here is a fantastic result.", quote: "17th: Final" },
+            { par: 4, yards: 382, tip: "The finish. Aim for the clubhouse. Avoid the fairway bunkers. A fitting end to a world-class links.", quote: "18th: Home" }
+        ];
 
         const courses = {
             dunbar: { name: "Dunbar Golf Club", loc: "East Lothian, Scotland", games: "Net Singles Aggie", holes: 18, data: dunbarData },
