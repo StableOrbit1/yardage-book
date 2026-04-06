@@ -6,51 +6,71 @@
     <title>This is 50. Scotland & Ireland 2026</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        golf: {
+                            900: '#064e3b',
+                            800: '#065f46',
+                            700: '#047857',
+                            100: '#d1fae5',
+                            50: '#ecfdf5'
+                        },
+                        gold: {
+                            600: '#d97706',
+                            500: '#f59e0b',
+                            100: '#fef3c7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f5f5f4; -webkit-tap-highlight-color: transparent; }
-        .serif { font-family: 'Playfair+Display', serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        body { background-color: #f3f4f6; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .serif { font-family: 'Playfair Display', serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .course-tab { transition: all 0.2s ease; border-bottom: 3px solid transparent; cursor: pointer; }
+        .course-tab { transition: all 0.2s ease; border-bottom: 3px solid transparent; }
         .tab-active { 
             border-bottom: 3px solid #166534 !important; 
             color: #166534 !important; 
             font-weight: 700 !important; 
             background-color: #f0fdf4 !important; 
         }
-
-        .day-btn { transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
-        .day-active { background-color: #166534 !important; color: white !important; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; margin: 0; 
         }
     </style>
 </head>
-<body class="text-stone-900">
+<body class="text-slate-900">
 
-    <!-- 1. LANDING MENU SECTION -->
-    <div id="section-menu" class="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center p-6 text-center">
+    <!-- 1. LANDING HUB -->
+    <div id="section-hub" class="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center p-6 text-center">
         <div class="mb-12 fade-in">
-            <h1 class="serif text-6xl md:text-8xl text-white italic mb-4">This is 50.</h1>
-            <p class="text-stone-500 tracking-[0.4em] uppercase text-[10px] font-bold">The Scotland & Ireland Elite Tour 2026</p>
+            <h1 class="serif text-6xl md:text-8xl text-white italic mb-4 leading-tight">This is 50.</h1>
+            <p class="text-stone-500 tracking-[0.4em] uppercase text-[10px] font-bold">Scotland & Ireland Elite Tour 2026</p>
         </div>
 
         <div class="space-y-4 w-full max-w-sm fade-in" style="animation-delay: 0.2s">
-            <button onclick="navigateTo('matches')" class="w-full py-6 bg-green-800 hover:bg-green-700 text-white rounded-2xl font-bold uppercase tracking-widest transition-all shadow-2xl border border-green-600 active:scale-95">
+            <button onclick="navigateTo('matches')" class="w-full py-6 bg-emerald-800 hover:bg-emerald-700 text-white rounded-2xl font-bold uppercase tracking-widest transition-all shadow-2xl border border-emerald-600 active:scale-95">
                 View the Golf Matches
             </button>
             
@@ -58,16 +78,12 @@
                 View the Itinerary
             </button>
         </div>
-        
-        <div class="absolute bottom-10 opacity-10 fade-in" style="animation-delay: 0.5s">
-            <p class="text-white text-[8px] tracking-widest uppercase">Est. 2026 • FAKC - Flatson Ass Kicking Corp</p>
-        </div>
     </div>
 
     <!-- 2. GOLF MATCHES SECTION -->
-    <div id="section-matches" class="hidden min-h-screen pb-20 bg-stone-50">
+    <div id="section-matches" class="hidden min-h-screen pb-20">
         <header class="bg-stone-900 text-white py-10 px-6 text-center shadow-2xl relative overflow-hidden">
-            <button onclick="navigateTo('menu')" class="absolute left-4 top-4 text-stone-400 text-[10px] font-bold uppercase tracking-widest border border-stone-700 px-3 py-2 rounded-lg z-20 hover:bg-stone-800">← Hub</button>
+            <button onclick="navigateTo('hub')" class="absolute left-4 top-4 text-stone-400 text-[10px] font-bold uppercase tracking-widest border border-stone-700 px-3 py-2 rounded-lg z-20">← Hub</button>
             <div class="relative z-10">
                 <h1 class="serif text-4xl md:text-5xl mb-2 italic">Match Day</h1>
                 <p class="text-stone-400 tracking-[0.2em] uppercase text-[10px] font-bold">Ledger & Yardage Book</p>
@@ -75,7 +91,7 @@
         </header>
 
         <nav class="sticky top-0 z-50 bg-white border-b border-stone-200 shadow-sm">
-            <div class="max-w-7xl mx-auto flex overflow-x-auto no-scrollbar px-4" id="nav-tabs">
+            <div class="max-w-7xl mx-auto flex overflow-x-auto hide-scrollbar px-4" id="nav-tabs">
                 <button onclick="viewLedger()" id="btn-ledger" class="course-tab whitespace-nowrap px-6 py-4 text-xs font-bold uppercase tracking-tighter text-amber-600 bg-amber-50/50">🧃 Juice Ledger</button>
                 <button onclick="switchCourse('dunbar')" id="btn-dunbar" class="course-tab whitespace-nowrap px-6 py-4 text-xs font-bold uppercase tracking-tighter">Dunbar</button>
                 <button onclick="switchCourse('craigielaw')" id="btn-craigielaw" class="course-tab whitespace-nowrap px-6 py-4 text-xs font-bold uppercase tracking-tighter">Craigielaw</button>
@@ -92,9 +108,10 @@
             <div id="score-banner" class="mb-6 text-center bg-green-900 text-white py-5 rounded-2xl shadow-xl border-2 border-green-700">
                 <span id="display-score" class="text-3xl font-black italic serif tracking-tight">ALL SQUARE</span>
             </div>
-
-            <div id="course-content" class="fade-in"></div>
-
+            
+            <div id="course-content"></div>
+            
+            <!-- Juice Section -->
             <section id="juice-section" class="mt-8 bg-white rounded-3xl shadow-xl border border-amber-200 overflow-hidden">
                 <div class="bg-amber-50 p-6 border-b border-amber-100 flex items-center gap-4">
                     <span class="text-4xl">🧃</span>
@@ -119,89 +136,81 @@
                     <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3" id="juice-totals"></div>
                 </div>
             </section>
-            
-            <div class="mt-8">
-                <button onclick="generateExport()" class="w-full bg-stone-900 text-white py-5 rounded-2xl font-bold uppercase tracking-widest shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all">
-                    <span>📤 Copy Daily Recap</span>
-                </button>
-            </div>
         </main>
     </div>
 
     <!-- 3. ITINERARY SECTION -->
-    <div id="section-itinerary" class="hidden min-h-screen bg-stone-100 pb-20">
-        <header class="bg-green-950 text-white shadow-xl sticky top-0 z-[60]">
+    <div id="section-itinerary" class="hidden min-h-screen flex flex-col">
+        <header class="bg-golf-900 text-white shadow-md sticky top-0 z-[60]">
             <div class="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
-                <button onclick="navigateTo('menu')" class="text-green-300 text-[10px] font-bold uppercase tracking-widest border border-green-800 px-3 py-2 rounded-lg active:bg-green-900 hover:bg-green-900 transition-colors">← Hub</button>
+                <button onclick="navigateTo('hub')" class="bg-white/10 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-lg border border-white/20">← Hub</button>
                 <div class="text-center">
-                    <h1 class="text-xl font-serif font-bold tracking-wide">Tour Itinerary</h1>
-                    <p class="text-green-400 text-[9px] uppercase tracking-[0.3em]">June 6 – 17, 2026</p>
+                    <h1 class="text-xl md:text-2xl font-serif font-bold tracking-wide">Tour Itinerary</h1>
+                    <p class="text-golf-100 text-[9px] uppercase tracking-widest mt-1">June 6 – 17, 2026</p>
                 </div>
                 <div class="w-10"></div>
             </div>
-            <div class="bg-black/20 backdrop-blur-md py-3 overflow-x-auto no-scrollbar">
-                <div id="itinerary-nav" class="flex gap-2 px-4 min-w-max mx-auto justify-start md:justify-center"></div>
+            <!-- Date scroller -->
+            <div class="bg-white/10 backdrop-blur-md py-3 px-2 flex overflow-x-auto hide-scrollbar gap-2" id="date-scroller">
+                <!-- Days populated by JS -->
             </div>
         </header>
 
-        <main id="itinerary-content" class="max-w-4xl mx-auto p-4 md:p-8"></main>
-    </div>
-
-    <!-- EXPORT MODAL -->
-    <div id="export-modal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl">
-            <div class="p-6 border-b flex justify-between items-center bg-stone-50">
-                <h3 class="serif text-xl">Daily Recap</h3>
-                <button onclick="closeModal()" class="text-stone-400 text-2xl">✕</button>
-            </div>
-            <div class="p-6">
-                <textarea id="export-text" class="w-full h-56 p-4 font-mono text-sm bg-stone-900 text-green-400 border rounded-xl mb-4 resize-none" readonly></textarea>
-                <button onclick="copyExport()" class="w-full bg-green-800 text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-green-700 transition-all">Copy to Clipboard</button>
-                <p id="copy-status" class="text-center text-xs text-green-600 font-bold mt-3 opacity-0 transition-opacity">COPIED!</p>
-            </div>
-        </div>
+        <main id="itinerary-main" class="flex-grow max-w-4xl w-full mx-auto p-4 md:p-6"></main>
+        <footer class="text-center py-6 text-slate-400 text-xs">Scroll or tap to navigate the tour</footer>
     </div>
 
     <script>
-        // --- DATA ---
+        // --- ICONS (SVG Strings) ---
+        const icons = {
+            sunrise: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m19.07 4.93-1.41 1.41"></path><path d="M22 17v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-3"></path><path d="m7 16 5-5 5 5"></path></svg>',
+            moon: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>',
+            flag: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>',
+            clock: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+            info: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>'
+        };
+
+        // --- CORE DATA ---
         const players = ["CF", "SW", "GC", "PC"];
         const matchData = {}; 
         const sideBets = {}; 
         let currentCourseId = 'dunbar';
-        let isGlobalLedger = false;
-        let activeDayIdx = 0;
+        let currentDayIdx = 0;
 
-        // REAL DUNBAR DATA (Middle Tees)
         const dunbarHoles = [
-            { num: 1, par: 5, yards: 506, name: "First", tip: "Avoid bunkers on the right. Reachable in two, but protected." },
-            { num: 2, par: 4, yards: 381, name: "Bayswell", tip: "Blind tee shot. Use marker post. Wall on left." },
-            { num: 3, par: 3, yards: 158, name: "Jackson's Pennies", tip: "OOB wall tight on right. Aim left, ball kicks right." },
-            { num: 4, par: 4, yards: 431, name: "Castle", tip: "Transition to shore. Fairway slopes sea-ward. Aim right." },
-            { num: 5, par: 4, yards: 420, name: "Mayville", tip: "Narrow drive. Beach OOB left. Accuracy over length." },
-            { num: 6, par: 4, yards: 390, name: "Smeaton", tip: "Blind drive. Use marker. Green is in a bowl." },
-            { num: 7, par: 4, yards: 400, name: "Meikle Pinkerton", tip: "Shore left. Aim right. Green open at front." },
-            { num: 8, par: 3, yards: 165, name: "Doocot", tip: "Steep fall-offs. Center of green is the play." },
-            { num: 9, par: 5, yards: 510, name: "Halfway House", tip: "Avoid cross-bunkers 50y short of the green." },
-            { num: 10, par: 4, yards: 440, name: "Vaults", tip: "Longest par 4. Fairway slopes right-to-left. Aim right." },
-            { num: 11, par: 4, yards: 415, name: "Catcraig", tip: "Avoid large left bunker. Approach plays uphill." },
-            { num: 12, par: 4, yards: 385, name: "Barness", tip: "Pot bunkers front-right. Aim front-left for lighthouse line." },
-            { num: 13, par: 3, yards: 170, name: "Ox Craig", tip: "Into wind usually. Club up twice. Deep traps." },
-            { num: 14, par: 4, yards: 405, name: "East Links", tip: "Dogleg right. Don't cut corner too tight. Thick gorse." },
-            { num: 15, par: 4, yards: 425, name: "Pop's Wood", tip: "Narrow fairway. Approach must carry false front." },
-            { num: 16, par: 3, yards: 190, name: "Deer Park", tip: "Long par 3 back to wall. Land short and run up." },
-            { num: 17, par: 4, yards: 430, name: "Briery Baulk", tip: "Wall OOB right. Keep drive as far left as safe." },
-            { num: 18, par: 4, yards: 434, name: "Home", tip: "Clubhouse chimney is the line. Avoid right bunker." }
+            { par: 5, yards: 506, tip: "Favor the left side of the fairway to avoid hidden bunkers on the right. Reachable in two.", name: "First" },
+            { par: 4, yards: 381, tip: "Blind tee shot. Line up directly with the marker post. Be wary of the stone wall left.", name: "Bayswell" },
+            { par: 3, yards: 158, tip: "The Deer Park wall is tight on the right (OOB). Aim for the left side of the green.", name: "Jackson's Pennies" },
+            { par: 4, yards: 431, tip: "Fairway slopes toward the sea. Aim for the right-hand bunkers to stay in the fairway.", name: "Castle" },
+            { par: 4, yards: 420, tip: "Very narrow drive. The beach is OOB left. Accuracy is far more important than distance.", name: "Mayville" },
+            { par: 4, yards: 390, tip: "Blind drive. Use the marker post. The fairway funnels toward the sea.", name: "Smeaton" },
+            { par: 4, yards: 400, tip: "Aim middle-right. Wind off the Firth pushes left. Green is open at the front.", name: "Meikle Pinkerton" },
+            { par: 3, yards: 165, tip: "Deceptive wind. Green is long and narrow with steep drop-offs. Being short is better than long.", name: "Doocot" },
+            { par: 5, yards: 510, tip: "A three-shot hole for most. Avoid the cross-bunkers 50 yards short of the green.", name: "Halfway House" },
+            { par: 4, yards: 440, tip: "The longest par 4. Fairway slopes right-to-left. Aim right and let it roll.", name: "Vaults" },
+            { par: 4, yards: 415, tip: "Avoid the massive bunker on the left corner. The approach plays uphill.", name: "Catcraig" },
+            { par: 4, yards: 385, tip: "Pot bunkers front-right. Aim front-left for run-on. Views of the Barness Lighthouse.", name: "Barness" },
+            { par: 3, yards: 170, tip: "Usually plays directly into the wind. Club up twice. The bunkers short are cavernous.", name: "Ox Craig" },
+            { par: 4, yards: 405, tip: "Slight dogleg right. Don't cut corner too tight—the gorse is thick.", name: "East Links" },
+            { par: 4, yards: 425, tip: "Straight drive to a narrow fairway. Approach must carry a false front.", name: "Pop's Wood" },
+            { par: 3, yards: 190, tip: "Long par 3 back toward the wall. Ground is firm; land short and let it run up.", name: "Deer Park" },
+            { par: 4, yards: 430, tip: "The wall is OOB on the right. Keep your tee shot as far left as possible.", name: "Briery Baulk" },
+            { par: 4, yards: 434, tip: "The grand finish. Wall OOB right. Aim for the clubhouse chimney.", name: "Home" }
         ];
 
+        /* YOUTUBE VIDEO IDs
+           Paste the exact 11-character YouTube ID for your preferred flyover/vlog videos below!
+           If a video is removed or broken, just swap the ID. 
+        */
         const courses = {
-            dunbar: { name: "Dunbar Golf Club", loc: "East Lothian", games: "Net Singles Aggie", data: dunbarHoles },
-            craigielaw: { name: "Craigielaw Golf Club", loc: "Aberlady", games: "GC v CF & SW v PC", data: Array(18).fill({par:4, yards:400, name: "Aberlady", tip: "Pot bunkers and fast greens."}) },
-            kingsbarns: { name: "Kingsbarns Links", loc: "St Andrews", games: "PC v CF & GC v SW", data: Array(18).fill({par:4, yards:400, name: "Fife Coast", tip: "Infinity views. Massive greens."}) },
-            carnoustie: { name: "Carnoustie Links", loc: "Angus", games: "Low and Aggie", data: Array(18).fill({par:4, yards:400, name: "Car-nasty", tip: "Barry Burn awaits."}) },
-            portstewart: { name: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", data: Array(18).fill({par:4, yards:400, name: "Strand", tip: "Dunes of doom."}) },
-            malone: { name: "Malone GC", loc: "Belfast", games: "GC v CF & SW v PC", data: Array(18).fill({par:4, yards:400, name: "Drumbridge", tip: "Parkland precision."}) },
-            island: { name: "The Island", loc: "Donabate", games: "GC v CF & SW v PC", data: Array(18).fill({par:4, yards:400, name: "Wild Coast", tip: "Blind lines through deep dunes."}) },
-            portmarnock: { name: "Portmarnock Old", loc: "Dublin", games: "Low and Aggie", data: Array(18).fill({par:4, yards:400, name: "Ireland's Eye", tip: "Purest links in Ireland."}) }
+            dunbar: { name: "Dunbar Golf Club", loc: "East Lothian", games: "Net Singles Aggie", videoId: "M7lc1UVf-VE", holes: 18, data: dunbarHoles },
+            craigielaw: { name: "Craigielaw Golf Club", loc: "Aberlady", games: "GC v CF & SW v PC", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Greens are legendary.", name: "Links"}) },
+            kingsbarns: { name: "Kingsbarns Links", loc: "St Andrews", games: "PC v CF & GC v SW", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Infinity views.", name: "Coast"}) },
+            carnoustie: { name: "Carnoustie Links", loc: "Angus", games: "Low and Aggie", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Barry Burn awaits.", name: "Championship"}) },
+            portstewart: { name: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Dunes for days.", name: "Strand"}) },
+            malone: { name: "Malone GC", loc: "Belfast", games: "GC v CF & SW v PC", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Parkland precision.", name: "Drumbridge"}) },
+            island: { name: "The Island", loc: "Donabate", games: "PC v CF & GC v SW", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Ireland's wild coast.", name: "Island"}) },
+            portmarnock: { name: "Portmarnock Old", loc: "Dublin", games: "Low and Aggie", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "The standard bearer.", name: "Old"}) }
         };
 
         const itineraryData = [
@@ -211,7 +220,7 @@
                 author: "Alexander McCall Smith",
                 city: "Edinburgh",
                 cityDesc: "Scotland's hilly capital seamlessly blends the medieval charm of the Old Town with the neoclassical elegance of the Georgian New Town.",
-                golf: [], events: [{t:"All Day", e:"Rose Street Pub Crawl"}], 
+                golf: [], schedule: [{time: "All Day", event: "Recovery Day - Rose Street Pubs"}], 
                 hotspots: ["The Auld Hundred", "Element Bar", "Rose Street Brewery"] 
             },
             { 
@@ -220,7 +229,7 @@
                 author: "Raymond Chandler",
                 city: "Edinburgh / Leith",
                 cityDesc: "Leith, Edinburgh's vibrant port district, is a bustling hub of Michelin-starred restaurants, historic pubs, and the spiritual home of the Single Malt Whisky Society.",
-                golf: [], events: [{t:"1:00 PM", e:"Wallace Monument"}, {t:"6:15 PM", e:"Dinner @ SMWS Vaults"}], 
+                golf: [], schedule: [{time: "1:00 PM", event: "Wallace Monument"}, {time: "6:15 PM", event: "Dinner @ SMWS Vaults"}], 
                 hotspots: ["SMWS The Vaults"] 
             },
             { 
@@ -229,7 +238,7 @@
                 author: "Winston Churchill",
                 city: "Aberlady (East Lothian)",
                 cityDesc: "Aberlady is a picturesque coastal village and the gateway to Scotland's renowned 'Golf Coast' in East Lothian, offering breathtaking views over the bay.",
-                golf: [{c:"Dunbar GC", t:"10:09 AM"}, {c:"Craigielaw", t:"3:50 PM"}], events: [{t:"Evening", e:"Dinner at Lodge"}], 
+                golf: [{course: "Dunbar Golf Club", time: "10:09 AM"}, {course: "Craigielaw Golf Club", time: "3:50 PM"}], schedule: [{time: "Evening", event: "Dinner at Craigielaw"}], 
                 hotspots: ["The Courtyard at Craigielaw"] 
             },
             { 
@@ -238,7 +247,7 @@
                 author: "Classic Scottish Proverb",
                 city: "St Andrews & Carnoustie",
                 cityDesc: "The coastlines of Fife and Angus represent the ancestral homeland of golf, where the North Sea wind shapes both the dunes and the players.",
-                golf: [{c:"Kingsbarns", t:"11:20 AM"}], events: [{t:"7:00 PM", e:"The Rookery"}], 
+                golf: [{course: "Kingsbarns Links", time: "11:20 AM"}], schedule: [{time: "7:00 PM", event: "Dinner at The Rookery"}], 
                 hotspots: ["The Rookery Restaurant"] 
             },
             { 
@@ -247,25 +256,25 @@
                 author: "Unknown",
                 city: "Montrose",
                 cityDesc: "Montrose boasts a spectacular wide tidal basin and one of the oldest natural links courses in the world, playing right along the rugged coastline.",
-                golf: [{c:"Carnoustie", t:"10:00 AM"}], events: [{t:"Evening", e:"Charcuterie & Gin"}], 
+                golf: [{course: "Carnoustie Links", time: "10:00 AM"}], schedule: [{time: "6:00 PM", event: "Dinner Charcuterie and Gin"}], 
                 hotspots: ["Links Hotel Gin Bar"] 
             },
             { 
-                date: "June 11", day: "Thursday", wake: "Montrose", sleep: "Speyside", 
+                date: "June 11", day: "Thursday", wake: "Montrose", sleep: "Dowans", 
                 quote: "Today's rain is tomorrow's whisky.", 
                 author: "Traditional Scottish Proverb",
                 city: "Speyside",
                 cityDesc: "Speyside is the undisputed heart of malt whisky country, a lush region of crystal-clear rivers, deep glens, and over half of Scotland's working distilleries.",
-                golf: [], events: [{t:"4:00 PM", e:"Distillery Tour"}], 
+                golf: [], schedule: [{time: "4:00 PM", event: "Distillery Dinner Afternoon"}, {time: "Evening", event: "Dinner at Dowans"}], 
                 hotspots: ["The Still Bar (750+ Whiskies)", "Restaurant 57"] 
             },
             { 
-                date: "June 12", day: "Friday", wake: "Speyside", sleep: "Belfast", 
+                date: "June 12", day: "Friday", wake: "Dowans", sleep: "Belfast", 
                 quote: "A friendly Irish soul, a pint of stout, and a tale well told.", 
                 author: "Irish Proverb",
                 city: "Belfast",
                 cityDesc: "Belfast is a city transformed, radiating energy from its famous Cathedral Quarter, rich maritime history, and world-class culinary scene.",
-                golf: [], events: [{t:"2:05 PM", e:"Flight to Belfast"}, {t:"Evening", e:"Cathedral Quarter Night Out"}], 
+                golf: [], schedule: [{time: "2:05 PM", event: "Flight to Belfast"}, {time: "Evening", event: "Cathedral District Pubs"}], 
                 hotspots: ["Duke of York", "The Dirty Onion", "Sunflower Public House"] 
             },
             { 
@@ -274,7 +283,7 @@
                 author: "Traditional Irish Blessing",
                 city: "Northern Ireland Coast",
                 cityDesc: "The Causeway Coast offers some of the most dramatic coastal scenery on earth, featuring towering basalt columns and legendary, towering links dunes.",
-                golf: [{c:"Portstewart", t:"3:50 PM"}], events: [{t:"10:00 AM", e:"Giant's Causeway"}], 
+                golf: [{course: "Portstewart", time: "3:50 PM"}], schedule: [{time: "10:00 AM", event: "Giant's Causeway"}], 
                 hotspots: ["Bushmills Village"] 
             },
             { 
@@ -283,8 +292,8 @@
                 author: "William Butler Yeats",
                 city: "Dublin",
                 cityDesc: "Dublin is a literary and cultural powerhouse, radiating warmth, history, and a musical pulse that beats strongest in its historic, lively pubs.",
-                golf: [{c:"Malone GC", t:"11:00 AM"}], events: [{t:"8:00 PM", e:"Temple Bar Session"}], 
-                hotspots: ["Temple Bar Pub", "The Oliver St. John Gogarty"] 
+                golf: [{course: "Malone Golf Club", time: "11:00 AM"}], schedule: [{time: "Evening", event: "Sunday Sessions in Temple Bar"}], 
+                hotspots: ["Temple Bar Pub", "Gogarty's"] 
             },
             { 
                 date: "June 15", day: "Monday", wake: "Dublin", sleep: "Dublin", 
@@ -292,7 +301,7 @@
                 author: "Flann O'Brien",
                 city: "Dublin City Centre",
                 cityDesc: "From the cobbled streets of Temple Bar to the historic gates of St. James's Gate Brewery, Dublin perfectly blends its deep history with an unpretentious modern edge.",
-                golf: [{c:"The Island", t:"9:30 AM"}], events: [{t:"Afternoon", e:"Jameson / Gravity Bar"}], 
+                golf: [{course: "The Island Course", time: "9:30 AM"}], schedule: [{time: "Afternoon", event: "Guinness Storehouse and Jameson"}], 
                 hotspots: ["Guinness Storehouse", "Doheny & Nesbitt (Baggot St)"] 
             },
             { 
@@ -301,33 +310,140 @@
                 author: "Eleanor Hull",
                 city: "Dublin North / Portmarnock",
                 cityDesc: "Just north of the city lies a rugged, sandy peninsula where the Irish Sea meets pure linksland, offering serene, world-class golf escapes just minutes from the capital.",
-                golf: [{c:"Portmarnock Old", t:"9:50 AM"}], events: [{t:"Evening", e:"Final Tour Dinner"}], 
-                hotspots: ["Merrion Square Dining"] 
+                golf: [{course: "Portmarnock Old", time: "9:50 AM"}], schedule: [{time: "Evening", event: "Tuesday Night in Merrion Square"}], 
+                hotspots: ["Merrion Square Area"] 
             },
             { 
-                date: "June 17", day: "Wednesday", wake: "Dublin", sleep: "Toronto", 
+                date: "June 17", day: "Wednesday", wake: "Dublin", sleep: "Home", 
                 quote: "May your glass be ever full. May the roof over your head be always strong.", 
                 author: "Irish Toast",
                 city: "Dublin to Toronto",
                 cityDesc: "Safe travels back to Canada. The memories of the turf, the surf, and the spirits will last a lifetime.",
-                golf: [], events: [{t:"Morning", e:"Travel Home"}], 
+                golf: [], schedule: [{time: "All Day", event: "Travel Day back home"}], 
                 hotspots: [] 
             }
         ];
 
-        // --- NAVIGATION ENGINE ---
+        // --- NAVIGATION ---
         function navigateTo(id) {
-            document.getElementById('section-menu').classList.add('hidden');
+            document.getElementById('section-hub').classList.add('hidden');
             document.getElementById('section-matches').classList.add('hidden');
             document.getElementById('section-itinerary').classList.add('hidden');
             
-            const active = document.getElementById('section-' + id);
-            active.classList.remove('hidden');
-            active.classList.add('fade-in');
+            const section = document.getElementById('section-' + id);
+            section.classList.remove('hidden');
+            section.classList.add('fade-in');
 
             if (id === 'itinerary') renderItinerary();
             if (id === 'matches') switchCourse(currentCourseId);
-            window.scrollTo(0, 0);
+            window.scrollTo(0,0);
+        }
+
+        // --- ITINERARY ENGINE ---
+        function setDay(idx) {
+            currentDayIdx = idx;
+            renderItinerary();
+        }
+
+        function renderItinerary() {
+            const scroller = document.getElementById('date-scroller');
+            const main = document.getElementById('itinerary-main');
+            const data = itineraryData[currentDayIdx];
+
+            // Render buttons
+            scroller.innerHTML = itineraryData.map((d, i) => `
+                <button onclick="setDay(${i})" class="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200
+                    ${currentDayIdx === i ? 'bg-white text-golf-900 shadow-md' : 'bg-white/10 text-white hover:bg-white/20'}">
+                    ${d.date}
+                </button>
+            `).join('');
+
+            // Render Card
+            main.innerHTML = `
+                <div class="flex justify-between items-center mb-6 fade-in">
+                    <h2 class="text-xl md:text-2xl font-serif font-bold text-slate-800">${data.day}, ${data.date}</h2>
+                    <div class="bg-golf-100 text-golf-900 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Day ${currentDayIdx + 1}</div>
+                </div>
+
+                <div class="space-y-6 fade-in">
+                    <!-- Daily Quote -->
+                    <div class="mb-4 border-l-4 border-amber-400 pl-5 py-1">
+                        <p class="serif text-xl italic text-stone-700 leading-snug mb-2">"${data.quote}"</p>
+                        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">— ${data.author}</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-3">
+                            <div class="text-amber-600">${icons.sunrise}</div>
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Wake Up</p>
+                                <p class="font-bold text-slate-800">${data.wake}</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-3">
+                            <div class="text-indigo-600">${icons.moon}</div>
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Sleep In</p>
+                                <p class="font-bold text-slate-800">${data.sleep}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${data.golf.length > 0 ? `
+                        <div class="bg-golf-800 text-white rounded-2xl shadow-lg overflow-hidden">
+                            <div class="px-5 py-4 border-b border-golf-700 bg-golf-900 flex items-center space-x-2">
+                                ${icons.flag}
+                                <h3 class="font-serif font-bold text-lg">The Golf</h3>
+                            </div>
+                            <div class="p-2">
+                                ${data.golf.map(g => `
+                                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-golf-700 rounded-xl p-4 m-2">
+                                        <div class="mb-2 sm:mb-0">
+                                            <h4 class="font-bold text-lg text-golf-50">${g.course}</h4>
+                                        </div>
+                                        <div class="bg-white/10 text-white font-bold px-4 py-2 rounded-lg shadow-sm text-sm tracking-widest uppercase">
+                                            Tee Time: ${g.time}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+                        <h3 class="font-serif font-bold text-lg mb-4 text-golf-900 border-b pb-2">Itinerary & Activities</h3>
+                        <div class="space-y-4">
+                            ${data.schedule.map(s => `
+                                <div class="flex items-start">
+                                    <div class="w-24 flex-shrink-0 text-sm font-semibold text-slate-500 pt-1">${s.time}</div>
+                                    <div class="flex-grow pl-4 border-l-2 border-slate-100 text-slate-800 font-medium">${s.event}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-2xl shadow-inner border border-slate-200 p-5">
+                        <div class="flex items-center space-x-2 mb-3 text-golf-800">
+                            ${icons.info}
+                            <h3 class="font-serif font-bold text-lg">City Guide: ${data.intel.city}</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed pb-4 border-b border-slate-200">${data.intel.cityDesc}</p>
+                        
+                        ${data.intel.hotspots.length > 0 ? `
+                            <div>
+                                <h4 class="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-2">Bars & Hotspots</h4>
+                                <ul class="space-y-2 flex flex-wrap gap-2">
+                                    ${data.intel.hotspots.map(h => `
+                                        <span class="bg-white text-slate-700 px-3 py-1.5 rounded-full text-[10px] font-bold border border-slate-200 shadow-sm flex items-center">
+                                            <span class="text-gold-500 mr-1">•</span> ${h}
+                                        </span>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
         }
 
         // --- MATCHES ENGINE ---
@@ -335,10 +451,8 @@
             isGlobalLedger = false;
             currentCourseId = id;
             const course = courses[id];
-            
             document.querySelectorAll('.course-tab').forEach(t => t.classList.remove('tab-active'));
             document.getElementById('btn-' + id).classList.add('tab-active');
-            
             document.getElementById('score-banner').classList.remove('hidden');
             document.getElementById('juice-subtitle').innerText = "Round Juice ($)";
             
@@ -365,9 +479,14 @@
                         </select>
                     </div>`;
             });
-            
             document.getElementById('course-content').innerHTML = `
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-4 border border-stone-200">
+                    
+                    <!-- YOUTUBE VIDEO PLAYER -->
+                    <div class="relative w-full pt-[56.25%] bg-stone-900 border-b border-stone-200">
+                        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/${course.videoId}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
                     <div class="p-6 bg-stone-50 border-b">
                         <h2 class="serif text-3xl text-stone-800 mb-1">${course.name}</h2>
                         <p class="text-xs text-stone-400 font-bold uppercase tracking-[0.2em]">Game: ${course.games}</p>
@@ -385,14 +504,14 @@
         }
 
         function updateScore(courseId) {
-            let scoreA = 0, scoreB = 0; 
-            const data = matchData[courseId] || {};
-            Object.values(data).forEach(v => { if(v === 'A') scoreA++; if(v === 'B') scoreB++; });
-            const display = document.getElementById('display-score');
-            if (scoreA === scoreB) display.innerText = "ALL SQUARE";
+            let sA = 0, sB = 0;
+            const d = matchData[courseId] || {};
+            Object.values(d).forEach(v => { if(v==='A') sA++; if(v==='B') sB++; });
+            const disp = document.getElementById('display-score');
+            if(sA===sB) disp.innerText = "ALL SQUARE";
             else {
-                const diff = Math.abs(scoreA - scoreB);
-                display.innerText = (scoreA > scoreB ? "CF X SW" : "GC X PC") + " +" + diff;
+                const diff = Math.abs(sA - sB);
+                disp.innerText = (sA > sB ? "CF X SW" : "GC X PC") + " +" + diff;
             }
         }
 
@@ -400,18 +519,18 @@
             const table = document.getElementById('juice-table');
             const targetId = isGlobalLedger ? 'global' : currentCourseId;
             let html = '';
-            players.forEach(rowPlayer => {
-                html += `<tr class="border-b border-stone-50"><td class="p-4 font-bold bg-stone-50 text-stone-500 border-r">${rowPlayer}</td>`;
-                players.forEach(colPlayer => {
-                    if (rowPlayer === colPlayer) html += `<td class="p-2 bg-stone-200/30"></td>`;
+            players.forEach(rp => {
+                html += `<tr class="border-b border-stone-50"><td class="p-4 font-bold bg-stone-50 text-stone-500 border-r">${rp}</td>`;
+                players.forEach(cp => {
+                    if (rp === cp) html += `<td class="p-2 bg-stone-200/30"></td>`;
                     else {
-                        const betId = `${colPlayer}-${rowPlayer}`;
+                        const bId = `${cp}-${rp}`;
                         if(isGlobalLedger) {
-                            const total = getGlobalTotal(betId);
-                            html += `<td class="p-2 text-center border-r"><div class="text-[10px] font-bold text-stone-400">TOTAL</div><div class="text-sm font-black text-stone-800">$${total}</div></td>`;
+                            const tot = getGlobalTotal(bId);
+                            html += `<td class="p-2 text-center border-r"><div class="text-[10px] font-bold text-stone-400">TOTAL</div><div class="text-sm font-black text-stone-800">$${tot}</div></td>`;
                         } else {
-                            const saved = (sideBets[targetId] && sideBets[targetId][betId]) || { amount: 0, won: false };
-                            html += `<td class="p-2 text-center border-r"><div class="flex items-center bg-stone-100 rounded mb-2 px-1"><span class="text-[10px] font-bold text-stone-400">$</span><input type="number" value="${saved.amount || ''}" class="w-full text-center bg-transparent text-sm py-2 font-bold focus:outline-none" onchange="updateBet('${betId}', this.value, null)"></div><label class="flex items-center justify-center gap-1 cursor-pointer"><input type="checkbox" ${saved.won ? 'checked' : ''} onchange="updateBet('${betId}', null, this.checked)"><span class="text-[8px] font-black uppercase text-stone-400">WON</span></label></td>`;
+                            const sv = (sideBets[targetId] && sideBets[targetId][bId]) || { amount: 0, won: false };
+                            html += `<td class="p-2 text-center border-r"><div class="flex items-center bg-stone-100 rounded mb-2 px-1"><span class="text-[10px] font-bold text-stone-400">$</span><input type="number" value="${sv.amount || ''}" class="w-full text-center bg-transparent text-sm py-2 font-bold focus:outline-none" onchange="updateBet('${bId}', this.value, null)"></div><label class="flex items-center justify-center gap-1 cursor-pointer"><input type="checkbox" ${sv.won ? 'checked' : ''} onchange="updateBet('${bId}', null, this.checked)"><span class="text-[8px] font-black uppercase text-stone-400">WON</span></label></td>`;
                         }
                     }
                 });
@@ -421,9 +540,9 @@
             calcJuiceTotals();
         }
 
-        function getGlobalTotal(betId) {
+        function getGlobalTotal(bId) {
             let sum = 0;
-            Object.keys(sideBets).forEach(c => { if(sideBets[c][betId] && sideBets[c][betId].won) sum += sideBets[c][betId].amount; });
+            Object.keys(sideBets).forEach(c => { if(sideBets[c][bId] && sideBets[c][bId].won) sum += sideBets[c][bId].amount; });
             return sum;
         }
 
@@ -439,10 +558,10 @@
             let res = { CF: 0, SW: 0, GC: 0, PC: 0 };
             const pool = isGlobalLedger ? Object.keys(sideBets) : [currentCourseId];
             pool.forEach(c => {
-                const round = sideBets[c] || {};
-                Object.keys(round).forEach(id => {
-                    const [winner, loser] = id.split('-');
-                    if(round[id].won) { res[winner] += round[id].amount; res[loser] -= round[id].amount; }
+                const r = sideBets[c] || {};
+                Object.keys(r).forEach(id => {
+                    const [w, l] = id.split('-');
+                    if(r[id].won) { res[w] += r[id].amount; res[l] -= r[id].amount; }
                 });
             });
             document.getElementById('juice-totals').innerHTML = players.map(p => `<div class="bg-stone-900 p-4 rounded-2xl text-center shadow-lg"><span class="block text-[10px] text-stone-500 font-bold mb-1 uppercase tracking-tighter">${p}</span><span class="text-xl font-black ${res[p] >= 0 ? 'text-green-400' : 'text-red-400'}">${res[p] >= 0 ? '+$' : '-$'}${Math.abs(res[p])}</span></div>`).join('');
@@ -458,115 +577,9 @@
             renderJuiceTable();
         }
 
-        // --- ITINERARY ENGINE ---
-        function renderItinerary() {
-            const nav = document.getElementById('itinerary-nav');
-            const content = document.getElementById('itinerary-content');
-            const d = itineraryData[activeDayIdx];
-
-            nav.innerHTML = itineraryData.map((day, i) => `
-                <button onclick="setDay(${i})" class="day-btn px-4 py-2 rounded-full text-[10px] font-bold uppercase border border-white/20 text-white ${activeDayIdx === i ? 'day-active' : 'bg-white/5'}">
-                    ${day.date}
-                </button>
-            `).join('');
-
-            content.innerHTML = `
-                <div class="bg-white rounded-[2rem] shadow-2xl border border-stone-200 p-6 md:p-10 fade-in">
-                    <div class="flex justify-between items-start mb-6">
-                        <div>
-                            <h2 class="serif text-4xl font-bold text-stone-900">${d.day}</h2>
-                            <p class="text-green-700 font-bold uppercase tracking-widest text-xs">${d.date}</p>
-                        </div>
-                        <div class="bg-green-100 text-green-800 px-4 py-1 rounded-full text-[10px] font-black uppercase">Day ${activeDayIdx + 1}</div>
-                    </div>
-
-                    <!-- Daily Quote -->
-                    <div class="mb-8 border-l-4 border-amber-400 pl-5 py-1">
-                        <p class="serif text-xl italic text-stone-700 leading-snug mb-2">"${d.quote}"</p>
-                        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">— ${d.author}</p>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4 mb-8">
-                        <div class="bg-stone-50 p-4 rounded-2xl border border-stone-100">
-                            <span class="block text-[9px] font-black text-stone-400 uppercase mb-1">Wake Up</span>
-                            <span class="font-bold text-stone-800">${d.wake}</span>
-                        </div>
-                        <div class="bg-stone-50 p-4 rounded-2xl border border-stone-100">
-                            <span class="block text-[9px] font-black text-stone-400 uppercase mb-1">Sleep In</span>
-                            <span class="font-bold text-stone-800">${d.sleep}</span>
-                        </div>
-                    </div>
-
-                    ${d.golf.length > 0 ? `
-                        <div class="mb-8">
-                            <h3 class="text-[10px] font-black uppercase text-stone-400 mb-4 tracking-[0.2em]">The Golf</h3>
-                            ${d.golf.map(g => `
-                                <div class="bg-green-900 text-white p-5 rounded-2xl flex justify-between items-center mb-3 shadow-lg">
-                                    <div>
-                                        <p class="font-black text-lg">${g.c}</p>
-                                    </div>
-                                    <div class="bg-white/10 px-4 py-2 rounded-lg text-xs font-black tracking-widest">
-                                        ${g.t}
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    ` : ''}
-
-                    <div class="mb-8">
-                        <h3 class="text-[10px] font-black uppercase text-stone-400 mb-4 tracking-[0.2em]">Schedule</h3>
-                        <div class="space-y-4">
-                            ${d.events.map(ev => `
-                                <div class="flex gap-4 border-l-2 border-green-100 pl-4">
-                                    <span class="w-16 flex-shrink-0 text-[10px] font-black text-stone-400 pt-1">${ev.t}</span>
-                                    <p class="text-sm font-bold text-stone-800 leading-tight">${ev.e}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <div class="bg-amber-50 rounded-2xl p-6 border border-amber-100">
-                        <h3 class="serif text-xl font-bold text-amber-900 mb-1">City Guide: ${d.city}</h3>
-                        <p class="text-sm text-amber-800/80 leading-relaxed font-medium mb-4 pb-4 border-b border-amber-200/50">${d.cityDesc}</p>
-                        
-                        ${d.hotspots.length > 0 ? `
-                            <h4 class="text-[10px] font-black uppercase text-amber-700/60 mb-2 tracking-[0.2em]">Notable Spots</h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${d.hotspots.map(h => `<span class="bg-white text-amber-900 px-3 py-1.5 rounded-full text-[10px] font-black border border-amber-200 shadow-sm">📍 ${h}</span>`).join('')}
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>`;
-        }
-
-        function setDay(i) { activeDayIdx = i; renderItinerary(); }
-
-        // --- UTILS ---
-        function generateExport() {
-            const course = courses[currentCourseId];
-            const score = document.getElementById('display-score').innerText;
-            const res = { CF: 0, SW: 0, GC: 0, PC: 0 };
-            const round = sideBets[currentCourseId] || {};
-            Object.keys(round).forEach(id => {
-                const [w, l] = id.split('-');
-                if(round[id].won) { res[w] += round[id].amount; res[l] -= round[id].amount; }
-            });
-            let text = `⛳️ TOUR RECAP: ${course.name}\nMATCH: ${score}\n\nROUND JUICE:\n`;
-            players.forEach(p => { text += `${p}: ${res[p] >= 0 ? '+$' : '-$'}${Math.abs(res[p])}\n`; });
-            document.getElementById('export-text').value = text;
-            document.getElementById('export-modal').classList.remove('hidden');
-        }
-
-        function copyExport() {
-            document.getElementById('export-text').select();
-            document.execCommand('copy');
-            document.getElementById('copy-status').style.opacity = '1';
-            setTimeout(() => { document.getElementById('copy-status').style.opacity = '0'; }, 2000);
-        }
-
-        function closeModal() { document.getElementById('export-modal').classList.add('hidden'); }
-
-        window.onload = () => { switchCourse('dunbar'); };
+        window.onload = () => {
+            // Initial render state handled by navigation clicks
+        };
     </script>
 </body>
 </html>
