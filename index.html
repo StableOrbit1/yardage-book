@@ -237,15 +237,15 @@
         const itineraryData = [
             { date: "June 6", day: "Saturday", wake: "Edinburgh", sleep: "Edinburgh", quote: "This is a city of shifting light, of changing skies, of sudden vistas.", author: "Alexander McCall Smith", city: "Edinburgh", cityDesc: "Scotland's hilly capital seamlessly blends the medieval charm of the Old Town with the neoclassical elegance of the Georgian New Town.", golf: [], schedule: [{time: "All Day", event: "Recovery Day - Rose Street Pubs"}], hotspots: ["The Auld Hundred", "Element Bar", "Rose Street Brewery"] },
             { date: "June 7", day: "Sunday", wake: "Edinburgh", sleep: "Edinburgh", quote: "There is no bad whiskey. There are only some whiskeys that aren't as good as others.", author: "Raymond Chandler", city: "Edinburgh / Leith", cityDesc: "Leith is a bustling hub of historic pubs and the spiritual home of the Single Malt Whisky Society.", golf: [], schedule: [{time: "1:00 PM", event: "Wallace Monument"}, {time: "6:15 PM", event: "Dinner @ SMWS Vaults"}], hotspots: ["SMWS The Vaults"] },
-            { date: "June 8", day: "Monday", wake: "Edinburgh", sleep: "Aberlady", quote: "Golf is a game whose aim is to hit a very small ball into an even smaller hole.", author: "Winston Churchill", city: "Aberlady", cityDesc: "A picturesque coastal village and the gateway to Scotland's renowned 'Golf Coast' offering breathtaking views over the bay.", golf: [{course: "Dunbar Golf Club", time: "10:09 AM"}, {course: "Craigielaw Golf Club", time: "3:50 PM"}], schedule: [{time: "Evening", event: "Dinner at Craigielaw Lodge"}], hotspots: ["The Courtyard at Craigielaw"] },
-            { date: "June 9", day: "Tuesday", wake: "Aberlady", sleep: "Carnoustie", quote: "It is a matter of the spirit, not the body... the spirit of the links.", author: "Scottish Proverb", city: "St Andrews Area", cityDesc: "The coastlines here represent the ancestral homeland of golf, where the North Sea wind shapes both the dunes and the players.", golf: [{course: "Kingsbarns Links", time: "11:20 AM"}], schedule: [{time: "7:00 PM", event: "Dinner at The Rookery"}], hotspots: ["The Rookery Restaurant"] },
-            { date: "June 10", day: "Wednesday", wake: "Carnoustie", sleep: "Montrose", quote: "I love Scotland. For the poetry, the history, the misty mountains, and the golf.", author: "Unknown", city: "Montrose", cityDesc: "Boasts a spectacular wide tidal basin and one of the oldest natural links courses in the world, playing right along the rugged coastline.", golf: [{course: "Carnoustie Links", time: "10:00 AM"}], schedule: [{time: "6:00 PM", event: "Dinner Charcuterie and Gin"}], hotspots: ["Links Hotel Gin Bar"] },
+            { date: "June 8", day: "Monday", wake: "Edinburgh", sleep: "Aberlady", quote: "Golf is a game whose aim is to hit a very small ball into an even smaller hole.", author: "Winston Churchill", city: "Aberlady", cityDesc: "A picturesque coastal village and the gateway to Scotland's renowned 'Golf Coast' offering breathtaking views over the bay.", golf: [{course: "Dunbar Golf Club", id: "dunbar", time: "10:09 AM"}, {course: "Craigielaw Golf Club", id: "craigielaw", time: "3:50 PM"}], schedule: [{time: "Evening", event: "Dinner at Craigielaw Lodge"}], hotspots: ["The Courtyard at Craigielaw"] },
+            { date: "June 9", day: "Tuesday", wake: "Aberlady", sleep: "Carnoustie", quote: "It is a matter of the spirit, not the body... the spirit of the links.", author: "Scottish Proverb", city: "St Andrews Area", cityDesc: "The coastlines here represent the ancestral homeland of golf, where the North Sea wind shapes both the dunes and the players.", golf: [{course: "Kingsbarns Links", id: "kingsbarns", time: "11:20 AM"}], schedule: [{time: "7:00 PM", event: "Dinner at The Rookery"}], hotspots: ["The Rookery Restaurant"] },
+            { date: "June 10", day: "Wednesday", wake: "Carnoustie", sleep: "Montrose", quote: "I love Scotland. For the poetry, the history, the misty mountains, and the golf.", author: "Unknown", city: "Montrose", cityDesc: "Boasts a spectacular wide tidal basin and one of the oldest natural links courses in the world, playing right along the rugged coastline.", golf: [{course: "Carnoustie Links", id: "carnoustie", time: "10:00 AM"}], schedule: [{time: "6:00 PM", event: "Dinner Charcuterie and Gin"}], hotspots: ["Links Hotel Gin Bar"] },
             { date: "June 11", day: "Thursday", wake: "Montrose", sleep: "Speyside", quote: "Today's rain is tomorrow's whisky.", author: "Scottish Proverb", city: "Speyside", cityDesc: "The undisputed heart of malt whisky country, a lush region of crystal-clear rivers and over half of Scotland's working distilleries.", golf: [], schedule: [{time: "4:00 PM", event: "Distillery Dinner Afternoon"}, {time: "Evening", event: "Dinner at Dowans"}], hotspots: ["The Still Bar (750+ Whiskies)", "Restaurant 57"] },
             { date: "June 12", day: "Friday", wake: "Speyside", sleep: "Belfast", quote: "A friendly Irish soul, a pint of stout, and a tale well told.", author: "Irish Proverb", city: "Belfast", cityDesc: "Belfast is a city transformed, radiating energy from its famous Cathedral Quarter, rich maritime history, and world-class pubs.", golf: [], schedule: [{time: "2:05 PM", event: "Flight to Belfast"}, {time: "Evening", event: "Cathedral District Night Out"}], hotspots: ["Duke of York", "The Dirty Onion", "Sunflower Public House"] },
-            { date: "June 13", day: "Saturday", wake: "Belfast", sleep: "Belfast", quote: "May the road rise up to meet you. May the wind be always at your back.", author: "Irish Blessing", city: "Northern Ireland Coast", cityDesc: "The Causeway Coast offers some of the most dramatic coastal scenery on earth, featuring towering basalt columns and legendary links dunes.", golf: [{course: "Portstewart Strand", time: "3:50 PM"}], schedule: [{time: "10:00 AM", event: "Giant's Causeway"}], hotspots: ["Bushmills Village"] },
-            { date: "June 14", day: "Sunday", wake: "Belfast", sleep: "Dublin", quote: "There are no strangers here; Only friends you haven't yet met.", author: "William Butler Yeats", city: "Dublin", cityDesc: "Ireland's literary and cultural powerhouse, radiating warmth, history, and a musical pulse that beats strongest in its lively pubs.", golf: [{course: "Malone Golf Club", time: "11:00 AM"}], schedule: [{time: "Evening", event: "Sunday Sessions in Temple Bar"}], hotspots: ["Temple Bar Pub", "The Oliver St. John Gogarty"] },
-            { date: "June 15", day: "Monday", wake: "Dublin", sleep: "Dublin", quote: "A pint of plain is your only man.", author: "Flann O'Brien", city: "Dublin City Centre", cityDesc: "From the cobbled streets to the historic gates of St. James's Gate Brewery, Dublin perfectly blends deep history with an unpretentious edge.", golf: [{course: "The Island Course", time: "9:30 AM"}], schedule: [{time: "Afternoon", event: "Guinness Storehouse & Jameson"}], hotspots: ["Guinness Storehouse", "Doheny & Nesbitt (Baggot St)"] },
-            { date: "June 16", day: "Tuesday", wake: "Dublin", sleep: "Dublin", quote: "Ireland is a land of poets and legends, of dreamers and rebels.", author: "Eleanor Hull", city: "Dublin North / Portmarnock", cityDesc: "A rugged, sandy peninsula where the Irish Sea meets pure linksland, offering world-class golf escapes just minutes from the capital.", golf: [{course: "Portmarnock Old", time: "9:50 AM"}], schedule: [{time: "Evening", event: "Final Tour Dinner"}], hotspots: ["Merrion Square Area"] },
+            { date: "June 13", day: "Saturday", wake: "Belfast", sleep: "Belfast", quote: "May the road rise up to meet you. May the wind be always at your back.", author: "Irish Blessing", city: "Northern Ireland Coast", cityDesc: "The Causeway Coast offers some of the most dramatic coastal scenery on earth, featuring towering basalt columns and legendary links dunes.", golf: [{course: "Portstewart Strand", id: "portstewart", time: "3:50 PM"}], schedule: [{time: "10:00 AM", event: "Giant's Causeway"}], hotspots: ["Bushmills Village"] },
+            { date: "June 14", day: "Sunday", wake: "Belfast", sleep: "Dublin", quote: "There are no strangers here; Only friends you haven't yet met.", author: "William Butler Yeats", city: "Dublin", cityDesc: "Ireland's literary and cultural powerhouse, radiating warmth, history, and a musical pulse that beats strongest in its lively pubs.", golf: [{course: "Malone Golf Club", id: "malone", time: "11:00 AM"}], schedule: [{time: "Evening", event: "Sunday Sessions in Temple Bar"}], hotspots: ["Temple Bar Pub", "The Oliver St. John Gogarty"] },
+            { date: "June 15", day: "Monday", wake: "Dublin", sleep: "Dublin", quote: "A pint of plain is your only man.", author: "Flann O'Brien", city: "Dublin City Centre", cityDesc: "From the cobbled streets to the historic gates of St. James's Gate Brewery, Dublin perfectly blends deep history with an unpretentious edge.", golf: [{course: "The Island Course", id: "island", time: "9:30 AM"}], schedule: [{time: "Afternoon", event: "Guinness Storehouse & Jameson"}], hotspots: ["Guinness Storehouse", "Doheny & Nesbitt (Baggot St)"] },
+            { date: "June 16", day: "Tuesday", wake: "Dublin", sleep: "Dublin", quote: "Ireland is a land of poets and legends, of dreamers and rebels.", author: "Eleanor Hull", city: "Dublin North / Portmarnock", cityDesc: "A rugged, sandy peninsula where the Irish Sea meets pure linksland, offering world-class golf escapes just minutes from the capital.", golf: [{course: "Portmarnock Old", id: "portmarnock", time: "9:50 AM"}], schedule: [{time: "Evening", event: "Final Tour Dinner"}], hotspots: ["Merrion Square Area"] },
             { date: "June 17", day: "Wednesday", wake: "Dublin", sleep: "Home", quote: "May your glass be ever full. May the roof over your head be always strong.", author: "Irish Toast", city: "Dublin to Toronto", cityDesc: "Safe travels back to Canada. The memories of the turf, the surf, and the spirits will last a lifetime.", golf: [], schedule: [{time: "Morning", event: "Travel Home to YYZ"}], hotspots: [] }
         ];
 
@@ -261,6 +261,11 @@
             if (viewId === 'matches') renderMatchesNav(), switchCourse(state.currentCourseId);
             if (viewId === 'itinerary') renderItineraryNav(), renderItineraryContent();
             window.scrollTo(0, 0);
+        }
+
+        function jumpToMatch(courseId) {
+            state.currentCourseId = courseId;
+            navigateTo('matches');
         }
 
         // --- 4. GOLF MATCHES LOGIC ---
@@ -312,7 +317,7 @@
                     </div>`;
             });
 
-            // Inject Content with YouTube (Autoplay removed)
+            // Inject Content with YouTube
             document.getElementById('course-content').innerHTML = `
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-4 border border-stone-200 fade-in">
                     <div class="relative w-full pt-[56.25%] bg-stone-900 border-b border-stone-200">
@@ -330,6 +335,9 @@
             
             updateScore(id);
             renderJuiceTable();
+            
+            // Scroll to top when switching courses, keeping header in view
+            window.scrollTo(0,0);
         }
 
         function viewLedger() {
@@ -450,7 +458,7 @@
         function renderItineraryContent() {
             const data = itineraryData[state.currentDayIdx];
             
-            // Generate Golf HTML securely
+            // Generate Golf HTML securely (Now with active jump links)
             let golfHtml = '';
             if (data.golf.length > 0) {
                 let itemsHtml = '';
@@ -458,9 +466,10 @@
                     itemsHtml += `
                         <div class="flex justify-between items-center bg-emerald-800 rounded-xl p-4 mb-2 shadow-inner">
                             <h4 class="font-bold text-lg text-white">${g.course}</h4>
-                            <div class="bg-emerald-950 text-white font-bold px-3 py-1 rounded border border-emerald-700 text-xs tracking-widest uppercase">
-                                TEE: ${g.time}
-                            </div>
+                            <button onclick="jumpToMatch('${g.id}')" class="bg-emerald-950 hover:bg-emerald-900 text-emerald-100 font-bold px-3 py-2 rounded-lg border border-emerald-700 text-xs tracking-widest uppercase transition-all active:scale-95 flex items-center gap-2 shadow-md group">
+                                TEE: ${g.time} 
+                                <span class="group-hover:translate-x-1 transition-transform">→</span>
+                            </button>
                         </div>`;
                 });
                 golfHtml = `
@@ -589,3 +598,5 @@
     </script>
 </body>
 </html>
+
+
