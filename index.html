@@ -451,15 +451,15 @@
                     <div class="bg-slate-50 rounded-2xl shadow-inner border border-slate-200 p-5">
                         <div class="flex items-center space-x-2 mb-3 text-golf-800">
                             ${icons.info}
-                            <h3 class="font-serif font-bold text-lg">City Guide: ${data.intel.city}</h3>
+                            <h3 class="font-serif font-bold text-lg">City Guide: ${data.city}</h3>
                         </div>
-                        <p class="text-slate-600 text-sm mb-4 leading-relaxed pb-4 border-b border-slate-200">${data.intel.cityDesc}</p>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed pb-4 border-b border-slate-200">${data.cityDesc}</p>
                         
-                        ${data.intel.hotspots.length > 0 ? `
+                        ${data.hotspots.length > 0 ? `
                             <div>
                                 <h4 class="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-2">Bars & Hotspots</h4>
                                 <ul class="space-y-2 flex flex-wrap gap-2">
-                                    ${data.intel.hotspots.map(h => `
+                                    ${data.hotspots.map(h => `
                                         <span class="bg-white text-slate-700 px-3 py-1.5 rounded-full text-[10px] font-bold border border-slate-200 shadow-sm flex items-center">
                                             <span class="text-gold-500 mr-1">•</span> ${h}
                                         </span>
@@ -477,6 +477,7 @@
             isGlobalLedger = false;
             currentCourseId = id;
             const course = courses[id];
+            
             document.querySelectorAll('.course-tab').forEach(t => t.classList.remove('tab-active'));
             document.getElementById('btn-' + id).classList.add('tab-active');
             document.getElementById('score-banner').classList.remove('hidden');
