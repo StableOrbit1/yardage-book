@@ -42,7 +42,7 @@
         .serif { font-family: 'Playfair Display', serif; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -78,12 +78,17 @@
                 View the Itinerary
             </button>
         </div>
+
+        <div class="absolute bottom-6 opacity-30 fade-in flex flex-col items-center gap-1" style="animation-delay: 0.5s">
+            <p class="text-white text-[8px] tracking-widest uppercase">Est. 2026 • Pro-Link Digital Yardage</p>
+            <p class="text-white text-[8px] tracking-widest uppercase">&copy; 2026 FAKC • Flatson Ass Kicking Corp</p>
+        </div>
     </div>
 
     <!-- 2. GOLF MATCHES SECTION -->
-    <div id="section-matches" class="hidden min-h-screen pb-20">
+    <div id="section-matches" class="hidden min-h-screen pb-12">
         <header class="bg-stone-900 text-white py-10 px-6 text-center shadow-2xl relative overflow-hidden">
-            <button onclick="navigateTo('hub')" class="absolute left-4 top-4 text-stone-400 text-[10px] font-bold uppercase tracking-widest border border-stone-700 px-3 py-2 rounded-lg z-20">← Hub</button>
+            <button onclick="navigateTo('hub')" class="absolute left-4 top-4 text-stone-400 text-[10px] font-bold uppercase tracking-widest border border-stone-700 px-3 py-2 rounded-lg z-20 hover:bg-stone-800">← Hub</button>
             <div class="relative z-10">
                 <h1 class="serif text-4xl md:text-5xl mb-2 italic">Match Day</h1>
                 <p class="text-stone-400 tracking-[0.2em] uppercase text-[10px] font-bold">Ledger & Yardage Book</p>
@@ -136,6 +141,10 @@
                     <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3" id="juice-totals"></div>
                 </div>
             </section>
+
+            <div class="mt-12 mb-6 text-center">
+                <p class="text-slate-400 text-[8px] tracking-widest uppercase">&copy; 2026 FAKC • Flatson Ass Kicking Corp</p>
+            </div>
         </main>
     </div>
 
@@ -157,7 +166,26 @@
         </header>
 
         <main id="itinerary-main" class="flex-grow max-w-4xl w-full mx-auto p-4 md:p-6"></main>
-        <footer class="text-center py-6 text-slate-400 text-xs">Scroll or tap to navigate the tour</footer>
+        
+        <footer class="text-center py-8 flex flex-col gap-2">
+            <p class="text-slate-400 text-xs">Scroll or tap to navigate the tour</p>
+            <p class="text-slate-400 text-[8px] tracking-widest uppercase">&copy; 2026 FAKC • Flatson Ass Kicking Corp</p>
+        </footer>
+    </div>
+
+    <!-- EXPORT MODAL -->
+    <div id="export-modal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl">
+            <div class="p-6 border-b flex justify-between items-center bg-stone-50">
+                <h3 class="serif text-xl">Daily Recap</h3>
+                <button onclick="closeModal()" class="text-stone-400 text-2xl">✕</button>
+            </div>
+            <div class="p-6">
+                <textarea id="export-text" class="w-full h-56 p-4 font-mono text-sm bg-stone-900 text-green-400 border rounded-xl mb-4 resize-none" readonly></textarea>
+                <button onclick="copyExport()" class="w-full bg-green-800 text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-green-700 transition-all">Copy to Clipboard</button>
+                <p id="copy-status" class="text-center text-xs text-green-600 font-bold mt-3 opacity-0 transition-opacity">COPIED!</p>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -176,41 +204,39 @@
         const sideBets = {}; 
         let currentCourseId = 'dunbar';
         let currentDayIdx = 0;
+        let isGlobalLedger = false;
 
         const dunbarHoles = [
-            { par: 5, yards: 506, tip: "Favor the left side of the fairway to avoid hidden bunkers on the right. Reachable in two.", name: "First" },
-            { par: 4, yards: 381, tip: "Blind tee shot. Line up directly with the marker post. Be wary of the stone wall left.", name: "Bayswell" },
-            { par: 3, yards: 158, tip: "The Deer Park wall is tight on the right (OOB). Aim for the left side of the green.", name: "Jackson's Pennies" },
-            { par: 4, yards: 431, tip: "Fairway slopes toward the sea. Aim for the right-hand bunkers to stay in the fairway.", name: "Castle" },
-            { par: 4, yards: 420, tip: "Very narrow drive. The beach is OOB left. Accuracy is far more important than distance.", name: "Mayville" },
-            { par: 4, yards: 390, tip: "Blind drive. Use the marker post. The fairway funnels toward the sea.", name: "Smeaton" },
-            { par: 4, yards: 400, tip: "Aim middle-right. Wind off the Firth pushes left. Green is open at the front.", name: "Meikle Pinkerton" },
-            { par: 3, yards: 165, tip: "Deceptive wind. Green is long and narrow with steep drop-offs. Being short is better than long.", name: "Doocot" },
-            { par: 5, yards: 510, tip: "A three-shot hole for most. Avoid the cross-bunkers 50 yards short of the green.", name: "Halfway House" },
-            { par: 4, yards: 440, tip: "The longest par 4. Fairway slopes right-to-left. Aim right and let it roll.", name: "Vaults" },
-            { par: 4, yards: 415, tip: "Avoid the massive bunker on the left corner. The approach plays uphill.", name: "Catcraig" },
-            { par: 4, yards: 385, tip: "Pot bunkers front-right. Aim front-left for run-on. Views of the Barness Lighthouse.", name: "Barness" },
-            { par: 3, yards: 170, tip: "Usually plays directly into the wind. Club up twice. The bunkers short are cavernous.", name: "Ox Craig" },
-            { par: 4, yards: 405, tip: "Slight dogleg right. Don't cut corner too tight—the gorse is thick.", name: "East Links" },
-            { par: 4, yards: 425, tip: "Straight drive to a narrow fairway. Approach must carry a false front.", name: "Pop's Wood" },
-            { par: 3, yards: 190, tip: "Long par 3 back toward the wall. Ground is firm; land short and let it run up.", name: "Deer Park" },
-            { par: 4, yards: 430, tip: "The wall is OOB on the right. Keep your tee shot as far left as possible.", name: "Briery Baulk" },
-            { par: 4, yards: 434, tip: "The grand finish. Wall OOB right. Aim for the clubhouse chimney.", name: "Home" }
+            { num: 1, par: 5, yards: 506, name: "First", tip: "Favor the left side of the fairway to avoid hidden bunkers on the right. Reachable in two." },
+            { num: 2, par: 4, yards: 381, name: "Bayswell", tip: "Blind tee shot. Line up directly with the marker post. Be wary of the stone wall left." },
+            { num: 3, par: 3, yards: 158, name: "Jackson's Pennies", tip: "The Deer Park wall is tight on the right (OOB). Aim for the left side of the green." },
+            { num: 4, par: 4, yards: 431, name: "Castle", tip: "Fairway slopes toward the sea. Aim for the right-hand bunkers to stay in the fairway." },
+            { num: 5, par: 4, yards: 420, name: "Mayville", tip: "Very narrow drive. The beach is OOB left. Accuracy is far more important than distance." },
+            { num: 6, par: 4, yards: 390, name: "Smeaton", tip: "Blind drive. Use the marker post. The fairway funnels toward the sea." },
+            { num: 7, par: 4, yards: 400, name: "Meikle Pinkerton", tip: "Aim middle-right. Wind off the Firth pushes left. Green is open at the front." },
+            { num: 8, par: 3, yards: 165, name: "Doocot", tip: "Deceptive wind. Green is long and narrow with steep drop-offs. Being short is better than long." },
+            { num: 9, par: 5, yards: 510, name: "Halfway House", tip: "A three-shot hole for most. Avoid the cross-bunkers 50 yards short of the green." },
+            { num: 10, par: 4, yards: 440, name: "Vaults", tip: "The longest par 4. Fairway slopes right-to-left. Aim right and let it roll." },
+            { num: 11, par: 4, yards: 415, name: "Catcraig", tip: "Avoid the massive bunker on the left corner. The approach plays uphill." },
+            { num: 12, par: 4, yards: 385, name: "Barness", tip: "Pot bunkers front-right. Aim front-left for run-on. Views of the Barness Lighthouse." },
+            { num: 13, par: 3, yards: 170, name: "Ox Craig", tip: "Usually plays directly into the wind. Club up twice. The bunkers short are cavernous." },
+            { num: 14, par: 4, yards: 405, name: "East Links", tip: "Slight dogleg right. Don't cut corner too tight—the gorse is thick." },
+            { num: 15, par: 4, yards: 425, name: "Pop's Wood", tip: "Straight drive to a narrow fairway. Approach must carry a false front." },
+            { num: 16, par: 3, yards: 190, name: "Deer Park", tip: "Long par 3 back toward the wall. Ground is firm; land short and let it run up." },
+            { num: 17, par: 4, yards: 430, name: "Briery Baulk", tip: "The wall is OOB on the right. Keep your tee shot as far left as possible." },
+            { num: 18, par: 4, yards: 434, name: "Home", tip: "The grand finish. Wall OOB right. Aim for the clubhouse chimney." }
         ];
 
-        /* YOUTUBE VIDEO IDs
-           Paste the exact 11-character YouTube ID for your preferred flyover/vlog videos below!
-           If a video is removed or broken, just swap the ID. 
-        */
+        /* YOUTUBE VIDEO IDs */
         const courses = {
-            dunbar: { name: "Dunbar Golf Club", loc: "East Lothian", games: "Net Singles Aggie", videoId: "M7lc1UVf-VE", holes: 18, data: dunbarHoles },
-            craigielaw: { name: "Craigielaw Golf Club", loc: "Aberlady", games: "GC v CF & SW v PC", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Greens are legendary.", name: "Links"}) },
-            kingsbarns: { name: "Kingsbarns Links", loc: "St Andrews", games: "PC v CF & GC v SW", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Infinity views.", name: "Coast"}) },
-            carnoustie: { name: "Carnoustie Links", loc: "Angus", games: "Low and Aggie", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Barry Burn awaits.", name: "Championship"}) },
-            portstewart: { name: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Dunes for days.", name: "Strand"}) },
-            malone: { name: "Malone GC", loc: "Belfast", games: "GC v CF & SW v PC", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Parkland precision.", name: "Drumbridge"}) },
-            island: { name: "The Island", loc: "Donabate", games: "PC v CF & GC v SW", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "Ireland's wild coast.", name: "Island"}) },
-            portmarnock: { name: "Portmarnock Old", loc: "Dublin", games: "Low and Aggie", videoId: "M7lc1UVf-VE", holes: 18, data: Array(18).fill({par:4, yards:400, tip: "The standard bearer.", name: "Old"}) }
+            dunbar: { name: "Dunbar Golf Club", loc: "East Lothian", games: "Net Singles Aggie", videoId: "52B76GBier4", data: dunbarHoles },
+            craigielaw: { name: "Craigielaw Golf Club", loc: "Aberlady", games: "GC v CF & SW v PC", videoId: "ZSO5Yobk7VU", data: Array(18).fill({par:4, yards:400, tip: "Greens are legendary.", name: "Links"}) },
+            kingsbarns: { name: "Kingsbarns Links", loc: "St Andrews", games: "PC v CF & GC v SW", videoId: "OoOyScwKF5Y", data: Array(18).fill({par:4, yards:400, tip: "Infinity views.", name: "Coast"}) },
+            carnoustie: { name: "Carnoustie Links", loc: "Angus", games: "Low and Aggie", videoId: "OoOyScwKF5Y", data: Array(18).fill({par:4, yards:400, tip: "Barry Burn awaits.", name: "Championship"}) },
+            portstewart: { name: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", videoId: "l-cJRWiA620", data: Array(18).fill({par:4, yards:400, tip: "Dunes for days.", name: "Strand"}) },
+            malone: { name: "Malone GC", loc: "Belfast", games: "GC v CF & SW v PC", videoId: "mpSTBYSTEx4", data: Array(18).fill({par:4, yards:400, tip: "Parkland precision.", name: "Drumbridge"}) },
+            island: { name: "The Island", loc: "Donabate", games: "GC v CF & SW v PC", videoId: "EzG9w7Q4R-I", data: Array(18).fill({par:4, yards:400, tip: "Ireland's wild coast.", name: "Island"}) },
+            portmarnock: { name: "Portmarnock Old", loc: "Dublin", games: "Low and Aggie", videoId: "rUx4gDsTVYY", data: Array(18).fill({par:4, yards:400, tip: "The standard bearer.", name: "Old"}) }
         };
 
         const itineraryData = [
@@ -324,19 +350,19 @@
             }
         ];
 
-        // --- NAVIGATION ---
+        // --- NAVIGATION ENGINE ---
         function navigateTo(id) {
             document.getElementById('section-hub').classList.add('hidden');
             document.getElementById('section-matches').classList.add('hidden');
             document.getElementById('section-itinerary').classList.add('hidden');
             
-            const section = document.getElementById('section-' + id);
-            section.classList.remove('hidden');
-            section.classList.add('fade-in');
+            const active = document.getElementById('section-' + id);
+            active.classList.remove('hidden');
+            active.classList.add('fade-in');
 
             if (id === 'itinerary') renderItinerary();
             if (id === 'matches') switchCourse(currentCourseId);
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
         }
 
         // --- ITINERARY ENGINE ---
@@ -479,6 +505,7 @@
                         </select>
                     </div>`;
             });
+
             document.getElementById('course-content').innerHTML = `
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-4 border border-stone-200">
                     
@@ -493,6 +520,7 @@
                     </div>
                     <div class="divide-y divide-stone-100">${html}</div>
                 </div>`;
+            
             updateScore(id);
             renderJuiceTable();
         }
@@ -577,9 +605,41 @@
             renderJuiceTable();
         }
 
-        window.onload = () => {
-            // Initial render state handled by navigation clicks
+        function generateExport() {
+            const course = courses[currentCourseId];
+            const score = document.getElementById('display-score').innerText;
+            const res = { CF: 0, SW: 0, GC: 0, PC: 0 };
+            const round = sideBets[currentCourseId] || {};
+            Object.keys(round).forEach(id => {
+                const [w, l] = id.split('-');
+                if(round[id].won) { res[w] += round[id].amount; res[l] -= round[id].amount; }
+            });
+            let text = `⛳️ TOUR RECAP: ${course.name}\nMATCH: ${score}\n\nROUND JUICE:\n`;
+            players.forEach(p => { text += `${p}: ${res[p] >= 0 ? '+$' : '-$'}${Math.abs(res[p])}\n`; });
+            document.getElementById('export-text').value = text;
+            document.getElementById('export-modal').classList.remove('hidden');
+        }
+
+        function copyExport() {
+            document.getElementById('export-text').select();
+            document.execCommand('copy');
+            document.getElementById('copy-status').style.opacity = '1';
+            setTimeout(() => { document.getElementById('copy-status').style.opacity = '0'; }, 2000);
+        }
+
+        function closeModal() { document.getElementById('export-modal').classList.add('hidden'); }
+
+        window.onload = () => { 
+            // Pre-load default state silently in background.
+            renderItinerary();
+            switchCourse('dunbar'); 
+            
+            // Re-hide sections after they are hydrated so the hub remains default
+            document.getElementById('section-matches').classList.add('hidden');
+            document.getElementById('section-itinerary').classList.add('hidden');
         };
     </script>
 </body>
 </html>
+
+
