@@ -227,9 +227,9 @@
             { id: "dunbar", name: "Dunbar", fullName: "Dunbar Golf Club", loc: "East Lothian", games: "Net Singles Aggie", video: "52B76GBier4", data: dunbarHoles },
             { id: "craigielaw", name: "Craigielaw", fullName: "Craigielaw Golf Club", loc: "Aberlady", games: "GC v CF & SW v PC", video: "ZSO5Yobk7VU", data: Array(18).fill({par:4, yards:400, name: "Links", tip: "Pot bunkers and fast greens."}) },
             { id: "kingsbarns", name: "Kingsbarns", fullName: "Kingsbarns Links", loc: "St Andrews", games: "PC v CF & GC v SW", video: "OoOyScwKF5Y", data: Array(18).fill({par:4, yards:400, name: "Coast", tip: "Infinity views. Massive greens."}) },
-            { id: "carnoustie", name: "Carnoustie", fullName: "Carnoustie Links", loc: "Angus", games: "Low and Aggie", video: "OoOyScwKF5Y", data: Array(18).fill({par:4, yards:400, name: "Championship", tip: "Barry Burn awaits."}) },
+            { id: "carnoustie", name: "Carnoustie", fullName: "Carnoustie Links", loc: "Angus", games: "Low and Aggie", video: "e-OfGeJvecg", data: Array(18).fill({par:4, yards:400, name: "Championship", tip: "Barry Burn awaits."}) },
             { id: "portstewart", name: "Portstewart", fullName: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", video: "l-cJRWiA620", data: Array(18).fill({par:4, yards:400, name: "Strand", tip: "Towering dunes."}) },
-            { id: "malone", name: "Malone", fullName: "Malone GC", loc: "Belfast", games: "GC v CF & SW v PC", video: "mpSTBYSTEx4", data: Array(18).fill({par:4, yards:400, name: "Drumbridge", tip: "Parkland precision."}) },
+            { id: "malone", name: "Malone", fullName: "Malone GC", loc: "Belfast", games: "GC v CF & SW v PC", video: "VmjcIvaxDGI", data: Array(18).fill({par:4, yards:400, name: "Drumbridge", tip: "Parkland precision."}) },
             { id: "island", name: "The Island", fullName: "The Island", loc: "Donabate", games: "GC v CF & SW v PC", video: "EzG9w7Q4R-I", data: Array(18).fill({par:4, yards:400, name: "Island", tip: "Ireland's wild coast."}) },
             { id: "portmarnock", name: "Portmarnock", fullName: "Portmarnock Old", loc: "Dublin", games: "Low and Aggie", video: "rUx4gDsTVYY", data: Array(18).fill({par:4, yards:400, name: "Old", tip: "The standard bearer."}) }
         ];
@@ -312,11 +312,11 @@
                     </div>`;
             });
 
-            // Inject Content with YouTube
+            // Inject Content with YouTube (Autoplay & Muted added)
             document.getElementById('course-content').innerHTML = `
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-4 border border-stone-200 fade-in">
                     <div class="relative w-full pt-[56.25%] bg-stone-900 border-b border-stone-200">
-                        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/${course.video}?rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/${course.video}?rel=0&modestbranding=1&autoplay=1&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="p-6 bg-stone-50 border-b">
                         <h2 class="serif text-3xl text-stone-900 mb-1 font-bold">${course.fullName}</h2>
