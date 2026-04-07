@@ -223,10 +223,53 @@
             { num: 18, par: 4, yards: 434, name: "Home", tip: "The grand finish. Wall OOB right. Aim for the clubhouse chimney." }
         ];
 
+        const craigielawHoles = [
+            { num: 1, par: 4, yards: 291, name: "The Steading", tip: "Short opening hole. Accuracy off the tee sets up a wedge approach." },
+            { num: 2, par: 5, yards: 509, name: "St Mary's Chapel", tip: "A true three-shot par 5. Keep it out of the deep fairway bunkers." },
+            { num: 3, par: 3, yards: 149, name: "Coffin Lane", tip: "Precise distance control needed to avoid the pot bunkers." },
+            { num: 4, par: 5, yards: 535, name: "Bellfire Knowe", tip: "Long par 5. Stay left of center to open up the angle to the green." },
+            { num: 5, par: 4, yards: 393, name: "Peffer Burn", tip: "A solid drive is required. The burn crosses in front of the green." },
+            { num: 6, par: 3, yards: 149, name: "Kilspindie", tip: "Wind plays a huge factor here. Club up if the breeze is in your face." },
+            { num: 7, par: 4, yards: 351, name: "Flowers of Fife", tip: "A tactical par 4. Position your drive for the best approach angle." },
+            { num: 8, par: 3, yards: 138, name: "The Cists", tip: "Short but dangerous. Missing the green makes for a tough up and down." },
+            { num: 9, par: 4, yards: 328, name: "Underland", tip: "A scoring opportunity. Find the fairway and attack the pin." },
+            { num: 10, par: 3, yards: 157, name: "Briery Knowe", tip: "A mid-iron to a well-guarded green. Par is a great score here." },
+            { num: 11, par: 5, yards: 507, name: "Quarry Park", tip: "Reachable par 5 for long hitters, but the quarry lurks on errant shots." },
+            { num: 12, par: 4, yards: 411, name: "The Buchts", tip: "A demanding par 4 requiring two solid strikes to reach in regulation." },
+            { num: 13, par: 4, yards: 369, name: "Little Windmill", tip: "Beware the wind. A conservative approach to the center of the green is smart." },
+            { num: 14, par: 4, yards: 381, name: "Gullane Hill", tip: "Uphill approach. Take an extra club to ensure you carry the false front." },
+            { num: 15, par: 4, yards: 336, name: "Doos Wa's", tip: "Short par 4. A long iron or fairway wood off the tee leaves a short wedge." },
+            { num: 16, par: 4, yards: 425, name: "Kirk Park", tip: "A beast of a par 4. Play it as a three-shotter if the wind is howling." },
+            { num: 17, par: 3, yards: 149, name: "Aberlady", tip: "Beautiful views but don't lose focus. Keep the ball below the hole." },
+            { num: 18, par: 5, yards: 465, name: "Craigielaw", tip: "A great finishing par 5. A good drive offers a chance to get home in two." }
+        ];
+
+        const kingsbarnsHoles = [
+            { num: 1, par: 4, yards: 405, name: "North", tip: "Aim down the left side with either a driver or 3 wood. Avoid the obscured right centre fairway bunkers." },
+            { num: 2, par: 3, yards: 190, name: "Sea", tip: "Favour the left side. Plays downhill but short shots kick toward the right hand bunkers. Note the hidden back left bunker." },
+            { num: 3, par: 5, yards: 511, name: "Cambo", tip: "Plays along the water. Avoid the treacherous deep bunker front right of the green." },
+            { num: 4, par: 4, yards: 409, name: "Dunes", tip: "Dogleg left. A bunker sits exactly where you want to land. Aim right if you can't carry it." },
+            { num: 5, par: 4, yards: 399, name: "Tassie", tip: "Doglegs right to a green between dunes. Drive left to have a look at the punch bowl green." },
+            { num: 6, par: 4, yards: 320, name: "Auld Links", tip: "Drivable par 4. The play is to the right, riding the slope all the way down to the green." },
+            { num: 7, par: 4, yards: 438, name: "Lang Wynd", tip: "The #1 handicap hole. Hit toward the gorse bush on the hill. Uphill approach to a pinched hourglass green." },
+            { num: 8, par: 3, yards: 154, name: "Wee Dunt", tip: "A stunning short pitch down to the sea. The green is bisected by a large swale." },
+            { num: 9, par: 5, yards: 536, name: "The Turn", tip: "A long par 5 playing back toward the clubhouse. Avoid the fairway bunkers to set up your approach." },
+            { num: 10, par: 4, yards: 380, name: "Bunker Bar", tip: "A strong par 4 to start the back nine. Find the fairway to set up your approach." },
+            { num: 11, par: 4, yards: 455, name: "Sycamore", tip: "Sycamore trees run down the right side. Approach to a partially shaded green with a tight bunker." },
+            { num: 12, par: 5, yards: 566, name: "Orr's Bank", tip: "A dramatic, dogleg par-5 hugging the coastline. Breathtakingly beautiful. Play smart and keep it in play." },
+            { num: 13, par: 3, yards: 146, name: "Brae", tip: "A lovely short pitch down to a well-guarded green complex wedged into a hill." },
+            { num: 14, par: 4, yards: 366, name: "Ridge", tip: "Plays on higher ground above the 12th hole. A straightforward par 4 taking you back toward the trees." },
+            { num: 15, par: 3, yards: 185, name: "Rocky Ness", tip: "Jaw-dropping peninsula green jutting into the sea. Bail out left into the sycamores if you must." },
+            { num: 16, par: 5, yards: 547, name: "Burn", tip: "Ambling par 5 along the shore. Lay up safely or take a risk going for the elevated green." },
+            { num: 17, par: 4, yards: 432, name: "Crail", tip: "The last hole along the water. A classic links look with gorse, heavy rough, and deep bunkers." },
+            { num: 18, par: 4, yards: 414, name: "Home", tip: "An inland par four playing across a high ridge. A burn crosses just in front of the elevated 18th green." }
+        ];
+
+        /* YOUTUBE VIDEO IDs */
         const courses = [
             { id: "dunbar", name: "Dunbar", fullName: "Dunbar Golf Club", loc: "East Lothian", games: "Net Singles Aggie", video: "52B76GBier4", data: dunbarHoles },
-            { id: "craigielaw", name: "Craigielaw", fullName: "Craigielaw Golf Club", loc: "Aberlady", games: "GC v CF & SW v PC", video: "ZSO5Yobk7VU", data: Array(18).fill({par:4, yards:400, name: "Links", tip: "Pot bunkers and fast greens."}) },
-            { id: "kingsbarns", name: "Kingsbarns", fullName: "Kingsbarns Links", loc: "St Andrews", games: "PC v CF & GC v SW", video: "OoOyScwKF5Y", data: Array(18).fill({par:4, yards:400, name: "Coast", tip: "Infinity views. Massive greens."}) },
+            { id: "craigielaw", name: "Craigielaw", fullName: "Craigielaw Golf Club", loc: "Aberlady", games: "GC v CF & SW v PC", video: "ZSO5Yobk7VU", data: craigielawHoles },
+            { id: "kingsbarns", name: "Kingsbarns", fullName: "Kingsbarns Links", loc: "St Andrews", games: "PC v CF & GC v SW", video: "OoOyScwKF5Y", data: kingsbarnsHoles },
             { id: "carnoustie", name: "Carnoustie", fullName: "Carnoustie Links", loc: "Angus", games: "Low and Aggie", video: "e-OfGeJvecg", data: Array(18).fill({par:4, yards:400, name: "Championship", tip: "Barry Burn awaits."}) },
             { id: "portstewart", name: "Portstewart", fullName: "Portstewart (Strand)", loc: "N. Ireland", games: "Net Singles Aggie", video: "l-cJRWiA620", data: Array(18).fill({par:4, yards:400, name: "Strand", tip: "Towering dunes."}) },
             { id: "malone", name: "Malone", fullName: "Malone GC", loc: "Belfast", games: "GC v CF & SW v PC", video: "VmjcIvaxDGI", data: Array(18).fill({par:4, yards:400, name: "Drumbridge", tip: "Parkland precision."}) },
@@ -317,11 +360,11 @@
                     </div>`;
             });
 
-            // Inject Content with YouTube
+            // Inject Content with YouTube (No Autoplay)
             document.getElementById('course-content').innerHTML = `
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-4 border border-stone-200 fade-in">
                     <div class="relative w-full pt-[56.25%] bg-stone-900 border-b border-stone-200">
-                        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/${course.video}?rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/${course.video}?rel=0&modestbranding=1" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="p-6 bg-stone-50 border-b">
                         <h2 class="serif text-3xl text-stone-900 mb-1 font-bold">${course.fullName}</h2>
@@ -458,7 +501,7 @@
         function renderItineraryContent() {
             const data = itineraryData[state.currentDayIdx];
             
-            // Generate Golf HTML securely (Now with active jump links)
+            // Generate Golf HTML securely
             let golfHtml = '';
             if (data.golf.length > 0) {
                 let itemsHtml = '';
