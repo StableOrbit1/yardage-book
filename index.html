@@ -26,16 +26,20 @@
         .serif { font-family: 'Playfair Display', serif; }
         .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="text-slate-900 antialiased min-h-screen flex flex-col items-center justify-center p-6">
+<body class="text-slate-900 antialiased min-h-screen flex flex-col items-center py-10 px-4">
 
-    <div id="loading-state" class="text-center fade-in">
+    <!-- Loading State -->
+    <div id="loading-state" class="text-center fade-in mt-32">
         <h2 class="serif text-3xl text-emerald-600 animate-pulse italic mb-2">Connecting to Headquarters...</h2>
         <p class="text-stone-500 text-xs uppercase tracking-widest font-bold">Authenticating Commissioner</p>
     </div>
 
-    <div id="builder-state" class="hidden w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden fade-in border border-stone-200">
+    <!-- The Builder Form (Step 1) -->
+    <div id="builder-state" class="hidden w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden fade-in border border-stone-200 mt-10">
         <div class="bg-stone-950 p-8 text-center border-b-4 border-emerald-600">
             <h1 class="serif text-4xl text-white italic mb-2">BoysTrip Planner</h1>
             <p class="text-stone-400 tracking-[0.2em] uppercase text-[10px] font-bold">Commissioner Portal</p>
@@ -66,7 +70,7 @@
             <div>
                 <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">The Crew (Comma Separated)</label>
                 <textarea id="input-players" rows="3" placeholder="Greg, Parker, Scott, Craig" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
-                <p class="text-[10px] text-stone-400 mt-2">These names will be used for the ledger and time machine features.</p>
+                <p class="text-[10px] text-stone-400 mt-2">These initials/names will be used for the ledger and time machine features.</p>
             </div>
 
             <button id="btn-build" class="w-full py-5 mt-4 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl font-black uppercase tracking-widest transition-all shadow-xl active:scale-95">
@@ -76,25 +80,132 @@
         </div>
     </div>
 
-    <div id="success-state" class="hidden w-full max-w-lg bg-stone-950 rounded-3xl shadow-2xl p-10 text-center fade-in border border-stone-800">
-        <div class="inline-block p-4 rounded-full bg-emerald-500/20 mb-6">
-            <span class="text-4xl">🚀</span>
-        </div>
-        <h2 class="serif text-4xl text-white italic font-bold mb-2">Trip Initialized</h2>
-        <p class="text-stone-400 text-sm mb-8">Your database has been successfully provisioned. Give this code to the boys so they can access the tour.</p>
+    <!-- Dashboard State (Step 2) -->
+    <div id="dashboard-state" class="hidden w-full max-w-5xl fade-in">
         
-        <div class="bg-white/10 rounded-2xl p-8 mb-8 border border-white/20">
-            <p class="text-emerald-500 text-[10px] font-bold uppercase tracking-[0.3em] mb-2">Official Trip Code</p>
-            <h3 id="display-trip-id" class="serif text-6xl text-white font-black tracking-widest"></h3>
+        <div class="bg-stone-950 rounded-3xl shadow-2xl p-8 mb-8 text-center border border-stone-800 flex flex-col md:flex-row items-center justify-between">
+            <div class="text-left mb-6 md:mb-0">
+                <h2 id="dash-trip-name" class="serif text-4xl text-white italic font-bold mb-1">Trip Dashboard</h2>
+                <p class="text-emerald-500 text-[10px] font-bold uppercase tracking-[0.3em]">Master Database Provisioned</p>
+            </div>
+            <div class="bg-white/10 rounded-2xl p-4 px-8 border border-white/20 text-center">
+                <p class="text-stone-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">Official Trip Code</p>
+                <h3 id="display-trip-id" class="serif text-5xl text-white font-black tracking-widest"></h3>
+            </div>
         </div>
 
-        <button onclick="location.reload()" class="text-stone-400 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">Build Another Trip</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Itinerary Section -->
+            <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
+                <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
+                    <h3 class="serif text-2xl text-stone-900 font-bold">Itinerary</h3>
+                    <button onclick="openModal('itinerary-modal')" class="bg-stone-900 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-stone-800 transition">Add Day +</button>
+                </div>
+                <div id="itinerary-list" class="space-y-3">
+                    <p class="text-stone-400 text-sm italic">No itinerary days added yet.</p>
+                </div>
+            </div>
+
+            <!-- Matches Section -->
+            <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
+                <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
+                    <h3 class="serif text-2xl text-stone-900 font-bold">Golf Matches</h3>
+                    <button onclick="openMatchModal()" class="bg-emerald-800 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-emerald-700 transition">Add Course +</button>
+                </div>
+                <div id="matches-list" class="space-y-3">
+                    <p class="text-stone-400 text-sm italic">No golf matches added yet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Add Itinerary Day -->
+    <div id="itinerary-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
+                <h3 class="serif text-2xl font-bold text-stone-900">Add Itinerary Day</h3>
+                <button onclick="closeModal('itinerary-modal')" class="text-stone-400 hover:text-stone-900 text-xl font-black">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Day Title (e.g. Day 1)</label><input type="text" id="itn-day" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Date (e.g. June 6)</label><input type="text" id="itn-date" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                </div>
+                <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Daily Quote / Toast</label><input type="text" id="itn-quote" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Wake Up Time</label><input type="text" id="itn-wake" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Sleep Time</label><input type="text" id="itn-sleep" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                </div>
+                <hr class="border-stone-100">
+                <h4 class="text-xs font-bold uppercase tracking-widest text-emerald-600">City Intel</h4>
+                
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">City Name</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="itn-city" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500" placeholder="e.g. Edinburgh">
+                        <button type="button" onclick="lookupCity()" class="bg-stone-200 hover:bg-stone-300 text-stone-700 px-4 py-2 rounded text-xs font-bold uppercase transition-colors">Search</button>
+                    </div>
+                    <p id="city-lookup-status" class="text-[10px] mt-1 h-3"></p>
+                </div>
+
+                <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">City Vibe (Description)</label><textarea id="itn-desc" rows="3" placeholder="Click Search to auto-fill or type your own!" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></textarea></div>
+                <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Hotel Name</label><input type="text" id="itn-hotel" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+            </div>
+            <div class="p-6 border-t border-stone-100 bg-stone-50">
+                <button id="btn-save-itinerary" class="w-full py-3 bg-stone-900 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-stone-800 transition">Save Day</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Add Match -->
+    <div id="match-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
+                <div>
+                    <h3 class="serif text-2xl font-bold text-stone-900 leading-none">Add Golf Match</h3>
+                    <p class="text-[10px] uppercase font-bold text-emerald-600 tracking-widest mt-1">Course & Pairings</p>
+                </div>
+                <button onclick="closeModal('match-modal')" class="text-stone-400 hover:text-stone-900 text-xl font-black">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-6 hide-scrollbar">
+                
+                <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4">
+                    <label class="block text-[10px] font-bold uppercase text-emerald-700 mb-2">Select Course</label>
+                    <select id="m-course-select" class="w-full border rounded px-3 py-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold text-stone-800 bg-white shadow-sm mb-2 outline-none">
+                        <option value="">Loading Master Database...</option>
+                    </select>
+                    
+                    <!-- Hidden Custom Input -->
+                    <input type="text" id="m-course-custom" placeholder="Type new course name here..." class="hidden w-full border rounded px-3 py-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold bg-white mt-2 shadow-inner">
+                    
+                    <p id="course-lookup-status" class="text-[10px] mt-2 h-3 font-medium text-stone-500"></p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Date (e.g. June 7)</label><input type="text" id="m-date" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Tee Time</label><input type="text" id="m-time" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Matchup Title (e.g. US vs EUR)</label><input type="text" id="m-matchup" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Team A Name</label><input type="text" id="m-teamA" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Team B Name</label><input type="text" id="m-teamB" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                </div>
+                
+                <input type="hidden" id="m-video" value="">
+
+            </div>
+            <div class="p-6 border-t border-stone-100 bg-stone-50">
+                <button id="btn-save-match" class="w-full py-4 bg-emerald-800 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-emerald-700 transition shadow-lg">Save Match to Trip</button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, addDoc, collection, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -110,6 +221,9 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        let activeTripId = null;
+        let masterCoursesCache = {}; // Object to map course names to their full data
+
         // Boot Sequence
         async function boot() {
             try {
@@ -121,14 +235,14 @@
             }
         }
 
-        // Generate a random 5-character Trip ID (e.g. SCOT26, X8B9P)
+        // Generate ID
         function generateTripId(name) {
             const prefix = name.replace(/[^a-zA-Z]/g, '').substring(0, 4).toUpperCase();
             const random = Math.floor(10 + Math.random() * 90); 
             return prefix.length >= 2 ? `${prefix}${random}` : Math.random().toString(36).substring(2, 7).toUpperCase();
         }
 
-        // Build the Trip in Firebase
+        // 1. Build Trip
         document.getElementById('btn-build').addEventListener('click', async () => {
             const btn = document.getElementById('btn-build');
             const errorEl = document.getElementById('error-message');
@@ -146,36 +260,241 @@
             }
 
             btn.innerText = "Provisioning Database...";
-            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btn.disabled = true;
             errorEl.classList.add('hidden');
 
             const playersArray = playersRaw.split(',').map(p => p.trim()).filter(p => p);
-            const tripId = generateTripId(name);
+            activeTripId = generateTripId(name);
 
             const tripPayload = {
-                tripName: name,
-                commissionerEmail: email,
-                startDate: start,
-                endDate: end,
-                players: playersArray,
-                createdAt: new Date().toISOString()
+                tripName: name, commissionerEmail: email, startDate: start, endDate: end,
+                players: playersArray, createdAt: new Date().toISOString()
             };
 
             try {
-                // Save the Master Document to the 'trips' collection
-                await setDoc(doc(db, 'trips', tripId), tripPayload);
+                await setDoc(doc(db, 'trips', activeTripId), tripPayload);
                 
-                // Transition UI
                 document.getElementById('builder-state').classList.add('hidden');
-                document.getElementById('display-trip-id').innerText = tripId;
-                document.getElementById('success-state').classList.remove('hidden');
+                document.getElementById('dash-trip-name').innerText = name;
+                document.getElementById('display-trip-id').innerText = activeTripId;
+                document.getElementById('dashboard-state').classList.remove('hidden');
                 
+                fetchDashboardData();
+
             } catch (error) {
                 btn.innerText = "Initialize Trip";
-                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                btn.disabled = false;
                 errorEl.innerText = `Database Error: ${error.message}`;
                 errorEl.classList.remove('hidden');
             }
+        });
+
+        // 2. Fetch & Render Dashboard Lists
+        async function fetchDashboardData() {
+            if (!activeTripId) return;
+
+            const itnSnap = await getDocs(collection(db, 'trips', activeTripId, 'itinerary'));
+            const itnList = document.getElementById('itinerary-list');
+            if (itnSnap.empty) {
+                itnList.innerHTML = `<p class="text-stone-400 text-sm italic">No itinerary days added yet.</p>`;
+            } else {
+                itnList.innerHTML = '';
+                // Sort by date to ensure they are listed in order
+                let days = [];
+                itnSnap.forEach(doc => days.push(doc.data()));
+                days.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+                
+                days.forEach(data => {
+                    itnList.innerHTML += `<div class="bg-stone-50 border rounded-lg p-3 text-sm flex justify-between"><span class="font-bold text-stone-700">${data.day}</span><span class="text-stone-500">${data.date}</span></div>`;
+                });
+            }
+
+            const mtchSnap = await getDocs(collection(db, 'trips', activeTripId, 'matches'));
+            const mtchList = document.getElementById('matches-list');
+            if (mtchSnap.empty) {
+                mtchList.innerHTML = `<p class="text-stone-400 text-sm italic">No golf matches added yet.</p>`;
+            } else {
+                mtchList.innerHTML = '';
+                let matches = [];
+                mtchSnap.forEach(doc => matches.push(doc.data()));
+                matches.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+                
+                matches.forEach(data => {
+                    const statusTag = data.pendingData ? `<span class="text-[9px] text-amber-500 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-bold uppercase">Pending Yardages</span>` : `<span class="text-[9px] text-emerald-500 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-bold uppercase">Ready</span>`;
+                    mtchList.innerHTML += `<div class="bg-stone-50 border rounded-lg p-3 text-sm flex justify-between items-center"><span class="font-bold text-stone-700">${data.course}</span><div class="flex items-center gap-3">${statusTag}<span class="text-stone-500">${data.date}</span></div></div>`;
+                });
+            }
+        }
+
+        // 3. Modals & Smart Lookups
+        window.openModal = (id) => { document.getElementById(id).classList.remove('hidden'); };
+        window.closeModal = (id) => { document.getElementById(id).classList.add('hidden'); };
+
+        // Fetch Master Courses for Dropdown
+        async function fetchMasterCourses() {
+            const selectEl = document.getElementById('m-course-select');
+            selectEl.innerHTML = '<option value="">Loading master database...</option>';
+            
+            try {
+                const snap = await getDocs(collection(db, 'master_courses'));
+                let courses = [];
+                masterCoursesCache = {}; // clear cache
+                
+                snap.forEach(doc => {
+                    let data = doc.data();
+                    if(data.name) {
+                        courses.push(data);
+                        masterCoursesCache[data.name] = data; 
+                    }
+                });
+
+                // Sort alphabetically
+                courses.sort((a, b) => a.name.localeCompare(b.name));
+                
+                selectEl.innerHTML = '<option value="" disabled selected>-- Select a Course --</option>';
+                courses.forEach(c => {
+                    selectEl.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+                });
+                selectEl.innerHTML += `<option value="CUSTOM_ADD" class="font-bold text-emerald-600">+ Add New Course...</option>`;
+
+            } catch (error) {
+                console.error(error);
+                selectEl.innerHTML = `<option value="" disabled selected>Database connection failed</option>
+                                      <option value="CUSTOM_ADD" class="font-bold text-emerald-600">+ Add Custom Course...</option>`;
+            }
+        }
+
+        window.openMatchModal = () => {
+            document.getElementById('course-lookup-status').innerText = "";
+            document.getElementById('m-course-custom').classList.add('hidden');
+            document.getElementById('m-course-custom').value = '';
+            
+            fetchMasterCourses(); // load the dropdown
+            openModal('match-modal');
+        };
+
+        // Handle Dropdown Change
+        document.getElementById('m-course-select').addEventListener('change', (e) => {
+            const val = e.target.value;
+            const customInput = document.getElementById('m-course-custom');
+            const statusEl = document.getElementById('course-lookup-status');
+
+            if (val === 'CUSTOM_ADD') {
+                customInput.classList.remove('hidden');
+                customInput.focus();
+                statusEl.innerText = "Custom course. BoysTrip caddies will add yardages ASAP!";
+                statusEl.className = "text-[10px] mt-2 h-3 font-bold text-amber-600";
+            } else if (val) {
+                customInput.classList.add('hidden');
+                statusEl.innerText = "✓ DB Course selected! Yardages & video ready.";
+                statusEl.className = "text-[10px] mt-2 h-3 font-bold text-emerald-600";
+            }
+        });
+
+        window.lookupCity = async () => {
+            const rawCity = document.getElementById('itn-city').value;
+            const cityKey = rawCity.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+            const statusEl = document.getElementById('city-lookup-status');
+            
+            if(!cityKey) return;
+            
+            statusEl.innerText = "Searching global database...";
+            statusEl.className = "text-[10px] mt-1 h-3 text-stone-500 font-bold";
+            
+            try {
+                const docRef = doc(db, 'master_cities', cityKey);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    document.getElementById('itn-desc').value = docSnap.data().description || "";
+                    statusEl.innerText = "✓ Vibe imported automatically!";
+                    statusEl.className = "text-[10px] mt-1 h-3 text-emerald-500 font-bold";
+                } else {
+                    statusEl.innerText = "City not in DB. Type your own vibe, and we'll add it to the global list!";
+                    statusEl.className = "text-[10px] mt-1 h-3 text-amber-500 font-bold";
+                }
+            } catch(e) {
+                statusEl.innerText = "Search failed. Connection issue.";
+            }
+        };
+
+        // 4. Save Itinerary Day
+        document.getElementById('btn-save-itinerary').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-save-itinerary');
+            btn.innerText = "Saving..."; btn.disabled = true;
+
+            const payload = {
+                day: document.getElementById('itn-day').value,
+                date: document.getElementById('itn-date').value,
+                quote: document.getElementById('itn-quote').value,
+                wakeUp: document.getElementById('itn-wake').value,
+                sleep: document.getElementById('itn-sleep').value,
+                intel: {
+                    city: document.getElementById('itn-city').value,
+                    hotel: document.getElementById('itn-hotel').value,
+                    description: document.getElementById('itn-desc').value,
+                    hotspots: []
+                },
+                createdAt: new Date().toISOString()
+            };
+
+            await addDoc(collection(db, 'trips', activeTripId, 'itinerary'), payload);
+            
+            ['itn-day', 'itn-date', 'itn-quote', 'itn-wake', 'itn-sleep', 'itn-city', 'itn-hotel', 'itn-desc'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('city-lookup-status').innerText = "";
+            closeModal('itinerary-modal');
+            btn.innerText = "Save Day"; btn.disabled = false;
+            fetchDashboardData();
+        });
+
+        // 5. Save Match (Smart Saving)
+        document.getElementById('btn-save-match').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-save-match');
+            btn.innerText = "Saving Match Data..."; btn.disabled = true;
+
+            const selectVal = document.getElementById('m-course-select').value;
+            let courseName = "";
+            let isCustom = false;
+            let courseData = null;
+
+            if (selectVal === 'CUSTOM_ADD') {
+                courseName = document.getElementById('m-course-custom').value.trim();
+                isCustom = true;
+            } else {
+                courseName = selectVal;
+                courseData = masterCoursesCache[courseName];
+            }
+
+            if (!courseName) {
+                alert("Please select or enter a course name.");
+                btn.innerText = "Save Match to Trip"; btn.disabled = false;
+                return;
+            }
+            
+            // If course wasn't found in DB, generate 18 blank placeholder holes
+            const holes = courseData && courseData.holes ? courseData.holes : Array.from({length: 18}, (_, i) => ({
+                number: i + 1, par: 4, yardage: 0, name: "", tip: "BoysTrip Caddies are scouting this hole. Tip pending!"
+            }));
+
+            const payload = {
+                course: courseName,
+                date: document.getElementById('m-date').value,
+                time: document.getElementById('m-time').value,
+                matchUp: document.getElementById('m-matchup').value,
+                teamA: document.getElementById('m-teamA').value,
+                teamB: document.getElementById('m-teamB').value,
+                video: courseData ? (courseData.video || "") : "", // Pull video if from DB
+                holes: holes,
+                pendingData: isCustom, // Flag for the admin dashboard
+                createdAt: new Date().toISOString()
+            };
+
+            await addDoc(collection(db, 'trips', activeTripId, 'matches'), payload);
+            
+            ['m-date', 'm-time', 'm-matchup', 'm-teamA', 'm-teamB', 'm-video', 'm-course-custom'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('course-lookup-status').innerText = "";
+            closeModal('match-modal');
+            btn.innerText = "Save Match to Trip"; btn.disabled = false;
+            fetchDashboardData();
         });
 
         boot();
