@@ -59,24 +59,24 @@
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">End Date</label>
                     <input type="date" id="input-end" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Commissioner Email</label>
-                <input type="email" id="input-email" placeholder="For your records" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            </div>
-
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">The Crew (Comma Separated)</label>
-                <textarea id="input-players" rows="3" placeholder="Greg, Parker, Scott, Craig" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
-                <p class="text-[10px] text-stone-400 mt-2">These initials/names will be used for the ledger and time machine features.</p>
-            </div>
-
-            <button id="btn-build" class="w-full py-5 mt-4 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl font-black uppercase tracking-widest transition-all shadow-xl active:scale-95">
+            <button id="btn-build" class="w-full py-5 mt-4 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl font-black uppercase tracking-widest transition-all shadow-xl active:scale-scale-95">
                 Initialize Trip
             </button>
             <p id="error-message" class="text-rose-500 text-xs text-center font-bold hidden"></p>
+
+            <div class="relative flex items-center py-2">
+                <div class="flex-grow border-t border-stone-200"></div>
+                <span class="flex-shrink-0 mx-4 text-stone-400 text-[10px] uppercase tracking-widest font-bold">Or Edit Existing</span>
+                <div class="flex-grow border-t border-stone-200"></div>
+            </div>
+
+            <div class="flex gap-2">
+                <input type="text" id="input-edit-code" placeholder="Enter Trip Code" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-black text-stone-900 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-500 text-center tracking-widest">
+                <button id="btn-edit-trip" class="bg-stone-900 hover:bg-stone-800 text-white px-8 py-3 rounded-xl font-bold uppercase tracking-widest transition-all active:scale-95">
+                    Load
+                </button>
+            </div>
+            <p id="edit-error-message" class="text-rose-500 text-xs text-center font-bold hidden"></p>
         </div>
     </div>
 
@@ -94,7 +94,18 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- The Crew Section -->
+            <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
+                <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
+                    <h3 class="serif text-2xl text-stone-900 font-bold">The Crew</h3>
+                    <button onclick="openCrewModal()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-indigo-100 transition">Edit Roster</button>
+                </div>
+                <div id="crew-list" class="flex flex-wrap gap-2">
+                    <!-- Loaded via JS -->
+                </div>
+            </div>
+
             <!-- Itinerary Section -->
             <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
                 <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
@@ -202,6 +213,25 @@
         </div>
     </div>
 
+    <!-- MODAL: Edit Crew -->
+    <div id="crew-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
+                <h3 class="serif text-2xl font-bold text-stone-900">Edit Roster</h3>
+                <button onclick="closeModal('crew-modal')" class="text-stone-400 hover:text-stone-900 text-xl font-black">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">The Crew (Comma Separated)</label>
+                    <textarea id="edit-players-input" rows="3" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+            </div>
+            <div class="p-6 border-t border-stone-100 bg-stone-50">
+                <button id="btn-update-crew" class="w-full py-3 bg-stone-900 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-stone-800 transition">Update Roster</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -222,6 +252,7 @@
         const db = getFirestore(app);
 
         let activeTripId = null;
+        let activeTripData = null;
         let masterCoursesCache = {}; // Object to map course names to their full data
 
         // Boot Sequence
@@ -273,6 +304,7 @@
 
             try {
                 await setDoc(doc(db, 'trips', activeTripId), tripPayload);
+                activeTripData = tripPayload;
                 
                 document.getElementById('builder-state').classList.add('hidden');
                 document.getElementById('dash-trip-name').innerText = name;
@@ -289,9 +321,60 @@
             }
         });
 
+        // 1.5 Load Existing Trip
+        document.getElementById('btn-edit-trip').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-edit-trip');
+            const errorEl = document.getElementById('edit-error-message');
+            const code = document.getElementById('input-edit-code').value.trim().toUpperCase();
+
+            if (!code) {
+                errorEl.innerText = "Please enter a Trip Code.";
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.innerText = "...";
+            btn.disabled = true;
+            errorEl.classList.add('hidden');
+
+            try {
+                const tripDoc = await getDoc(doc(db, 'trips', code));
+                if (!tripDoc.exists()) {
+                    throw new Error("Trip Code not found.");
+                }
+
+                activeTripId = code;
+                const tripData = tripDoc.data();
+                activeTripData = tripData;
+                
+                document.getElementById('builder-state').classList.add('hidden');
+                document.getElementById('dash-trip-name').innerText = tripData.tripName || "Trip Dashboard";
+                document.getElementById('display-trip-id').innerText = activeTripId;
+                document.getElementById('dashboard-state').classList.remove('hidden');
+                
+                fetchDashboardData();
+
+            } catch (error) {
+                btn.innerText = "Load";
+                btn.disabled = false;
+                errorEl.innerText = error.message;
+                errorEl.classList.remove('hidden');
+            }
+        });
+
         // 2. Fetch & Render Dashboard Lists
         async function fetchDashboardData() {
             if (!activeTripId) return;
+
+            // Render Crew
+            const crewList = document.getElementById('crew-list');
+            if (activeTripData && activeTripData.players) {
+                crewList.innerHTML = activeTripData.players.map(p => 
+                    `<span class="bg-stone-100 border border-stone-300 text-stone-800 px-4 py-2 rounded-xl text-xs font-black tracking-wider uppercase shadow-sm">${p}</span>`
+                ).join('');
+            } else {
+                crewList.innerHTML = `<p class="text-stone-400 text-sm italic">No crew members found.</p>`;
+            }
 
             const itnSnap = await getDocs(collection(db, 'trips', activeTripId, 'itinerary'));
             const itnList = document.getElementById('itinerary-list');
@@ -372,6 +455,31 @@
             fetchMasterCourses(); // load the dropdown
             openModal('match-modal');
         };
+
+        window.openCrewModal = () => {
+            if (activeTripData && activeTripData.players) {
+                document.getElementById('edit-players-input').value = activeTripData.players.join(', ');
+            }
+            openModal('crew-modal');
+        };
+
+        document.getElementById('btn-update-crew').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-update-crew');
+            btn.innerText = "Updating..."; btn.disabled = true;
+            
+            const playersRaw = document.getElementById('edit-players-input').value;
+            const playersArray = playersRaw.split(',').map(p => p.trim()).filter(p => p);
+            
+            try {
+                await setDoc(doc(db, 'trips', activeTripId), { players: playersArray }, { merge: true });
+                activeTripData.players = playersArray;
+                fetchDashboardData();
+                closeModal('crew-modal');
+            } catch (e) {
+                alert("Error updating crew: " + e.message);
+            }
+            btn.innerText = "Update Roster"; btn.disabled = false;
+        });
 
         // Handle Dropdown Change
         document.getElementById('m-course-select').addEventListener('change', (e) => {
