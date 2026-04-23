@@ -56,55 +56,66 @@
     </div>
 
     <!-- STATE 1: GATEWAY -->
-    <div id="gateway-state" class="hidden w-full max-w-4xl fade-in mt-10">
+    <div id="gateway-state" class="hidden w-full max-w-6xl fade-in mt-10">
         <div class="text-center mb-12">
             <h1 class="serif text-5xl text-stone-900 italic mb-2 font-bold">Commissioner Portal</h1>
             <p class="text-stone-400 tracking-[0.3em] uppercase text-[10px] font-black">Global Event Management</p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Discover Path -->
-            <div onclick="startSurvey()" class="group cursor-pointer bg-white rounded-3xl p-8 border border-stone-200 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 relative overflow-hidden h-80 flex flex-col justify-end">
-                <div class="absolute inset-0 bg-stone-950 z-0"></div>
-                <div id="mini-globe-container" class="absolute -top-10 -right-10 w-96 h-96 z-0 opacity-50 group-hover:opacity-80 transition-opacity"></div>
-                
-                <div class="relative z-10">
-                    <div class="inline-block p-4 bg-emerald-500/20 rounded-2xl mb-4 text-emerald-400 border border-emerald-500/30">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <h2 class="serif text-3xl text-white font-bold mb-2">Discover & Build</h2>
-                    <p class="text-stone-300 text-sm">Use the BoysTrip Concierge to plan your next elite golf destination based on your crew's exact requirements.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            
+            <!-- OPTION 1: Edit Existing -->
+            <div class="bg-white rounded-3xl p-8 border border-stone-200 shadow-xl flex flex-col h-[22rem] relative overflow-hidden group">
+                <div class="mb-4">
+                    <span class="bg-stone-100 text-stone-500 font-black text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">Option 1</span>
+                </div>
+                <h2 class="serif text-3xl text-stone-900 font-bold mb-2 leading-tight">Edit Existing Tour</h2>
+                <p class="text-stone-500 text-xs leading-relaxed">Update rosters, manage itineraries, or enter match pairings for a trip already in progress.</p>
+
+                <div class="mt-auto pt-4 border-t border-stone-100">
+                    <input type="text" id="input-edit-code" placeholder="Tour Code" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-3 font-black text-stone-900 uppercase focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-center tracking-widest text-sm mb-3">
+                    <button id="btn-edit-trip" class="w-full bg-stone-900 hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold uppercase tracking-widest transition-all active:scale-95 text-xs shadow-md">Load Tour</button>
+                    <p id="edit-error-message" class="text-rose-500 text-[10px] text-center font-bold mt-2 hidden"></p>
                 </div>
             </div>
 
-            <!-- Add / Manage Path -->
-            <div class="bg-white rounded-3xl p-8 border border-stone-200 shadow-xl flex flex-col h-80 relative overflow-hidden group">
-                <div class="absolute inset-0 bg-stone-50/50 pointer-events-none"></div>
-                <div class="relative z-10 flex flex-col h-full">
-                    <div class="flex items-start gap-4 mb-4">
-                        <div class="inline-block p-3 bg-stone-100 rounded-xl text-stone-500 border border-stone-200 shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                        </div>
-                        <div>
-                            <h2 class="serif text-2xl text-stone-900 font-bold leading-none mb-1">Add or Manage</h2>
-                            <p class="text-stone-500 text-[11px] leading-tight">Skip the wizard. Manually build a new trip or manage an existing one.</p>
-                        </div>
-                    </div>
+            <!-- OPTION 2: Add Planned -->
+            <div class="bg-white rounded-3xl p-8 border border-stone-200 shadow-xl flex flex-col h-[22rem] relative overflow-hidden group">
+                <div class="mb-4">
+                    <span class="bg-stone-100 text-stone-500 font-black text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">Option 2</span>
+                </div>
+                <h2 class="serif text-3xl text-stone-900 font-bold mb-2 leading-tight">Add Planned Itinerary</h2>
+                <p class="text-stone-500 text-xs leading-relaxed">Skip the wizard. Manually initialize a database for a trip you have already planned.</p>
 
-                    <button onclick="startManualBuild()" class="w-full py-3 bg-stone-200 hover:bg-stone-300 text-stone-700 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors mb-auto shadow-sm">
-                        + Create New Tour
+                <div class="mt-auto pt-4 border-t border-stone-100">
+                    <button onclick="startManualBuild()" class="w-full py-4 bg-stone-200 hover:bg-stone-300 text-stone-800 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors shadow-sm active:scale-95">
+                        Initialize Database &rarr;
                     </button>
-                    
-                    <div class="mt-4 pt-4 border-t border-stone-200">
-                        <label class="block text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2">Edit Existing Tour</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="input-edit-code" placeholder="Tour Code" class="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 font-black text-stone-900 uppercase focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-center tracking-widest text-sm">
-                            <button id="btn-edit-trip" class="bg-stone-900 hover:bg-stone-800 text-white px-5 py-2 rounded-xl font-bold uppercase tracking-widest transition-all active:scale-95 text-xs shadow-md">Load</button>
-                        </div>
-                        <p id="edit-error-message" class="text-rose-500 text-[10px] text-center font-bold mt-2 hidden"></p>
-                    </div>
                 </div>
             </div>
+
+            <!-- OPTION 3: Discover -->
+            <div onclick="startSurvey()" class="bg-stone-950 rounded-3xl p-8 border border-stone-800 shadow-xl flex flex-col h-[22rem] relative overflow-hidden group cursor-pointer hover:-translate-y-1 transition-transform">
+                <!-- Mini Globe -->
+                <div class="absolute inset-0 z-0 overflow-hidden rounded-3xl">
+                    <div id="mini-globe-container" class="absolute -top-10 -right-10 w-96 h-96 opacity-50 group-hover:opacity-80 transition-opacity"></div>
+                </div>
+                
+                <div class="relative z-10 mb-4">
+                    <span class="bg-emerald-900/50 text-emerald-400 border border-emerald-700/50 font-black text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">Option 3</span>
+                </div>
+                <div class="relative z-10">
+                    <h2 class="serif text-3xl text-white font-bold mb-2 leading-tight">Discover & Build</h2>
+                    <p class="text-stone-400 text-xs leading-relaxed">Use the BoysTrip Concierge AI to find, plan, and procure the ultimate elite destination.</p>
+                </div>
+
+                <div class="relative z-10 mt-auto pt-4 border-t border-stone-800">
+                    <span class="block w-full py-4 bg-emerald-600 group-hover:bg-emerald-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs transition-colors shadow-lg text-center">
+                        Start Concierge &rarr;
+                    </span>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -960,7 +971,7 @@
                 fetchDashboardData();
 
             } catch (error) {
-                btn.innerText = "Load";
+                btn.innerText = "Load Tour";
                 btn.disabled = false;
                 errorEl.innerText = error.message;
                 errorEl.classList.remove('hidden');
