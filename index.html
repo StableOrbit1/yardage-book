@@ -32,13 +32,11 @@
 </head>
 <body class="text-slate-900 antialiased min-h-screen flex flex-col items-center py-10 px-4">
 
-    <!-- Loading State -->
     <div id="loading-state" class="text-center fade-in mt-32">
         <h2 class="serif text-3xl text-emerald-600 animate-pulse italic mb-2">Connecting to Headquarters...</h2>
         <p class="text-stone-500 text-xs uppercase tracking-widest font-bold">Authenticating Commissioner</p>
     </div>
 
-    <!-- The Builder Form (Step 1) -->
     <div id="builder-state" class="hidden w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden fade-in border border-stone-200 mt-10">
         <div class="bg-stone-950 p-8 text-center border-b-4 border-emerald-600">
             <h1 class="serif text-4xl text-white italic mb-2">BoysTrip Planner</h1>
@@ -99,7 +97,6 @@
         </div>
     </div>
 
-    <!-- Dashboard State (Step 2) -->
     <div id="dashboard-state" class="hidden w-full max-w-5xl fade-in">
         
         <div class="bg-stone-950 rounded-3xl shadow-2xl p-8 mb-8 text-center border border-stone-800 flex flex-col md:flex-row items-center justify-between">
@@ -114,18 +111,15 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- The Crew Section -->
             <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
                 <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
                     <h3 class="serif text-2xl text-stone-900 font-bold">The Crew</h3>
                     <button onclick="openCrewModal()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-indigo-100 transition">Edit Roster</button>
                 </div>
                 <div id="crew-list" class="flex flex-wrap gap-2">
-                    <!-- Loaded via JS -->
-                </div>
+                    </div>
             </div>
 
-            <!-- Itinerary Section -->
             <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
                 <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
                     <h3 class="serif text-2xl text-stone-900 font-bold">Itinerary</h3>
@@ -136,7 +130,6 @@
                 </div>
             </div>
 
-            <!-- Matches Section -->
             <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
                 <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
                     <h3 class="serif text-2xl text-stone-900 font-bold">Golf Matches</h3>
@@ -149,7 +142,6 @@
         </div>
     </div>
 
-    <!-- MODAL: Add Itinerary Day -->
     <div id="itinerary-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
             <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
@@ -187,7 +179,6 @@
         </div>
     </div>
 
-    <!-- MODAL: Add Match -->
     <div id="match-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
             <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
@@ -205,7 +196,6 @@
                         <option value="">Loading Master Database...</option>
                     </select>
                     
-                    <!-- Hidden Custom Input -->
                     <input type="text" id="m-course-custom" placeholder="Type new course name here..." class="hidden w-full border rounded px-3 py-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold bg-white mt-2 shadow-inner">
                     
                     <p id="course-lookup-status" class="text-[10px] mt-2 h-3 font-medium text-stone-500"></p>
@@ -232,7 +222,6 @@
         </div>
     </div>
 
-    <!-- MODAL: Edit Crew -->
     <div id="crew-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
             <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
@@ -457,11 +446,17 @@
                 
                 matches.forEach(data => {
                     const statusTag = data.pendingData ? `<span class="text-[9px] text-amber-500 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-bold uppercase">Pending Yardages</span>` : `<span class="text-[9px] text-emerald-500 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-bold uppercase">Ready</span>`;
+                    
+                    // Format the time display fix
+                    const displayTime = data.time ? data.time : "TBD";
+                    
                     mtchList.innerHTML += `
                         <div class="bg-stone-50 border rounded-lg p-3 text-sm flex justify-between items-center">
                             <span class="font-bold text-stone-700">${data.course}</span>
                             <div class="flex items-center gap-3">
-                                ${statusTag}<span class="text-stone-500">${data.date}</span>
+                                ${statusTag}
+                                <span class="text-stone-900 font-bold ml-2">${displayTime}</span>
+                                <span class="text-stone-500">${data.date}</span>
                                 <button onclick="editMatch('${data.id}')" class="text-[10px] text-stone-500 hover:text-indigo-600 font-bold uppercase tracking-widest transition ml-2">Edit</button>
                             </div>
                         </div>`;
