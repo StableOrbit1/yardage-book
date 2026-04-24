@@ -65,21 +65,28 @@
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             
-            <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-md flex flex-col h-[24rem] relative overflow-hidden group">
+            <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-md flex flex-col h-[28rem] relative overflow-hidden group">
                 <div class="mb-4">
                     <span class="bg-slate-100 text-slate-500 font-black text-[10px] px-3 py-1.5 rounded-md tracking-widest uppercase">Option 1</span>
                 </div>
-                <h2 class="font-display text-3xl uppercase tracking-wide text-navy font-bold mb-2 leading-tight">Edit Existing Tour</h2>
-                <p class="text-slate-500 text-xs leading-relaxed">Update rosters, manage itineraries, or enter match pairings for a trip already in progress.</p>
+                <h2 class="font-display text-3xl uppercase tracking-wide text-navy font-bold mb-2 leading-tight">Edit or Share Tour</h2>
+                <p class="text-slate-500 text-xs leading-relaxed">Update rosters, manage itineraries, or share the live Player App with your crew.</p>
 
                 <div class="mt-auto pt-4 border-t border-slate-100">
-                    <input type="text" id="input-edit-code" placeholder="Tour Code" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-3 font-black text-navy uppercase focus:outline-none focus:border-btgreen focus:ring-1 focus:ring-btgreen text-center tracking-widest text-sm mb-4">
-                    <button id="btn-edit-trip" class="w-full bg-navy hover:bg-slate-800 text-white py-4 rounded-xl font-bold uppercase tracking-widest transition-all active:scale-95 text-xs shadow-md">Load Tour</button>
+                    <input type="text" id="input-edit-code" placeholder="Tour Code" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-3 font-black text-navy uppercase focus:outline-none focus:border-btgreen focus:ring-1 focus:ring-btgreen text-center tracking-widest text-sm mb-3">
+                    <button id="btn-edit-trip" class="w-full bg-navy hover:bg-slate-800 text-white py-3 rounded-xl font-bold uppercase tracking-widest transition-all active:scale-95 text-xs shadow-md">Load Tour</button>
+                    
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest text-center mt-4 mb-2">Share Player App</p>
+                    <div class="flex gap-2">
+                        <button onclick="shareViaEmail()" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-navy rounded-lg font-bold uppercase tracking-widest transition-colors text-[10px] shadow-sm border border-slate-200">📧 Email</button>
+                        <button onclick="shareViaText()" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-navy rounded-lg font-bold uppercase tracking-widest transition-colors text-[10px] shadow-sm border border-slate-200">💬 Text</button>
+                    </div>
+
                     <p id="edit-error-message" class="text-rose-500 text-[10px] text-center font-bold mt-2 hidden"></p>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-md flex flex-col h-[24rem] relative overflow-hidden group">
+            <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-md flex flex-col h-[28rem] relative overflow-hidden group">
                 <div class="mb-4">
                     <span class="bg-slate-100 text-slate-500 font-black text-[10px] px-3 py-1.5 rounded-md tracking-widest uppercase">Option 2</span>
                 </div>
@@ -93,7 +100,7 @@
                 </div>
             </div>
 
-            <div onclick="startSurvey()" class="bg-navy rounded-2xl p-8 border-2 border-transparent hover:border-btgreen shadow-xl flex flex-col h-[24rem] relative overflow-hidden group cursor-pointer hover:-translate-y-1 transition-all hover:shadow-[0_10px_40px_rgba(16,185,129,0.2)]">
+            <div onclick="startSurvey()" class="bg-navy rounded-2xl p-8 border-2 border-transparent hover:border-btgreen shadow-xl flex flex-col h-[28rem] relative overflow-hidden group cursor-pointer hover:-translate-y-1 transition-all hover:shadow-[0_10px_40px_rgba(16,185,129,0.2)]">
                 <div class="absolute inset-0 z-0 overflow-hidden rounded-2xl">
                     <div id="mini-globe-container" class="absolute -top-10 -right-10 w-96 h-96 opacity-50 group-hover:opacity-80 transition-opacity"></div>
                 </div>
@@ -947,6 +954,27 @@
             }
         });
 
+        window.shareViaEmail = () => {
+            const code = document.getElementById('input-edit-code').value.trim().toUpperCase();
+            const link = "https://stableorbit1.github.io/boystrip/";
+            let subject = "BoysTrip: You've been invited to the Tour!";
+            let body = `Get ready for the trip. Access the live itinerary and match data on the BoysTrip Player App here:\n\n${link}\n\n`;
+            if (code) {
+                body += `Your Tour Code is: ${code}\n\n`;
+            }
+            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        };
+
+        window.shareViaText = () => {
+            const code = document.getElementById('input-edit-code').value.trim().toUpperCase();
+            const link = "https://stableorbit1.github.io/boystrip/";
+            let body = `BoysTrip: Access the live tour app here: ${link}`;
+            if (code) {
+                body += ` (Tour Code: ${code})`;
+            }
+            window.location.href = `sms:?&body=${encodeURIComponent(body)}`;
+        };
+
         // --- 6. DASHBOARD & CRUD LOGIC (Unchanged Data layer) ---
         async function fetchDashboardData() {
             if (!activeTripId) return;
@@ -1208,6 +1236,10 @@
         document.getElementById('btn-save-itinerary').addEventListener('click', async () => {
             const btn = document.getElementById('btn-save-itinerary');
             btn.innerText = "Saving..."; btn.disabled = true;
+            
+            const cityName = document.getElementById('itn-city').value.trim();
+            const cityDesc = document.getElementById('itn-desc').value.trim();
+            
             const payload = {
                 day: document.getElementById('itn-day').value,
                 date: document.getElementById('itn-date').value,
@@ -1215,9 +1247,9 @@
                 wakeUp: document.getElementById('itn-wake').value,
                 sleep: document.getElementById('itn-sleep').value,
                 intel: {
-                    city: document.getElementById('itn-city').value,
+                    city: cityName,
                     hotel: document.getElementById('itn-hotel').value,
-                    description: document.getElementById('itn-desc').value,
+                    description: cityDesc,
                     hotspots: []
                 },
                 updatedAt: new Date().toISOString()
@@ -1228,6 +1260,22 @@
             } else {
                 payload.createdAt = new Date().toISOString();
                 await addDoc(collection(db, 'trips', activeTripId, 'itinerary'), payload);
+            }
+            
+            // Auto-add new cities to the global master database
+            if (cityName && cityDesc) {
+                const cityKey = cityName.toLowerCase().replace(/[^a-z0-9]/g, '');
+                if (cityKey) {
+                    try {
+                        await setDoc(doc(db, 'master_cities', cityKey), {
+                            name: cityName,
+                            description: cityDesc,
+                            updatedAt: new Date().toISOString()
+                        }, { merge: true });
+                    } catch (err) {
+                        console.warn("Could not sync to master_cities:", err);
+                    }
+                }
             }
             
             ['itn-day', 'itn-date', 'itn-quote', 'itn-wake', 'itn-sleep', 'itn-city', 'itn-hotel', 'itn-desc'].forEach(id => document.getElementById(id).value = '');
