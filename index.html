@@ -964,7 +964,7 @@
             const itnList = document.getElementById('itinerary-list');
             itineraryCache = {};
             if (itnSnap.empty) {
-                itnList.innerHTML = `<p class="text-slate-400 text-sm">No itinerary days added yet.</p>`;
+                itnList.innerHTML = `<p class="text-slate-400 text-sm italic">No itinerary days added yet.</p>`;
             } else {
                 itnList.innerHTML = '';
                 let days = [];
@@ -975,9 +975,12 @@
                 days.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
                 days.forEach(data => {
                     itnList.innerHTML += `
-                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-sm">
-                            <div class="mb-2 sm:mb-0"><span class="font-bold text-navy">${data.day}</span><span class="text-slate-500 ml-2">${data.date}</span></div>
-                            <div class="flex gap-1">
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-sm gap-3">
+                            <div class="flex flex-col">
+                                <span class="font-display tracking-wide text-lg text-navy font-bold uppercase leading-none mb-1">${data.day}</span>
+                                <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${data.date}</span>
+                            </div>
+                            <div class="flex gap-2 shrink-0">
                                 <button onclick="editItinerary('${data.id}')" class="text-[10px] text-slate-600 hover:text-btgreen font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-slate-200 rounded-md hover:border-emerald-300 shadow-sm">Edit</button>
                                 <button onclick="promptDelete('itinerary', '${data.id}')" class="text-[10px] text-slate-600 hover:text-rose-600 font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-slate-200 rounded-md hover:border-rose-300 shadow-sm">Delete</button>
                             </div>
@@ -989,7 +992,7 @@
             const mtchList = document.getElementById('matches-list');
             matchesCache = {};
             if (mtchSnap.empty) {
-                mtchList.innerHTML = `<p class="text-slate-400 text-sm">No golf matches added yet.</p>`;
+                mtchList.innerHTML = `<p class="text-slate-400 text-sm italic">No golf matches added yet.</p>`;
             } else {
                 mtchList.innerHTML = '';
                 let matches = [];
@@ -1006,20 +1009,20 @@
                 });
                 
                 matches.forEach(data => {
-                    const statusTag = data.pendingData ? `<span class="text-[9px] text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-bold uppercase hidden sm:inline-block">Pending Yardages</span>` : `<span class="text-[9px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-bold uppercase hidden sm:inline-block">Ready</span>`;
+                    const statusTag = data.pendingData ? `<span class="text-[9px] text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-bold uppercase">Pending Yardages</span>` : `<span class="text-[9px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-bold uppercase">Ready</span>`;
                     const displayTime = data.time ? data.time : "TBD";
                     
                     mtchList.innerHTML += `
-                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-sm">
-                            <div class="mb-2 sm:mb-0">
-                                <span class="font-bold text-navy">${data.course}</span>
-                                <div class="inline-flex items-center gap-2 ml-2">
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-sm gap-3">
+                            <div class="flex flex-col">
+                                <span class="font-display tracking-wide text-lg text-navy font-bold uppercase leading-none mb-2">${data.course}</span>
+                                <div class="flex flex-wrap items-center gap-2">
                                     ${statusTag}
-                                    <span class="text-navy font-bold">${displayTime}</span>
-                                    <span class="text-slate-500">${data.date}</span>
+                                    <span class="text-navy font-bold text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded shadow-sm whitespace-nowrap">${displayTime}</span>
+                                    <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">${data.date}</span>
                                 </div>
                             </div>
-                            <div class="flex gap-1">
+                            <div class="flex gap-2 shrink-0">
                                 <button onclick="editMatch('${data.id}')" class="text-[10px] text-slate-600 hover:text-btgreen font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-slate-200 rounded-md hover:border-emerald-300 shadow-sm">Edit</button>
                                 <button onclick="promptDelete('match', '${data.id}')" class="text-[10px] text-slate-600 hover:text-rose-600 font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-slate-200 rounded-md hover:border-rose-300 shadow-sm">Delete</button>
                             </div>
