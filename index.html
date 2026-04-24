@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
@@ -16,18 +16,19 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        display: ['Oswald', 'sans-serif'],
                     },
                     colors: {
-                        bt: { 900: '#064e3b', 800: '#065f46', 500: '#10b981' }
+                        navy: '#0f172a',
+                        btgreen: '#10b981'
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #f5f5f4; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .serif { font-family: 'Playfair Display', serif; }
+        body { background-color: #ffffff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .font-display { font-family: 'Oswald', sans-serif; }
         .fade-in { animation: fadeIn 0.5s ease-out forwards; }
         .slide-up { animation: slideUp 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -41,76 +42,72 @@
         input[type=range]::-moz-range-thumb { height: 24px; width: 24px; border-radius: 50%; background: #10b981; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); border: none; }
         
         .choice-btn { transition: all 0.2s; }
-        .choice-btn.selected { background-color: #064e3b; color: white; border-color: #064e3b; box-shadow: 0 4px 12px rgba(6, 78, 59, 0.2); transform: scale(1.02); }
+        .choice-btn.selected { background-color: #0f172a; color: white; border-color: #0f172a; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2); transform: scale(1.02); }
     </style>
 </head>
-<body class="text-slate-900 antialiased min-h-screen flex flex-col items-center py-10 px-4">
+<body class="text-navy antialiased min-h-screen flex flex-col items-center py-10 px-4">
 
-    <!-- Hidden Div to force Tailwind to compile dynamic colors used in JS logic -->
-    <div class="hidden bg-emerald-100 text-emerald-700 border-emerald-200 bg-amber-100 text-amber-700 border-amber-200 bg-rose-100 text-rose-700 border-rose-200 text-rose-900 border-stone-800"></div>
+    <div class="hidden bg-emerald-100 text-emerald-700 border-emerald-200 bg-amber-100 text-amber-700 border-amber-200 bg-rose-100 text-rose-700 border-rose-200 text-rose-900 border-slate-800"></div>
 
-    <!-- Loading State -->
     <div id="loading-state" class="text-center fade-in mt-32">
-        <h2 class="serif text-3xl text-bt-500 animate-pulse italic mb-2">Connecting to Headquarters...</h2>
-        <p class="text-stone-500 text-xs uppercase tracking-widest font-bold">Authenticating Commissioner</p>
+        <h2 class="font-display uppercase tracking-wide text-3xl text-btgreen animate-pulse mb-2">Connecting to Headquarters...</h2>
+        <p class="text-slate-500 text-xs uppercase tracking-widest font-bold">Authenticating Commissioner</p>
     </div>
 
-    <!-- STATE 1: GATEWAY -->
-    <div id="gateway-state" class="hidden w-full max-w-6xl fade-in mt-10">
-        <div class="text-center mb-12">
-            <h1 class="serif text-5xl text-stone-900 italic mb-2 font-bold">Commissioner Portal</h1>
-            <p class="text-stone-400 tracking-[0.3em] uppercase text-[10px] font-black">Global Event Management</p>
+    <div id="gateway-state" class="hidden w-full max-w-6xl fade-in mt-6">
+        <div class="text-center mb-10">
+            <img src="logo_planner.png" alt="BoysTrip Logo" class="w-full max-w-[28rem] mx-auto mb-4 drop-shadow-sm" onerror="this.style.display='none'; document.getElementById('fallback-title').classList.remove('hidden');">
+            <h1 id="fallback-title" class="font-display text-5xl md:text-6xl uppercase tracking-tight text-navy mb-2 font-bold hidden">BoysTrip</h1>
+            
+            <h2 class="font-display text-2xl md:text-3xl uppercase tracking-wide text-navy mb-2 font-bold">Commissioner Portal</h2>
+            <p class="text-slate-400 tracking-[0.3em] uppercase text-[10px] font-black">Global Event Management</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             
-            <!-- OPTION 1: Edit Existing -->
-            <div class="bg-white rounded-3xl p-8 border border-stone-200 shadow-xl flex flex-col h-[22rem] relative overflow-hidden group">
+            <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-md flex flex-col h-[24rem] relative overflow-hidden group">
                 <div class="mb-4">
-                    <span class="bg-stone-100 text-stone-500 font-black text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">Option 1</span>
+                    <span class="bg-slate-100 text-slate-500 font-black text-[10px] px-3 py-1.5 rounded-md tracking-widest uppercase">Option 1</span>
                 </div>
-                <h2 class="serif text-3xl text-stone-900 font-bold mb-2 leading-tight">Edit Existing Tour</h2>
-                <p class="text-stone-500 text-xs leading-relaxed">Update rosters, manage itineraries, or enter match pairings for a trip already in progress.</p>
+                <h2 class="font-display text-3xl uppercase tracking-wide text-navy font-bold mb-2 leading-tight">Edit Existing Tour</h2>
+                <p class="text-slate-500 text-xs leading-relaxed">Update rosters, manage itineraries, or enter match pairings for a trip already in progress.</p>
 
-                <div class="mt-auto pt-4 border-t border-stone-100">
-                    <input type="text" id="input-edit-code" placeholder="Tour Code" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-3 font-black text-stone-900 uppercase focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-center tracking-widest text-sm mb-3">
-                    <button id="btn-edit-trip" class="w-full bg-stone-900 hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold uppercase tracking-widest transition-all active:scale-95 text-xs shadow-md">Load Tour</button>
+                <div class="mt-auto pt-4 border-t border-slate-100">
+                    <input type="text" id="input-edit-code" placeholder="Tour Code" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-3 font-black text-navy uppercase focus:outline-none focus:border-btgreen focus:ring-1 focus:ring-btgreen text-center tracking-widest text-sm mb-4">
+                    <button id="btn-edit-trip" class="w-full bg-navy hover:bg-slate-800 text-white py-4 rounded-xl font-bold uppercase tracking-widest transition-all active:scale-95 text-xs shadow-md">Load Tour</button>
                     <p id="edit-error-message" class="text-rose-500 text-[10px] text-center font-bold mt-2 hidden"></p>
                 </div>
             </div>
 
-            <!-- OPTION 2: Add Planned -->
-            <div class="bg-white rounded-3xl p-8 border border-stone-200 shadow-xl flex flex-col h-[22rem] relative overflow-hidden group">
+            <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-md flex flex-col h-[24rem] relative overflow-hidden group">
                 <div class="mb-4">
-                    <span class="bg-stone-100 text-stone-500 font-black text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">Option 2</span>
+                    <span class="bg-slate-100 text-slate-500 font-black text-[10px] px-3 py-1.5 rounded-md tracking-widest uppercase">Option 2</span>
                 </div>
-                <h2 class="serif text-3xl text-stone-900 font-bold mb-2 leading-tight">Add Planned Itinerary</h2>
-                <p class="text-stone-500 text-xs leading-relaxed">Skip the wizard. Manually initialize a database for a trip you have already planned.</p>
+                <h2 class="font-display text-3xl uppercase tracking-wide text-navy font-bold mb-2 leading-tight">Add Planned Itinerary</h2>
+                <p class="text-slate-500 text-xs leading-relaxed">Skip the wizard. Manually initialize a database for a trip you have already planned.</p>
 
-                <div class="mt-auto pt-4 border-t border-stone-100">
-                    <button onclick="startManualBuild()" class="w-full py-4 bg-stone-200 hover:bg-stone-300 text-stone-800 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors shadow-sm active:scale-95">
+                <div class="mt-auto pt-4 border-t border-slate-100">
+                    <button onclick="startManualBuild()" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-navy rounded-xl font-bold uppercase tracking-widest text-xs transition-colors shadow-sm active:scale-95">
                         Initialize Database &rarr;
                     </button>
                 </div>
             </div>
 
-            <!-- OPTION 3: Discover -->
-            <div onclick="startSurvey()" class="bg-stone-950 rounded-3xl p-8 border border-stone-800 shadow-xl flex flex-col h-[22rem] relative overflow-hidden group cursor-pointer hover:-translate-y-1 transition-transform">
-                <!-- Mini Globe -->
-                <div class="absolute inset-0 z-0 overflow-hidden rounded-3xl">
+            <div onclick="startSurvey()" class="bg-navy rounded-2xl p-8 border-2 border-transparent hover:border-btgreen shadow-xl flex flex-col h-[24rem] relative overflow-hidden group cursor-pointer hover:-translate-y-1 transition-all hover:shadow-[0_10px_40px_rgba(16,185,129,0.2)]">
+                <div class="absolute inset-0 z-0 overflow-hidden rounded-2xl">
                     <div id="mini-globe-container" class="absolute -top-10 -right-10 w-96 h-96 opacity-50 group-hover:opacity-80 transition-opacity"></div>
                 </div>
                 
                 <div class="relative z-10 mb-4">
-                    <span class="bg-emerald-900/50 text-emerald-400 border border-emerald-700/50 font-black text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">Option 3</span>
+                    <span class="bg-emerald-900/50 text-emerald-400 border border-emerald-700/50 font-black text-[10px] px-3 py-1.5 rounded-md tracking-widest uppercase">Option 3</span>
                 </div>
                 <div class="relative z-10">
-                    <h2 class="serif text-3xl text-white font-bold mb-2 leading-tight">Discover & Build</h2>
-                    <p class="text-stone-400 text-xs leading-relaxed">Use the BoysTrip Concierge AI to find, plan, and procure the ultimate elite destination.</p>
+                    <h2 class="font-display text-3xl uppercase tracking-wide text-white font-bold mb-2 leading-tight">Discover & Build</h2>
+                    <p class="text-slate-400 text-xs leading-relaxed">Use the BoysTrip Concierge AI to find, plan, and procure the ultimate elite destination.</p>
                 </div>
 
-                <div class="relative z-10 mt-auto pt-4 border-t border-stone-800">
-                    <span class="block w-full py-4 bg-emerald-600 group-hover:bg-emerald-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs transition-colors shadow-lg text-center">
+                <div class="relative z-10 mt-auto pt-4 border-t border-slate-800">
+                    <span class="block w-full py-4 bg-emerald-600 group-hover:bg-emerald-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs transition-colors shadow-md text-center">
                         Start Concierge &rarr;
                     </span>
                 </div>
@@ -119,312 +116,292 @@
         </div>
     </div>
 
-    <!-- STATE 2: SURVEY WIZARD -->
     <div id="survey-state" class="hidden w-full max-w-2xl fade-in mt-10">
-        <!-- Progress Bar -->
         <div class="mb-8">
             <div class="flex justify-between items-center mb-2">
-                <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">BoysTrip Concierge</span>
-                <span id="survey-step-counter" class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Step 1 of 3</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">BoysTrip Concierge</span>
+                <span id="survey-step-counter" class="text-[10px] font-bold text-btgreen uppercase tracking-widest">Step 1 of 3</span>
             </div>
-            <div class="h-2 bg-stone-200 rounded-full overflow-hidden">
-                <div id="survey-progress-bar" class="h-full bg-emerald-500 w-1/3 transition-all duration-500"></div>
+            <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div id="survey-progress-bar" class="h-full bg-btgreen w-1/3 transition-all duration-500"></div>
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200">
-            <div class="bg-stone-950 p-6 border-b border-stone-800 text-center relative">
-                <button onclick="document.getElementById('survey-state').classList.add('hidden'); document.getElementById('gateway-state').classList.remove('hidden');" class="absolute left-6 top-6 text-stone-400 hover:text-white text-[10px] font-bold uppercase tracking-widest border border-stone-700 px-3 py-1 rounded transition-colors">← Exit</button>
-                <h2 id="survey-theme-title" class="serif text-3xl text-white italic mt-2">The Logistics</h2>
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-200">
+            <div class="bg-navy p-6 border-b border-slate-800 text-center relative">
+                <button onclick="document.getElementById('survey-state').classList.add('hidden'); document.getElementById('gateway-state').classList.remove('hidden');" class="absolute left-6 top-6 text-slate-400 hover:text-white text-[10px] font-bold uppercase tracking-widest border border-slate-700 px-3 py-1 rounded transition-colors">← Exit</button>
+                <h2 id="survey-theme-title" class="font-display text-3xl uppercase tracking-wide text-white font-bold mt-2">The Logistics</h2>
             </div>
             
             <div id="survey-questions-container" class="p-8 space-y-8 slide-up">
-                <!-- Dynamically Injected Questions -->
-            </div>
+                </div>
             
-            <div class="p-6 bg-stone-50 border-t border-stone-200 flex justify-between">
-                <button id="btn-survey-prev" onclick="prevSurveyStep()" class="px-6 py-3 text-stone-500 hover:text-stone-900 font-bold uppercase tracking-widest text-xs transition invisible">Back</button>
-                <button id="btn-survey-next" onclick="nextSurveyStep()" class="px-8 py-3 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl font-bold uppercase tracking-widest text-xs transition shadow-lg">Next Step</button>
+            <div class="p-6 bg-slate-50 border-t border-slate-200 flex justify-between">
+                <button id="btn-survey-prev" onclick="prevSurveyStep()" class="px-6 py-3 text-slate-500 hover:text-navy font-bold uppercase tracking-widest text-xs transition invisible">Back</button>
+                <button id="btn-survey-next" onclick="nextSurveyStep()" class="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs transition shadow-md">Next Step</button>
             </div>
         </div>
     </div>
 
-    <!-- STATE 3: RECOMMENDATIONS 3D -->
     <div id="recommendations-state" class="hidden w-full max-w-5xl fade-in mt-6">
         <div class="text-center mb-8 relative">
-            <button onclick="document.getElementById('recommendations-state').classList.add('hidden'); document.getElementById('survey-state').classList.remove('hidden');" class="absolute left-0 top-2 text-stone-400 hover:text-stone-900 text-[10px] font-bold uppercase tracking-widest border border-stone-300 bg-white px-3 py-1 rounded transition-colors">← Refine Answers</button>
-            <p class="text-emerald-600 tracking-[0.3em] uppercase text-[10px] font-black mb-2">Analysis Complete</p>
-            <h1 class="serif text-4xl text-stone-900 italic font-bold">Your Custom Blueprints</h1>
+            <button onclick="document.getElementById('recommendations-state').classList.add('hidden'); document.getElementById('survey-state').classList.remove('hidden');" class="absolute left-0 top-2 text-slate-400 hover:text-navy text-[10px] font-bold uppercase tracking-widest border border-slate-300 bg-white px-3 py-1 rounded transition-colors">← Refine Answers</button>
+            <p class="text-btgreen tracking-[0.3em] uppercase text-[10px] font-black mb-2">Analysis Complete</p>
+            <h1 class="font-display text-4xl md:text-5xl uppercase tracking-wide text-navy font-bold">Your Custom Blueprints</h1>
         </div>
 
-        <div id="main-globe-container" class="w-full h-64 md:h-96 rounded-3xl overflow-hidden mb-8 bg-stone-950 border border-stone-800 shadow-2xl relative cursor-move">
-            <div class="absolute inset-0 z-10 pointer-events-none shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]"></div>
-            <!-- ThreeJS Injected Here -->
-        </div>
+        <div id="main-globe-container" class="w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-8 bg-navy border border-slate-800 shadow-lg relative cursor-move">
+            <div class="absolute inset-0 z-10 pointer-events-none shadow-[inset_0_0_50px_rgba(0,0,0,0.5)]"></div>
+            </div>
 
         <div id="recommendation-cards" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Dynamically Injected Cards -->
-        </div>
+            </div>
     </div>
 
-    <!-- STATE 3.5: SAMPLE AGENDA / PROCUREMENT -->
     <div id="agenda-state" class="hidden w-full max-w-4xl fade-in mt-6">
-        <!-- header -->
         <div class="text-center mb-8 relative">
-            <button onclick="document.getElementById('agenda-state').classList.add('hidden'); document.getElementById('recommendations-state').classList.remove('hidden');" class="absolute left-0 top-0 text-stone-400 hover:text-stone-900 text-[10px] font-bold uppercase tracking-widest border border-stone-300 px-3 py-1 rounded transition-colors bg-white shadow-sm">← Back</button>
-            <p class="text-emerald-600 tracking-[0.3em] uppercase text-[10px] font-black mb-2">Component Procurement</p>
-            <h1 id="agenda-title" class="serif text-4xl text-stone-900 italic font-bold mb-2">Sample Agenda</h1>
-            <p class="text-stone-500 text-sm">Secure your tee times and accommodations before initializing the trip database.</p>
+            <button onclick="document.getElementById('agenda-state').classList.add('hidden'); document.getElementById('recommendations-state').classList.remove('hidden');" class="absolute left-0 top-0 text-slate-400 hover:text-navy text-[10px] font-bold uppercase tracking-widest border border-slate-300 px-3 py-1 rounded transition-colors bg-white shadow-sm">← Back</button>
+            <p class="text-btgreen tracking-[0.3em] uppercase text-[10px] font-black mb-2">Component Procurement</p>
+            <h1 id="agenda-title" class="font-display text-4xl uppercase tracking-wide text-navy font-bold mb-2">Sample Agenda</h1>
+            <p class="text-slate-500 text-sm">Secure your tee times and accommodations before initializing the trip database.</p>
         </div>
 
-        <!-- Curator Banner -->
-        <div class="bg-stone-950 rounded-2xl p-6 mb-8 shadow-xl flex flex-col md:flex-row items-center justify-between border-l-4 border-emerald-500">
+        <div class="bg-navy rounded-2xl p-6 mb-8 shadow-md flex flex-col md:flex-row items-center justify-between border-l-4 border-btgreen">
             <div class="mb-4 md:mb-0 text-left">
-                <h3 class="serif text-2xl text-white font-bold mb-1 flex items-center gap-2"><span>🛡️</span> Certified BoysTrip Curator</h3>
-                <p class="text-stone-400 text-sm max-w-lg">Skip the hassle. Have a world-class expert plan, negotiate, and secure these exact tee times and hotels for your crew for a flat fee.</p>
+                <h3 class="font-display text-2xl uppercase tracking-wide text-white font-bold mb-1 flex items-center gap-2"><span>🛡️</span> Certified BoysTrip Curator</h3>
+                <p class="text-slate-400 text-sm max-w-lg">Skip the hassle. Have a world-class expert plan, negotiate, and secure these exact tee times and hotels for your crew for a flat fee.</p>
             </div>
-            <button onclick="openCuratorModal()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs transition shadow-lg shrink-0 whitespace-nowrap">Hire a Curator</button>
+            <button onclick="openCuratorModal()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs transition shadow-md shrink-0 whitespace-nowrap">Hire a Curator</button>
         </div>
 
         <div id="agenda-days-container" class="space-y-6">
-            <!-- Rendered via JS -->
-        </div>
+            </div>
 
-        <div class="mt-8 text-center pt-8 border-t border-stone-200">
-            <button id="btn-proceed-builder" class="w-full md:w-auto px-10 py-5 bg-stone-900 hover:bg-stone-800 text-white rounded-xl font-black uppercase tracking-widest transition-all shadow-xl active:scale-95 text-sm">
+        <div class="mt-8 text-center pt-8 border-t border-slate-200">
+            <button id="btn-proceed-builder" class="w-full md:w-auto px-10 py-5 bg-navy hover:bg-slate-800 text-white rounded-xl font-black uppercase tracking-widest transition-all shadow-md active:scale-95 text-sm">
                 Proceed to Trip Initialization &rarr;
             </button>
         </div>
     </div>
 
 
-    <!-- STATE 4: THE BUILDER FORM -->
-    <div id="builder-state" class="hidden w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden fade-in border border-stone-200 mt-10">
-        <div class="bg-stone-950 p-8 text-center border-b-4 border-emerald-600 relative">
-            <button onclick="goBackFromBuilder()" class="absolute left-6 top-6 text-stone-400 hover:text-white text-[10px] font-bold uppercase tracking-widest border border-stone-700 px-3 py-1 rounded transition-colors">← Back</button>
-            <h1 class="serif text-4xl text-white italic mb-2 mt-4">Tour Initialization</h1>
-            <p class="text-stone-400 tracking-[0.2em] uppercase text-[10px] font-bold">Lock in the final details</p>
+    <div id="builder-state" class="hidden w-full max-w-xl bg-white rounded-2xl shadow-md overflow-hidden fade-in border border-slate-200 mt-10">
+        <div class="bg-navy p-8 text-center border-b-4 border-btgreen relative">
+            <button onclick="goBackFromBuilder()" class="absolute left-6 top-6 text-slate-400 hover:text-white text-[10px] font-bold uppercase tracking-widest border border-slate-700 px-3 py-1 rounded transition-colors">← Back</button>
+            <h1 class="font-display text-4xl uppercase tracking-wide text-white font-bold mb-2 mt-4">Tour Initialization</h1>
+            <p class="text-slate-400 tracking-[0.2em] uppercase text-[10px] font-bold">Lock in the final details</p>
         </div>
         
         <div class="p-8 space-y-6">
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Trip Title</label>
-                <input type="text" id="input-name" placeholder="e.g. This is 50." class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Trip Title</label>
+                <input type="text" id="input-name" placeholder="e.g. This is 50." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold text-navy focus:outline-none focus:ring-2 focus:ring-btgreen">
             </div>
 
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Trip Description (Subtitle)</label>
-                <input type="text" id="input-desc" placeholder="e.g. Scotland & Ireland Elite Tour 2026" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Trip Description (Subtitle)</label>
+                <input type="text" id="input-desc" placeholder="e.g. Scotland & Ireland Elite Tour 2026" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold text-navy focus:outline-none focus:ring-2 focus:ring-btgreen">
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Start Date</label>
-                    <input type="date" id="input-start" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Start Date</label>
+                    <input type="date" id="input-start" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold text-navy focus:outline-none focus:ring-2 focus:ring-btgreen">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">End Date</label>
-                    <input type="date" id="input-end" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">End Date</label>
+                    <input type="date" id="input-end" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold text-navy focus:outline-none focus:ring-2 focus:ring-btgreen">
                 </div>
             </div>
 
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Commissioner Email</label>
-                <input type="email" id="input-email" placeholder="For your records" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Commissioner Email</label>
+                <input type="email" id="input-email" placeholder="For your records" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold text-navy focus:outline-none focus:ring-2 focus:ring-btgreen">
             </div>
 
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">The Crew (Comma Separated)</label>
-                <textarea id="input-players" rows="3" placeholder="Greg, Parker, Scott, Craig" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">The Crew (Comma Separated)</label>
+                <textarea id="input-players" rows="3" placeholder="Greg, Parker, Scott, Craig" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold text-navy focus:outline-none focus:ring-2 focus:ring-btgreen"></textarea>
             </div>
 
             <input type="hidden" id="input-suggested-courses" value="">
 
-            <button id="btn-build" class="w-full py-5 mt-4 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl font-black uppercase tracking-widest transition-all shadow-xl active:scale-95">
+            <button id="btn-build" class="w-full py-5 mt-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-black uppercase tracking-widest transition-all shadow-md active:scale-95">
                 Generate Cloud Database
             </button>
             <p id="error-message" class="text-rose-500 text-xs text-center font-bold hidden"></p>
         </div>
     </div>
 
-    <!-- STATE 5: THE DASHBOARD -->
     <div id="dashboard-state" class="hidden w-full max-w-5xl fade-in mt-6">
         
-        <div class="bg-stone-950 rounded-3xl shadow-2xl p-8 mb-8 text-center border border-stone-800 flex flex-col md:flex-row items-center justify-between relative">
-            <button onclick="location.reload()" class="absolute left-6 top-6 text-stone-400 hover:text-white text-[10px] font-bold uppercase tracking-widest border border-stone-700 px-3 py-1 rounded transition-colors">← Exit</button>
+        <div class="bg-navy rounded-2xl shadow-md p-8 mb-8 text-center border border-slate-800 flex flex-col md:flex-row items-center justify-between relative">
+            <button onclick="location.reload()" class="absolute left-6 top-6 text-slate-400 hover:text-white text-[10px] font-bold uppercase tracking-widest border border-slate-700 px-3 py-1 rounded transition-colors">← Exit</button>
             <div class="text-left mb-6 md:mb-0 mt-6 md:mt-0">
-                <h2 id="dash-trip-name" class="serif text-4xl text-white italic font-bold mb-1">Trip Dashboard</h2>
-                <p class="text-emerald-500 text-[10px] font-bold uppercase tracking-[0.3em]">Master Database Provisioned</p>
+                <h2 id="dash-trip-name" class="font-display text-4xl uppercase tracking-wide text-white font-bold mb-1">Trip Dashboard</h2>
+                <p class="text-btgreen text-[10px] font-bold uppercase tracking-[0.3em]">Master Database Provisioned</p>
             </div>
-            <div class="bg-white/10 rounded-2xl p-4 px-8 border border-white/20 text-center">
-                <p class="text-stone-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">Official Tour Code</p>
-                <h3 id="display-trip-id" class="serif text-5xl text-white font-black tracking-widest"></h3>
+            <div class="bg-white/10 rounded-xl p-4 px-8 border border-white/20 text-center">
+                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-1">Official Tour Code</p>
+                <h3 id="display-trip-id" class="font-display text-5xl uppercase tracking-widest text-white font-black"></h3>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
-                <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
-                    <h3 class="serif text-2xl text-stone-900 font-bold">The Crew</h3>
-                    <button onclick="openCrewModal()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-indigo-100 transition">Edit</button>
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                    <h3 class="font-display text-2xl uppercase tracking-wide text-navy font-bold">The Crew</h3>
+                    <button onclick="openCrewModal()" class="bg-slate-100 text-navy border border-slate-200 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-slate-200 transition">Edit</button>
                 </div>
                 <div id="crew-list" class="flex flex-wrap gap-2"></div>
             </div>
 
-            <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
-                <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
-                    <h3 class="serif text-2xl text-stone-900 font-bold">Itinerary</h3>
-                    <button onclick="openAddItineraryModal()" class="bg-stone-900 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-stone-800 transition">Add Day +</button>
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                    <h3 class="font-display text-2xl uppercase tracking-wide text-navy font-bold">Itinerary</h3>
+                    <button onclick="openAddItineraryModal()" class="bg-navy text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-slate-800 transition">Add Day +</button>
                 </div>
                 <div id="itinerary-list" class="space-y-3"></div>
             </div>
 
-            <div class="bg-white rounded-3xl shadow-xl border border-stone-200 p-6">
-                <div class="flex justify-between items-center mb-6 border-b border-stone-100 pb-4">
-                    <h3 class="serif text-2xl text-stone-900 font-bold">Golf Matches</h3>
-                    <button onclick="openAddMatchModal()" class="bg-emerald-800 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-emerald-700 transition">Add Course +</button>
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                    <h3 class="font-display text-2xl uppercase tracking-wide text-navy font-bold">Golf Matches</h3>
+                    <button onclick="openAddMatchModal()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-emerald-500 transition">Add Course +</button>
                 </div>
                 <div id="matches-list" class="space-y-3"></div>
             </div>
         </div>
     </div>
 
-    <!-- MODALS -->
-    <!-- MODAL: Hire a Curator -->
-    <div id="curator-modal" class="hidden fixed inset-0 z-[600] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col relative transition-all duration-300">
-            <button onclick="closeModal('curator-modal')" class="absolute top-4 right-4 text-stone-400 hover:text-stone-900 text-xl font-black z-10">&times;</button>
+    <div id="curator-modal" class="hidden fixed inset-0 z-[600] bg-navy/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden flex flex-col relative transition-all duration-300">
+            <button onclick="closeModal('curator-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-navy text-2xl font-black z-10 leading-none">&times;</button>
             
-            <!-- Input State -->
             <div id="curator-form-state" class="p-8 text-center pt-10 fade-in">
                 <div class="inline-block p-4 rounded-full bg-emerald-100 text-emerald-600 mb-4 shadow-inner">
                     <span class="text-3xl">🎩</span>
                 </div>
-                <h3 class="serif text-2xl font-bold text-stone-900 mb-2">Hire a Magician</h3>
-                <p class="text-stone-500 text-sm mb-6">Drop your cell number below. We'll handle the tee times, the hotels, and the headaches.</p>
-                <input type="tel" id="input-curator-phone" placeholder="(555) 555-5555" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-4 text-center font-black text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 mb-4 tracking-widest">
-                <button onclick="submitCuratorRequest()" class="w-full py-4 bg-emerald-900 hover:bg-emerald-800 text-white rounded-xl font-black uppercase tracking-widest text-xs transition shadow-lg active:scale-95">Summon Curator</button>
+                <h3 class="font-display text-2xl uppercase tracking-wide text-navy font-bold mb-2">Hire a Magician</h3>
+                <p class="text-slate-500 text-sm mb-6">Drop your cell number below. We'll handle the tee times, the hotels, and the headaches.</p>
+                <input type="tel" id="input-curator-phone" placeholder="(555) 555-5555" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 text-center font-black text-navy focus:outline-none focus:ring-2 focus:ring-btgreen mb-4 tracking-widest">
+                <button onclick="submitCuratorRequest()" class="w-full py-4 bg-navy hover:bg-slate-800 text-white rounded-xl font-black uppercase tracking-widest text-xs transition shadow-md active:scale-95">Summon Curator</button>
             </div>
 
-            <!-- Success State -->
             <div id="curator-success-state" class="hidden p-8 text-center pt-10 fade-in">
-                <div class="inline-block p-4 rounded-full bg-emerald-50 text-emerald-500 mb-4 border border-emerald-100">
+                <div class="inline-block p-4 rounded-full bg-emerald-50 text-btgreen mb-4 border border-emerald-100">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 </div>
-                <h3 class="serif text-2xl font-bold text-stone-900 mb-2">We're on it.</h3>
-                <p class="text-stone-500 text-sm mb-6">One of our BoysTrip Magicians will reach out to you shortly to finalize the details.</p>
-                <button onclick="closeModal('curator-modal')" class="w-full py-4 bg-stone-200 hover:bg-stone-300 text-stone-700 rounded-xl font-bold uppercase tracking-widest text-xs transition">Done</button>
+                <h3 class="font-display text-2xl uppercase tracking-wide text-navy font-bold mb-2">We're on it.</h3>
+                <p class="text-slate-500 text-sm mb-6">One of our BoysTrip Magicians will reach out to you shortly to finalize the details.</p>
+                <button onclick="closeModal('curator-modal')" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-navy rounded-xl font-bold uppercase tracking-widest text-xs transition">Done</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: Confirm Delete -->
-    <div id="delete-modal" class="hidden fixed inset-0 z-[400] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col text-center">
+    <div id="delete-modal" class="hidden fixed inset-0 z-[400] bg-navy/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden flex flex-col text-center">
             <div class="p-6 pt-10">
                 <div class="inline-block p-4 rounded-full bg-rose-100 text-rose-600 mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                 </div>
-                <h3 class="serif text-2xl font-bold text-stone-900 mb-2">Are you sure?</h3>
-                <p class="text-stone-500 text-sm mb-2">This action cannot be undone. This will permanently remove this item from the tour.</p>
+                <h3 class="font-display text-2xl uppercase tracking-wide font-bold text-navy mb-2">Are you sure?</h3>
+                <p class="text-slate-500 text-sm mb-2">This action cannot be undone. This will permanently remove this item from the tour.</p>
                 <p id="delete-error" class="text-rose-500 text-xs font-bold hidden"></p>
             </div>
-            <div class="p-4 bg-stone-50 flex gap-3 border-t border-stone-100">
-                <button onclick="closeModal('delete-modal')" class="flex-1 py-3 text-stone-600 bg-white border border-stone-200 hover:bg-stone-50 rounded-xl font-bold uppercase tracking-widest text-xs transition">Cancel</button>
-                <button id="btn-confirm-delete" class="flex-1 py-3 text-white bg-rose-600 hover:bg-rose-700 rounded-xl font-bold uppercase tracking-widest text-xs transition shadow-lg">Delete</button>
+            <div class="p-4 bg-slate-50 flex gap-3 border-t border-slate-100">
+                <button onclick="closeModal('delete-modal')" class="flex-1 py-3 text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl font-bold uppercase tracking-widest text-xs transition">Cancel</button>
+                <button id="btn-confirm-delete" class="flex-1 py-3 text-white bg-rose-600 hover:bg-rose-700 rounded-xl font-bold uppercase tracking-widest text-xs transition shadow-md">Delete</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: Add Itinerary Day -->
-    <div id="itinerary-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
-                <h3 class="serif text-2xl font-bold text-stone-900">Add Itinerary Day</h3>
-                <button onclick="closeModal('itinerary-modal')" class="text-stone-400 hover:text-stone-900 text-xl font-black">&times;</button>
+    <div id="itinerary-modal" class="hidden fixed inset-0 z-[300] bg-navy/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="font-display text-2xl uppercase tracking-wide font-bold text-navy">Add Itinerary Day</h3>
+                <button onclick="closeModal('itinerary-modal')" class="text-slate-400 hover:text-navy text-2xl font-black leading-none">&times;</button>
             </div>
             <div class="p-6 overflow-y-auto space-y-4">
                 <div class="grid grid-cols-2 gap-4">
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Day Title (e.g. Day 1)</label><input type="text" id="itn-day" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Date</label><input type="date" id="itn-date" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Day Title (e.g. Day 1)</label><input type="text" id="itn-day" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Date</label><input type="date" id="itn-date" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
                 </div>
-                <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Daily Quote / Toast</label><input type="text" id="itn-quote" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Daily Quote / Toast</label><input type="text" id="itn-quote" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Wake Up City</label><input type="text" id="itn-wake" placeholder="e.g. Edinburgh" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Sleep City</label><input type="text" id="itn-sleep" placeholder="e.g. St Andrews" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Wake Up City</label><input type="text" id="itn-wake" placeholder="e.g. Edinburgh" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Sleep City</label><input type="text" id="itn-sleep" placeholder="e.g. St Andrews" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
                 </div>
-                <hr class="border-stone-100">
-                <h4 class="text-xs font-bold uppercase tracking-widest text-emerald-600">City Intel</h4>
+                <hr class="border-slate-100">
+                <h4 class="text-xs font-bold uppercase tracking-widest text-btgreen">City Intel</h4>
                 <div>
-                    <label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">City Name</label>
+                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">City Name</label>
                     <div class="flex gap-2">
-                        <input type="text" id="itn-city" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500" placeholder="e.g. Edinburgh">
-                        <button type="button" onclick="lookupCity()" class="bg-stone-200 hover:bg-stone-300 text-stone-700 px-4 py-2 rounded text-xs font-bold uppercase transition-colors">Search</button>
+                        <input type="text" id="itn-city" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none" placeholder="e.g. Edinburgh">
+                        <button type="button" onclick="lookupCity()" class="bg-slate-100 hover:bg-slate-200 text-navy px-4 py-2 rounded-lg text-xs font-bold uppercase transition-colors">Search</button>
                     </div>
                     <p id="city-lookup-status" class="text-[10px] mt-1 h-3"></p>
                 </div>
-                <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">City Vibe (Description)</label><textarea id="itn-desc" rows="3" placeholder="Click Search to auto-fill or type your own!" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></textarea></div>
-                <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Hotel Name</label><input type="text" id="itn-hotel" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">City Vibe (Description)</label><textarea id="itn-desc" rows="3" placeholder="Click Search to auto-fill or type your own!" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></textarea></div>
+                <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Hotel Name</label><input type="text" id="itn-hotel" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
             </div>
-            <div class="p-6 border-t border-stone-100 bg-stone-50">
-                <button id="btn-save-itinerary" class="w-full py-3 bg-stone-900 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-stone-800 transition">Save Day</button>
+            <div class="p-6 border-t border-slate-100 bg-slate-50">
+                <button id="btn-save-itinerary" class="w-full py-3 bg-navy text-white rounded-xl font-bold uppercase tracking-widest hover:bg-slate-800 transition shadow-md">Save Day</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: Add Match -->
-    <div id="match-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
+    <div id="match-modal" class="hidden fixed inset-0 z-[300] bg-navy/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <div>
-                    <h3 class="serif text-2xl font-bold text-stone-900 leading-none">Add Golf Match</h3>
-                    <p class="text-[10px] uppercase font-bold text-emerald-600 tracking-widest mt-1">Course & Pairings</p>
+                    <h3 class="font-display text-2xl uppercase tracking-wide font-bold text-navy leading-none">Add Golf Match</h3>
+                    <p class="text-[10px] uppercase font-bold text-btgreen tracking-widest mt-1">Course & Pairings</p>
                 </div>
-                <button onclick="closeModal('match-modal')" class="text-stone-400 hover:text-stone-900 text-xl font-black">&times;</button>
+                <button onclick="closeModal('match-modal')" class="text-slate-400 hover:text-navy text-2xl font-black leading-none">&times;</button>
             </div>
             <div class="p-6 overflow-y-auto space-y-6 hide-scrollbar">
-                <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4">
+                <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
                     <label class="block text-[10px] font-bold uppercase text-emerald-700 mb-2">Select Course</label>
-                    <select id="m-course-select" class="w-full border rounded px-3 py-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold text-stone-800 bg-white shadow-sm mb-2 outline-none">
+                    <select id="m-course-select" class="w-full border rounded px-3 py-3 text-sm focus:ring-2 focus:ring-btgreen font-bold text-navy bg-white shadow-sm mb-2 outline-none">
                         <option value="">Loading Master Database...</option>
                     </select>
-                    <input type="text" id="m-course-custom" placeholder="Type new course name here..." class="hidden w-full border rounded px-3 py-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold bg-white mt-2 shadow-inner">
-                    <p id="course-lookup-status" class="text-[10px] mt-2 h-3 font-medium text-stone-500"></p>
+                    <input type="text" id="m-course-custom" placeholder="Type new course name here..." class="hidden w-full border rounded px-3 py-3 text-sm focus:ring-2 focus:ring-btgreen font-bold bg-white mt-2 shadow-inner">
+                    <p id="course-lookup-status" class="text-[10px] mt-2 h-3 font-medium text-slate-500"></p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Date</label><input type="date" id="m-date" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Tee Time</label><input type="time" id="m-time" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Date</label><input type="date" id="m-date" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Tee Time</label><input type="time" id="m-time" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
                 </div>
                 <div class="grid grid-cols-1 gap-4">
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Matchup Title (e.g. US vs EUR)</label><input type="text" id="m-matchup" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Matchup Title (e.g. US vs EUR)</label><input type="text" id="m-matchup" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Team A Name</label><input type="text" id="m-teamA" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
-                    <div><label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">Team B Name</label><input type="text" id="m-teamB" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Team A Name</label><input type="text" id="m-teamA" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
+                    <div><label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Team B Name</label><input type="text" id="m-teamB" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></div>
                 </div>
                 <input type="hidden" id="m-video" value="">
             </div>
-            <div class="p-6 border-t border-stone-100 bg-stone-50">
-                <button id="btn-save-match" class="w-full py-4 bg-emerald-800 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-emerald-700 transition shadow-lg">Save Match to Trip</button>
+            <div class="p-6 border-t border-slate-100 bg-slate-50">
+                <button id="btn-save-match" class="w-full py-4 bg-emerald-600 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-emerald-500 transition shadow-md">Save Match to Trip</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: Edit Crew -->
-    <div id="crew-modal" class="hidden fixed inset-0 z-[300] bg-stone-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
-                <h3 class="serif text-2xl font-bold text-stone-900">Edit Roster</h3>
-                <button onclick="closeModal('crew-modal')" class="text-stone-400 hover:text-stone-900 text-xl font-black">&times;</button>
+    <div id="crew-modal" class="hidden fixed inset-0 z-[300] bg-navy/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="font-display text-2xl uppercase tracking-wide font-bold text-navy">Edit Roster</h3>
+                <button onclick="closeModal('crew-modal')" class="text-slate-400 hover:text-navy text-2xl font-black leading-none">&times;</button>
             </div>
             <div class="p-6 overflow-y-auto space-y-4">
                 <div>
-                    <label class="block text-[10px] font-bold uppercase text-stone-500 mb-1">The Crew (Comma Separated)</label>
-                    <textarea id="edit-players-input" rows="3" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"></textarea>
+                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">The Crew (Comma Separated)</label>
+                    <textarea id="edit-players-input" rows="3" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-btgreen outline-none"></textarea>
                 </div>
             </div>
-            <div class="p-6 border-t border-stone-100 bg-stone-50">
-                <button id="btn-update-crew" class="w-full py-3 bg-stone-900 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-stone-800 transition">Update Roster</button>
+            <div class="p-6 border-t border-slate-100 bg-slate-50">
+                <button id="btn-update-crew" class="w-full py-3 bg-navy text-white rounded-xl font-bold uppercase tracking-widest hover:bg-slate-800 transition shadow-md">Update Roster</button>
             </div>
         </div>
     </div>
@@ -469,7 +446,7 @@
         const allDestinations = [
             {
                 title: "The Birthplace Run", desc: "Scotland & Ireland Pure Links",
-                lat: 56.33, lon: -2.79, color: 0x3b82f6,
+                lat: 56.33, lon: -2.79, color: 0x10b981, // btgreen
                 cities: ["St Andrews, Scotland", "Edinburgh, Scotland", "East Lothian, Scotland"],
                 courses: [
                     { name: "St Andrews Old Course", renowned: true, url: "https://standrews.com" },
@@ -480,7 +457,7 @@
             },
             {
                 title: "Desert Elite Tour", desc: "Scottsdale / Vegas Premium Run",
-                lat: 33.49, lon: -111.92, color: 0xf59e0b,
+                lat: 33.49, lon: -111.92, color: 0x10b981,
                 cities: ["Scottsdale, AZ", "Las Vegas, NV"],
                 courses: [
                     { name: "TPC Scottsdale", renowned: true, url: "https://tpc.com/scottsdale" },
@@ -501,7 +478,7 @@
             },
             {
                 title: "The Monterey Classic", desc: "Pebble Beach & Peninsula Premium",
-                lat: 36.56, lon: -121.95, color: 0xec4899,
+                lat: 36.56, lon: -121.95, color: 0x10b981,
                 cities: ["Monterey, CA", "Carmel-by-the-Sea, CA"],
                 courses: [
                     { name: "Pebble Beach", renowned: true, url: "https://pebblebeach.com" },
@@ -561,7 +538,7 @@
             container.classList.add('slide-up');
 
             theme.questions.forEach(q => {
-                let html = `<div class="mb-6"><label class="block text-sm font-bold text-stone-800 mb-3">${q.label}</label>`;
+                let html = `<div class="mb-6"><label class="block text-sm font-bold text-navy mb-3">${q.label}</label>`;
                 
                 if (q.type === 'slider') {
                     const currentVal = surveyData[q.id] || q.val;
@@ -570,19 +547,19 @@
                             <input type="range" id="q-${q.id}" min="${q.min}" max="${q.max}" value="${currentVal}" 
                                 oninput="document.getElementById('val-${q.id}').innerText = this.value + ' ${q.unit}'"
                                 onchange="surveyData['${q.id}'] = this.value" class="w-full">
-                            <span id="val-${q.id}" class="w-24 text-right font-black text-emerald-600 text-sm bg-emerald-50 px-3 py-1 rounded-lg">${currentVal} ${q.unit}</span>
+                            <span id="val-${q.id}" class="w-24 text-right font-black text-btgreen text-sm bg-emerald-50 px-3 py-1 rounded-lg">${currentVal} ${q.unit}</span>
                         </div>`;
                 } else if (q.type === 'choice') {
                     html += `<div class="grid grid-cols-2 md:grid-cols-4 gap-3">`;
                     q.options.forEach(opt => {
-                        const isSel = surveyData[q.id] === opt ? 'selected' : 'bg-stone-50 border-stone-200 text-stone-600 hover:bg-stone-100';
+                        const isSel = surveyData[q.id] === opt ? 'selected' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100';
                         html += `<button onclick="selectSurveyChoice('${q.id}', '${opt}', this)" class="choice-btn w-full py-3 px-2 border rounded-xl text-xs font-bold uppercase tracking-wide ${isSel}">${opt}</button>`;
                     });
                     html += `</div>`;
                 } else if (q.type === 'text') {
-                    html += `<input type="text" id="q-${q.id}" placeholder="${q.placeholder}" value="${surveyData[q.id]||''}" onchange="surveyData['${q.id}'] = this.value" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">`;
+                    html += `<input type="text" id="q-${q.id}" placeholder="${q.placeholder}" value="${surveyData[q.id]||''}" onchange="surveyData['${q.id}'] = this.value" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium text-navy focus:outline-none focus:ring-2 focus:ring-btgreen">`;
                 } else if (q.type === 'month') {
-                    html += `<input type="month" id="q-${q.id}" value="${surveyData[q.id]||q.val}" onchange="surveyData['${q.id}'] = this.value" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">`;
+                    html += `<input type="month" id="q-${q.id}" value="${surveyData[q.id]||q.val}" onchange="surveyData['${q.id}'] = this.value" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium text-navy focus:outline-none focus:ring-2 focus:ring-btgreen">`;
                 }
                 
                 html += `</div>`;
@@ -597,11 +574,11 @@
             surveyData[qId] = val;
             const siblings = btnEl.parentElement.querySelectorAll('button');
             siblings.forEach(b => {
-                b.classList.remove('selected', 'bg-bt-900', 'text-white', 'border-bt-900');
-                b.classList.add('bg-stone-50', 'border-stone-200', 'text-stone-600');
+                b.classList.remove('selected', 'bg-navy', 'text-white', 'border-navy');
+                b.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-600');
             });
-            btnEl.classList.remove('bg-stone-50', 'border-stone-200', 'text-stone-600');
-            btnEl.classList.add('selected', 'bg-bt-900', 'text-white', 'border-bt-900');
+            btnEl.classList.remove('bg-slate-50', 'border-slate-200', 'text-slate-600');
+            btnEl.classList.add('selected', 'bg-navy', 'text-white', 'border-navy');
         };
 
         window.prevSurveyStep = () => { if (currentSurveyStep > 0) { currentSurveyStep--; renderSurveyStep(); } };
@@ -623,14 +600,14 @@
             container.appendChild(renderer.domElement);
 
             const material = new THREE.MeshPhongMaterial({
-                color: 0x064e3b, emissive: 0x000000, specular: 0x10b981, shininess: 10,
+                color: 0x10b981, emissive: 0x000000, specular: 0x10b981, shininess: 10,
                 wireframe: true, transparent: true, opacity: isMini ? 0.3 : 0.6
             });
             
             const globe = new THREE.Mesh(new THREE.SphereGeometry(isMini ? 4 : 5, 32, 32), material);
             scene.add(globe);
 
-            const solidGlobe = new THREE.Mesh(new THREE.SphereGeometry(isMini ? 3.9 : 4.95, 32, 32), new THREE.MeshBasicMaterial({ color: 0x0a0a0a }));
+            const solidGlobe = new THREE.Mesh(new THREE.SphereGeometry(isMini ? 3.9 : 4.95, 32, 32), new THREE.MeshBasicMaterial({ color: 0x0f172a }));
             scene.add(solidGlobe);
 
             scene.add(new THREE.AmbientLight(0xffffff, 0.5));
@@ -704,19 +681,19 @@
                 if (globeData) addMarkerToGlobe(globeData.globe, rec.lat, rec.lon, rec.color);
                 
                 cardsContainer.innerHTML += `
-                    <div class="bg-white rounded-3xl p-6 border border-stone-200 shadow-xl flex flex-col h-full hover:-translate-y-1 transition-transform cursor-pointer relative overflow-hidden group" onclick="selectBlueprint(${idx})">
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-md flex flex-col h-full hover:-translate-y-1 transition-transform cursor-pointer relative overflow-hidden group" onclick="selectBlueprint(${idx})">
                         <div class="absolute top-0 left-0 w-full h-1" style="background-color: #${rec.color.toString(16)}"></div>
-                        <div class="mb-4"><span class="text-[9px] font-black uppercase tracking-widest text-stone-400 bg-stone-100 px-2 py-1 rounded-md">Option ${idx+1}</span></div>
-                        <h3 class="serif text-2xl font-bold text-stone-900 mb-1">${rec.title}</h3>
-                        <p class="text-xs text-stone-500 font-bold uppercase tracking-widest mb-4">${rec.desc}</p>
+                        <div class="mb-4"><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 bg-slate-100 px-2 py-1 rounded-md">Option ${idx+1}</span></div>
+                        <h3 class="font-display text-2xl uppercase tracking-wide font-bold text-navy mb-1">${rec.title}</h3>
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4">${rec.desc}</p>
                         
-                        <div class="mt-auto pt-4 border-t border-stone-100">
-                            <p class="text-[10px] text-stone-400 uppercase font-bold tracking-widest mb-1">Suggested Routing</p>
-                            <p class="text-sm font-medium text-stone-700">${rec.courses.map(c=>c.name).join(', ')}</p>
+                        <div class="mt-auto pt-4 border-t border-slate-100">
+                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-1">Suggested Routing</p>
+                            <p class="text-sm font-medium text-slate-700">${rec.courses.map(c=>c.name).join(', ')}</p>
                         </div>
                         
                         <div class="mt-6">
-                            <button class="w-full py-3 bg-stone-950 text-white rounded-xl font-bold uppercase tracking-widest text-xs group-hover:bg-emerald-600 transition-colors">Select Blueprint</button>
+                            <button class="w-full py-3 bg-navy text-white rounded-xl font-bold uppercase tracking-widest text-xs group-hover:bg-emerald-600 transition-colors shadow-md">Select Blueprint</button>
                         </div>
                     </div>
                 `;
@@ -764,37 +741,34 @@
                 const likelihood = getBookingStatus(course.renowned, targetMonth);
                 
                 container.innerHTML += `
-                    <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 relative overflow-hidden">
-                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-stone-800"></div>
-                        <h3 class="serif text-xl font-bold text-stone-900 mb-4 ml-2">Day ${i + 1} <span class="text-stone-400 text-sm ml-2 font-sans font-medium tracking-wide">| ${city}</span></h3>
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-navy"></div>
+                        <h3 class="font-display text-xl uppercase tracking-wide font-bold text-navy mb-4 ml-2">Day ${i + 1} <span class="text-slate-400 text-sm ml-2 font-sans font-medium tracking-wide">| ${city}</span></h3>
                         
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 ml-2">
-                            <!-- Lodging -->
-                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100 flex flex-col h-full">
-                                <h4 class="text-[10px] uppercase tracking-widest text-stone-500 font-bold mb-2">Lodging</h4>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col h-full">
+                                <h4 class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2">Lodging</h4>
                                 <div class="mt-auto">
-                                    <a href="https://www.expedia.com/Hotel-Search?destination=${encodeURIComponent(city)}" target="_blank" class="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-xs font-bold transition bg-indigo-50 px-3 py-2 rounded-lg border border-indigo-100 w-full justify-center shadow-sm">
+                                    <a href="https://www.expedia.com/Hotel-Search?destination=${encodeURIComponent(city)}" target="_blank" class="inline-flex items-center gap-2 text-navy hover:text-emerald-600 text-xs font-bold transition bg-white px-3 py-2 rounded-lg border border-slate-300 w-full justify-center shadow-sm">
                                         <span>🛌</span> Search Hotels &rarr;
                                     </a>
                                 </div>
                             </div>
                             
-                            <!-- Golf -->
-                            <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 flex flex-col h-full">
+                            <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 flex flex-col h-full">
                                 <div class="flex justify-between items-start mb-2">
                                     <h4 class="text-[10px] uppercase tracking-widest text-emerald-700 font-bold">Golf Match</h4>
                                     <span class="${likelihood.colorClass} px-2 py-0.5 rounded text-[8px] font-black border shadow-sm">${likelihood.text} LIKELIHOOD</span>
                                 </div>
-                                <p class="font-bold text-emerald-900 text-sm mb-3">${course.name}</p>
+                                <p class="font-bold text-navy text-sm mb-3">${course.name}</p>
                                 <div class="mt-auto">
                                     <a href="${course.url}" target="_blank" class="inline-block text-[11px] font-bold text-emerald-700 hover:text-emerald-900 transition underline decoration-emerald-300 underline-offset-2">Book Tee Time &rarr;</a>
                                 </div>
                             </div>
 
-                            <!-- Off-Course -->
                             <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 flex flex-col h-full">
                                 <h4 class="text-[10px] uppercase tracking-widest text-amber-700 font-bold mb-2">Off-Course</h4>
-                                <p class="text-xs text-amber-900 font-medium leading-relaxed mb-2">Explore the best <span class="font-bold italic">${nonGolfPref}</span> in the area.</p>
+                                <p class="text-xs text-amber-900 font-medium leading-relaxed mb-2">Explore the best <span class="font-bold">"${nonGolfPref}"</span> in the area.</p>
                                 <div class="mt-auto">
                                     <a href="https://www.google.com/search?q=best+${encodeURIComponent(nonGolfPref)}+in+${encodeURIComponent(city)}" target="_blank" class="inline-block text-[11px] font-bold text-amber-700 hover:text-amber-900 transition underline decoration-amber-300 underline-offset-2">View Top Spots &rarr;</a>
                                 </div>
@@ -816,13 +790,9 @@
         window.submitCuratorRequest = () => {
             const phone = document.getElementById('input-curator-phone').value.trim();
             if (!phone) {
-                alert("Please enter a valid cell phone number so our Magicians can reach you.");
+                alert("Please enter a valid cell phone number so our BoysTrip Magicians can reach you.");
                 return;
             }
-            
-            // In a real production app, this is where we'd push the phone number to Firestore
-            // e.g., await addDoc(collection(db, 'curator_requests'), { phone, trip: currentRecommendations[selectedRecIndex].title });
-
             document.getElementById('curator-form-state').classList.add('hidden');
             document.getElementById('curator-success-state').classList.remove('hidden');
         };
@@ -846,7 +816,6 @@
             document.getElementById('input-desc').value = rec.desc;
             document.getElementById('input-suggested-courses').value = rec.courses.map(c => c.name).join(', ');
             
-            // Pre-fill dates based on target month
             if (surveyData.targetDate) {
                 const year = surveyData.targetDate.split('-')[0];
                 const month = surveyData.targetDate.split('-')[1];
@@ -985,17 +954,17 @@
             const crewList = document.getElementById('crew-list');
             if (activeTripData && activeTripData.players) {
                 crewList.innerHTML = activeTripData.players.map(p => 
-                    `<span class="bg-stone-100 border border-stone-300 text-stone-800 px-4 py-2 rounded-xl text-xs font-black tracking-wider uppercase shadow-sm">${p}</span>`
+                    `<span class="bg-slate-100 border border-slate-200 text-slate-700 px-4 py-2 rounded-md text-xs font-black tracking-wider uppercase shadow-sm">${p}</span>`
                 ).join('');
             } else {
-                crewList.innerHTML = `<p class="text-stone-400 text-sm italic">No crew members found.</p>`;
+                crewList.innerHTML = `<p class="text-slate-400 text-sm">No crew members found.</p>`;
             }
 
             const itnSnap = await getDocs(collection(db, 'trips', activeTripId, 'itinerary'));
             const itnList = document.getElementById('itinerary-list');
             itineraryCache = {};
             if (itnSnap.empty) {
-                itnList.innerHTML = `<p class="text-stone-400 text-sm italic">No itinerary days added yet.</p>`;
+                itnList.innerHTML = `<p class="text-slate-400 text-sm">No itinerary days added yet.</p>`;
             } else {
                 itnList.innerHTML = '';
                 let days = [];
@@ -1006,11 +975,11 @@
                 days.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
                 days.forEach(data => {
                     itnList.innerHTML += `
-                        <div class="bg-stone-50 border rounded-lg p-3 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                            <div class="mb-2 sm:mb-0"><span class="font-bold text-stone-700">${data.day}</span><span class="text-stone-500 ml-2">${data.date}</span></div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-sm">
+                            <div class="mb-2 sm:mb-0"><span class="font-bold text-navy">${data.day}</span><span class="text-slate-500 ml-2">${data.date}</span></div>
                             <div class="flex gap-1">
-                                <button onclick="editItinerary('${data.id}')" class="text-[10px] text-stone-600 hover:text-indigo-600 font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-stone-200 rounded-md hover:border-indigo-300 shadow-sm">Edit</button>
-                                <button onclick="promptDelete('itinerary', '${data.id}')" class="text-[10px] text-stone-600 hover:text-rose-600 font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-stone-200 rounded-md hover:border-rose-300 shadow-sm">Delete</button>
+                                <button onclick="editItinerary('${data.id}')" class="text-[10px] text-slate-600 hover:text-btgreen font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-slate-200 rounded-md hover:border-emerald-300 shadow-sm">Edit</button>
+                                <button onclick="promptDelete('itinerary', '${data.id}')" class="text-[10px] text-slate-600 hover:text-rose-600 font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-slate-200 rounded-md hover:border-rose-300 shadow-sm">Delete</button>
                             </div>
                         </div>`;
                 });
@@ -1020,7 +989,7 @@
             const mtchList = document.getElementById('matches-list');
             matchesCache = {};
             if (mtchSnap.empty) {
-                mtchList.innerHTML = `<p class="text-stone-400 text-sm italic">No golf matches added yet.</p>`;
+                mtchList.innerHTML = `<p class="text-slate-400 text-sm">No golf matches added yet.</p>`;
             } else {
                 mtchList.innerHTML = '';
                 let matches = [];
@@ -1037,22 +1006,22 @@
                 });
                 
                 matches.forEach(data => {
-                    const statusTag = data.pendingData ? `<span class="text-[9px] text-amber-500 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-bold uppercase hidden sm:inline-block">Pending Yardages</span>` : `<span class="text-[9px] text-emerald-500 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-bold uppercase hidden sm:inline-block">Ready</span>`;
+                    const statusTag = data.pendingData ? `<span class="text-[9px] text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-bold uppercase hidden sm:inline-block">Pending Yardages</span>` : `<span class="text-[9px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-bold uppercase hidden sm:inline-block">Ready</span>`;
                     const displayTime = data.time ? data.time : "TBD";
                     
                     mtchList.innerHTML += `
-                        <div class="bg-stone-50 border rounded-lg p-3 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-sm">
                             <div class="mb-2 sm:mb-0">
-                                <span class="font-bold text-stone-700">${data.course}</span>
+                                <span class="font-bold text-navy">${data.course}</span>
                                 <div class="inline-flex items-center gap-2 ml-2">
                                     ${statusTag}
-                                    <span class="text-stone-900 font-bold">${displayTime}</span>
-                                    <span class="text-stone-500">${data.date}</span>
+                                    <span class="text-navy font-bold">${displayTime}</span>
+                                    <span class="text-slate-500">${data.date}</span>
                                 </div>
                             </div>
                             <div class="flex gap-1">
-                                <button onclick="editMatch('${data.id}')" class="text-[10px] text-stone-600 hover:text-indigo-600 font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-stone-200 rounded-md hover:border-indigo-300 shadow-sm">Edit</button>
-                                <button onclick="promptDelete('match', '${data.id}')" class="text-[10px] text-stone-600 hover:text-rose-600 font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-stone-200 rounded-md hover:border-rose-300 shadow-sm">Delete</button>
+                                <button onclick="editMatch('${data.id}')" class="text-[10px] text-slate-600 hover:text-btgreen font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-slate-200 rounded-md hover:border-emerald-300 shadow-sm">Edit</button>
+                                <button onclick="promptDelete('match', '${data.id}')" class="text-[10px] text-slate-600 hover:text-rose-600 font-bold uppercase tracking-widest transition px-3 py-1.5 bg-white border border-slate-200 rounded-md hover:border-rose-300 shadow-sm">Delete</button>
                             </div>
                         </div>`;
                 });
@@ -1200,7 +1169,7 @@
             const statusEl = document.getElementById('course-lookup-status');
             if (val === 'CUSTOM_ADD') {
                 customInput.classList.remove('hidden'); customInput.focus();
-                statusEl.innerText = "Custom course. BoysTrip caddies will add yardages ASAP!";
+                statusEl.innerText = "Custom course. BoysTrip Caddies will add yardages ASAP!";
                 statusEl.className = "text-[10px] mt-2 h-3 font-bold text-amber-600";
             } else if (val) {
                 customInput.classList.add('hidden');
@@ -1216,17 +1185,17 @@
             if(!cityKey) return;
             
             statusEl.innerText = "Searching global database...";
-            statusEl.className = "text-[10px] mt-1 h-3 text-stone-500 font-bold";
+            statusEl.className = "text-[10px] mt-1 h-3 text-slate-500 font-bold";
             try {
                 const docRef = doc(db, 'master_cities', cityKey);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     document.getElementById('itn-desc').value = docSnap.data().description || "";
                     statusEl.innerText = "✓ Vibe imported automatically!";
-                    statusEl.className = "text-[10px] mt-1 h-3 text-emerald-500 font-bold";
+                    statusEl.className = "text-[10px] mt-1 h-3 text-btgreen font-bold";
                 } else {
                     statusEl.innerText = "City not in DB. Type your own vibe, and we'll add it to the global list!";
-                    statusEl.className = "text-[10px] mt-1 h-3 text-amber-500 font-bold";
+                    statusEl.className = "text-[10px] mt-1 h-3 text-amber-600 font-bold";
                 }
             } catch(e) {
                 statusEl.innerText = "Search failed. Connection issue.";
