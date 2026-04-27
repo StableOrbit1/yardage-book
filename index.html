@@ -162,7 +162,7 @@
     </div>
 
     <!-- STATE 3: RECOMMENDATIONS 3D -->
-    <div id="recommendations-state" class="hidden w-full max-w-5xl fade-in mt-6">
+    <div id="recommendations-state" class="hidden w-full max-w-6xl fade-in mt-6">
         <div class="text-center mb-8 relative">
             <button onclick="document.getElementById('recommendations-state').classList.add('hidden'); document.getElementById('survey-state').classList.remove('hidden');" class="absolute left-0 top-2 text-slate-400 hover:text-navy text-[10px] font-bold uppercase tracking-widest border border-slate-300 bg-white px-3 py-1 rounded transition-colors">← Refine Answers</button>
             <p class="text-btgreen tracking-[0.3em] uppercase text-[10px] font-black mb-2">Analysis Complete</p>
@@ -174,7 +174,7 @@
             <!-- ThreeJS Injected Here -->
         </div>
 
-        <div id="recommendation-cards" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div id="recommendation-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Dynamically Injected Cards -->
         </div>
     </div>
@@ -498,7 +498,10 @@
                     { name: "Muirfield", renowned: true, url: "https://muirfield.org.uk" },
                     { name: "Carnoustie", renowned: true, url: "https://carnoustiegolflinks.com" },
                     { name: "Craigielaw", renowned: false, url: "https://craigielawgolfclub.com" }
-                ]
+                ],
+                hotels: ["The Balmoral", "Old Course Hotel"],
+                restaurants: ["The Seafood Ristorante", "Hawksmoor"],
+                bars: ["The Jigger Inn", "Dunvegan"]
             },
             {
                 title: "Desert Elite Tour", desc: "Scottsdale / Vegas Premium Run",
@@ -509,7 +512,10 @@
                     { name: "Shadow Creek", renowned: true, url: "https://shadowcreek.com" },
                     { name: "Wolf Creek", renowned: false, url: "https://golfwolfcreek.com" },
                     { name: "We-Ko-Pa", renowned: false, url: "https://wekopagolfclub.com" }
-                ]
+                ],
+                hotels: ["The Phoenician", "Wynn Las Vegas"],
+                restaurants: ["Mastro's City Hall", "SW Steakhouse"],
+                bars: ["Rusty Spur Saloon", "Chandelier Bar"]
             },
             {
                 title: "Bandon Pilgrimage", desc: "Oregon Coast 36-Hole Marathons",
@@ -519,7 +525,10 @@
                     { name: "Pacific Dunes", renowned: true, url: "https://bandondunesgolf.com" },
                     { name: "Bandon Trails", renowned: true, url: "https://bandondunesgolf.com" },
                     { name: "Sheep Ranch", renowned: true, url: "https://bandondunesgolf.com" }
-                ]
+                ],
+                hotels: ["The Lily Pond", "Chrome Lake Rooms"],
+                restaurants: ["The Gallery", "Pacific Grill"],
+                bars: ["McKee's Pub", "Bunker Bar"]
             },
             {
                 title: "The Monterey Classic", desc: "Pebble Beach & Peninsula Premium",
@@ -529,7 +538,10 @@
                     { name: "Pebble Beach", renowned: true, url: "https://pebblebeach.com" },
                     { name: "Spyglass Hill", renowned: true, url: "https://pebblebeach.com" },
                     { name: "Spanish Bay", renowned: true, url: "https://pebblebeach.com" }
-                ]
+                ],
+                hotels: ["The Lodge at Pebble Beach", "Carmel Valley Ranch"],
+                restaurants: ["The Bench", "Lucia"],
+                bars: ["The Tap Room", "Vesuvio"]
             }
         ];
 
@@ -709,15 +721,19 @@
             const globeData = initGlobe('main-globe-container');
             const cardsContainer = document.getElementById('recommendation-cards');
             
+            // Clear any old error banners
+            const oldBanner = document.getElementById('ai-error-banner');
+            if(oldBanner) oldBanner.remove();
+
             cardsContainer.innerHTML = `
-                <div class="col-span-1 md:col-span-3 text-center py-20 flex flex-col items-center">
+                <div class="col-span-1 md:col-span-2 lg:col-span-5 text-center py-20 flex flex-col items-center">
                     <div class="w-12 h-12 border-4 border-slate-200 border-t-btgreen rounded-full animate-spin mb-4"></div>
                     <h3 class="font-display text-2xl text-navy uppercase tracking-wide">BoysTrip AI is Designing Your Tour...</h3>
-                    <p class="text-slate-500 text-sm mt-2">Analyzing courses, routing logistics, and vibe matching.</p>
+                    <p class="text-slate-500 text-sm mt-2">Analyzing courses, scouting hotels, and finding the perfect steakhouses.</p>
                 </div>
             `;
 
-            const prompt = `Design 3 unique, highly customized elite golf trips based on these preferences:
+            const prompt = `Act as an elite luxury golf travel concierge. Design exactly 5 unique, highly customized premium golf trips based on these preferences:
                 Travel Month: ${surveyData.targetDate || 'Flexible'}
                 Duration: ${surveyData.days || 5} days
                 Group Size: ${surveyData.crew || 8} players
@@ -729,10 +745,16 @@
                 Budget: ${surveyData.budget || 'Premium'}
                 Must-Haves: ${surveyData.nongolf || 'None specifically'}
                 
-                Return exactly 3 trips. Make them sound epic and masculine. Provide exactly 1 course per day of the trip length requested.`;
+                REQUIREMENTS:
+                - Return exactly 5 trips.
+                - Make the descriptions sound epic, exclusive, and masculine.
+                - Provide exactly 1 real-world golf course per day based on the trip duration requested.
+                - Recommend specific, highly-rated real-world hotels or resorts that match the requested vibe.
+                - Recommend specific real-world restaurants (e.g., iconic steakhouses, fine dining, or legendary local spots).
+                - Recommend specific real-world bars, pubs, or nightlife venues.`;
 
             try {
-                if (!vertexAI) throw new Error("Vertex AI SDK not available");
+                if (!vertexAI) throw new Error("Vertex AI SDK not initialized. Ensure Firebase is configured correctly.");
                 
                 const model = getGenerativeModel(vertexAI, {
                     model: "gemini-1.5-flash",
@@ -760,9 +782,12 @@
                                             },
                                             required: ["name", "renowned"]
                                         }
-                                    }
+                                    },
+                                    hotels: { type: "array", items: { type: "string" }, description: "Specific hotel/resort names" },
+                                    restaurants: { type: "array", items: { type: "string" }, description: "Specific restaurant names" },
+                                    bars: { type: "array", items: { type: "string" }, description: "Specific pub/bar names" }
                                 },
-                                required: ["title", "desc", "lat", "lon", "color", "cities", "courses"]
+                                required: ["title", "desc", "lat", "lon", "color", "cities", "courses", "hotels", "restaurants", "bars"]
                             }
                         }
                     }
@@ -780,10 +805,19 @@
                     return { ...trip, color: colorNum };
                 });
             } catch (error) {
-                console.log("Using seamless local fallback. (Did you enable Vertex AI in Firebase Console?)");
-                let fallbacks = [...allDestinations];
-                if (surveyData.style === 'Desert') fallbacks = [allDestinations[1], allDestinations[1], allDestinations[1]]; 
-                currentRecommendations = fallbacks.sort(() => 0.5 - Math.random()).slice(0, 3);
+                console.error("Vertex AI Error:", error);
+                
+                // Display error to user so they know WHY it fell back
+                const errorBanner = document.createElement('div');
+                errorBanner.id = 'ai-error-banner';
+                errorBanner.className = "bg-rose-50 text-rose-700 p-4 rounded-xl mb-6 text-sm font-medium border border-rose-200 text-left max-w-6xl mx-auto";
+                errorBanner.innerHTML = `<strong class="font-bold uppercase tracking-widest text-[10px] block mb-1 text-rose-800">AI Connection Rejected</strong> Firebase rejected the AI request. Displaying fallback data.<br><code class="text-xs mt-1 block opacity-80">${error.message}</code><p class="text-xs mt-2 italic text-rose-800 font-bold">Fix: Ensure your Firebase project is on the Blaze plan and the "Vertex AI API" is enabled in Google Cloud Console.</p>`;
+                cardsContainer.parentElement.insertBefore(errorBanner, cardsContainer);
+
+                // Fallback to 5 options so UI doesn't break
+                let fallbacks = [...allDestinations, allDestinations[0], allDestinations[1]];
+                if (surveyData.style === 'Desert') fallbacks = [allDestinations[1], allDestinations[1], allDestinations[1], allDestinations[1], allDestinations[1]]; 
+                currentRecommendations = fallbacks.sort(() => 0.5 - Math.random()).slice(0, 5);
             }
 
             cardsContainer.innerHTML = '';
@@ -800,6 +834,13 @@
                         <div class="mt-auto pt-4 border-t border-slate-100">
                             <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-1">Suggested Routing</p>
                             <p class="text-sm font-medium text-slate-700">${rec.courses.map(c=>c.name).join(', ')}</p>
+                        </div>
+
+                        <div class="mt-4 pt-4 border-t border-slate-100 text-left">
+                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-2">Curated Intel</p>
+                            <p class="text-xs text-slate-600 mb-1 truncate" title="${rec.hotels?.[0] || 'Top Local Resort'}"><span class="font-bold text-navy">🏨 Stay:</span> ${rec.hotels?.[0] || 'Top Local Resort'}</p>
+                            <p class="text-xs text-slate-600 mb-1 truncate" title="${rec.restaurants?.[0] || 'Premium Dining'}"><span class="font-bold text-navy">🥩 Eat:</span> ${rec.restaurants?.[0] || 'Premium Dining'}</p>
+                            <p class="text-xs text-slate-600 truncate" title="${rec.bars?.[0] || 'Local Pubs'}"><span class="font-bold text-navy">🍻 Drink:</span> ${rec.bars?.[0] || 'Local Pubs'}</p>
                         </div>
                         
                         <div class="mt-6">
@@ -848,6 +889,10 @@
             for (let i = 0; i < numDays; i++) {
                 const city = rec.cities[i % rec.cities.length];
                 const course = rec.courses[i % rec.courses.length];
+                const hotel = rec.hotels && rec.hotels.length > 0 ? rec.hotels[i % rec.hotels.length] : "Premium Hotel";
+                const restaurant = rec.restaurants && rec.restaurants.length > 0 ? rec.restaurants[i % rec.restaurants.length] : "Local Steakhouse";
+                const bar = rec.bars && rec.bars.length > 0 ? rec.bars[i % rec.bars.length] : "Local Pub";
+
                 const likelihood = getBookingStatus(course.renowned, targetMonth);
                 
                 container.innerHTML += `
@@ -859,9 +904,10 @@
                             <!-- Lodging -->
                             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col h-full">
                                 <h4 class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2">Lodging</h4>
+                                <p class="font-bold text-navy text-sm mb-3">${hotel}</p>
                                 <div class="mt-auto">
-                                    <a href="https://www.expedia.com/Hotel-Search?destination=${encodeURIComponent(city)}" target="_blank" class="inline-flex items-center gap-2 text-navy hover:text-emerald-600 text-xs font-bold transition bg-white px-3 py-2 rounded-lg border border-slate-300 w-full justify-center shadow-sm">
-                                        <span>🛌</span> Search Hotels &rarr;
+                                    <a href="https://www.google.com/search?q=${encodeURIComponent(hotel + ' ' + city)}" target="_blank" class="inline-flex items-center gap-2 text-navy hover:text-emerald-600 text-xs font-bold transition bg-white px-3 py-2 rounded-lg border border-slate-300 w-full justify-center shadow-sm">
+                                        <span>🛌</span> View Hotel &rarr;
                                     </a>
                                 </div>
                             </div>
@@ -880,10 +926,10 @@
 
                             <!-- Off-Course -->
                             <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 flex flex-col h-full">
-                                <h4 class="text-[10px] uppercase tracking-widest text-amber-700 font-bold mb-2">Off-Course</h4>
-                                <p class="text-xs text-amber-900 font-medium leading-relaxed mb-2">Explore the best <span class="font-bold">"${nonGolfPref}"</span> in the area.</p>
+                                <h4 class="text-[10px] uppercase tracking-widest text-amber-700 font-bold mb-2">Off-Course Intel</h4>
+                                <p class="text-xs text-amber-900 font-medium leading-relaxed mb-2"><span class="font-bold">Dinner:</span> ${restaurant}<br><span class="font-bold">Drinks:</span> ${bar}</p>
                                 <div class="mt-auto">
-                                    <a href="https://www.google.com/search?q=best+${encodeURIComponent(nonGolfPref)}+in+${encodeURIComponent(city)}" target="_blank" class="inline-block text-[11px] font-bold text-amber-700 hover:text-amber-900 transition underline decoration-amber-300 underline-offset-2">View Top Spots &rarr;</a>
+                                    <a href="https://www.google.com/search?q=${encodeURIComponent(restaurant + ' ' + city)}" target="_blank" class="inline-block text-[11px] font-bold text-amber-700 hover:text-amber-900 transition underline decoration-amber-300 underline-offset-2">View Spot &rarr;</a>
                                 </div>
                             </div>
                         </div>
